@@ -1,0 +1,82 @@
+@model dynamic
+
+@{
+    Layout = "_AppLayout";
+    ViewData["Title"] = "Training Programs";
+}
+
+<div class="space-y-5">
+    <!-- Header -->
+    <section class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="page-title">Training Programs</h1>
+            <p class="mt-1 text-[13px] text-muted">Monitor course progress and manage team training.</p>
+        </div>
+        <img src="/img/plans-hero.png" alt="" class="hidden h-[72px] w-auto select-none sm:block" draggable="false" />
+    </section>
+
+    <!-- Programs List -->
+    <section class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-xl overflow-hidden">
+            <thead>
+                <tr class="bg-gray-50">
+                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Course</th>
+                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Employee</th>
+                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Status</th>
+                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Progress</th>
+                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Due Date</th>
+                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var plan in Model.plans)
+                {
+                    <tr class="border-b">
+                        <td class="whitespace-nowrap font-medium text-ink p-4">@plan.courseName</td>
+                        <td class="text-muted p-4">@plan.employeeName</td>
+                        <td class="p-4">
+                            <span class="badge @(plan.status == "Completed" ? "badge-green" : plan.status == "In Progress" ? "badge-blue" : "badge-muted")">
+                                @plan.status
+                            </span>
+                        </td>
+                        <td class="p-4">
+                            <div class="h-2 w-0 rounded-full bg-brand" data-progress="@plan.progress"></div>
+                        </td>
+                        <td class="text-muted p-4">@plan.dueDate</td>
+                        <td class="p-4">
+                            <a href="#" class="text-[11px] font-medium text-brand-decor underline decoration-brand/40 underline-offset-2 hover:text-ink">View Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Summary -->
+    <section class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div>
+            <p class="text-[12px] text-muted">Active programs</p>
+            <p class="text-[20px] font-bold text-ink">8</p>
+        </div>
+        <div>
+            <p class="text-[12px] text-muted">Completion rate</p>
+            <p class="text-[20px] font-bold text-ink">67%</p>
+        </div>
+    </section>
+
+    <!-- Filter -->
+    <section class="mt-6 pt-6 border-t border-line-soft">
+        <div class="flex flex-wrap items-center gap-3">
+            <label class="relative">
+                <span class="text-[10px] text-muted">Department</span>
+                <select class="appearance-none rounded-md border border-line px-3 py-2 text-[10px]">
+                    <option>All</option>
+                    <option>Engineering</option>
+                    <option>Design</option>
+                    <option>All Departments</option>
+                </select>
+            </label>
+            <button type="button" class="btn btn-outline px-4 py-2 text-[10px]">Add Program</button>
+        </div>
+    </section>
+</div>

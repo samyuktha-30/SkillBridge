@@ -1,0 +1,137 @@
+@model SkillBridge.Services.MockDataService
+@{
+    Layout = "_AppLayout";
+    ViewData["Title"] = "Settings";
+    var notifications = new (string Label, bool On)[]
+    {
+        ("Assessment results", true),
+        ("Learning plan updates", true),
+        ("Training deadline alerts", true),
+        ("Monthly report delivery", true),
+        ("System announcements", false)
+    };
+}
+
+<div class="space-y-4">
+    <!-- Header -->
+    <section class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="page-title">Settings</h1>
+            <p class="mt-1 text-[13px] text-muted">Manage your account preferences, notifications, privacy, and security.</p>
+        </div>
+        <span class="flex h-16 w-16 items-center justify-center rounded-b-2xl rounded-t-[40px] bg-brand-soft text-brand-deep">
+            <svg class="h-8 w-8"><use href="#i-shield-check" /></svg>
+        </span>
+    </section>
+
+    <section class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <!-- Account -->
+        <div class="card p-5">
+            <h2 class="text-[15px] font-semibold text-ink">Account settings</h2>
+            <dl class="mt-2 divide-y divide-line-soft text-[12px]">
+                <div class="flex items-center gap-4 py-2.5"><dt class="w-24 shrink-0 text-muted">Full name</dt><dd class="font-medium text-ink-2">Priya Shah</dd></div>
+                <div class="flex items-center gap-4 py-2.5"><dt class="w-24 shrink-0 text-muted">Email address</dt><dd class="truncate font-medium text-ink-2">priya.shah@skillbridge.ai</dd></div>
+                <div class="flex items-center gap-4 py-2.5"><dt class="w-24 shrink-0 text-muted">Employee ID</dt><dd class="font-medium text-ink-2">MGR-1024</dd></div>
+                <div class="flex items-center gap-4 py-2.5"><dt class="w-24 shrink-0 text-muted">Department</dt><dd class="font-medium text-ink-2">Engineering</dd></div>
+            </dl>
+            <button type="button" class="btn btn-outline btn-sm mt-4" data-modal-open="edit-manager-settings">Edit profile</button>
+        </div>
+
+        <!-- Notifications -->
+        <div class="card p-5">
+            <h2 class="text-[15px] font-semibold text-ink">Notification preferences</h2>
+            <div class="mt-2 divide-y divide-line-soft">
+                @foreach (var (label, on) in notifications)
+                {
+                    <div class="flex items-center justify-between gap-4 py-2.5">
+                        <span class="text-[12px] text-ink-2">@label</span>
+                        <span class="inline-flex min-w-[52px] items-center justify-center rounded-md px-3 py-1 text-[11px] font-medium @(on ? "bg-sky text-[#2c5480]" : "border border-line bg-white text-muted")">@(on ? "On" : "Off")</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Privacy -->
+        <div class="card p-5">
+            <h2 class="text-[15px] font-semibold text-ink">Privacy &amp; security</h2>
+            <div class="mt-2 divide-y divide-line-soft">
+                <div class="flex items-center justify-between gap-4 py-2.5">
+                    <span class="text-[12px] text-ink-2">Password</span>
+                    <button type="button" class="btn btn-outline btn-sm !px-3 !py-1 !text-[10.5px]">Change password</button>
+                </div>
+                <div class="flex items-center justify-between gap-4 py-2.5">
+                    <span class="text-[12px] text-ink-2">Two-factor authentication</span>
+                    <button type="button" class="btn btn-outline btn-sm !px-4 !py-1 !text-[10.5px]">Off</button>
+                </div>
+                <div class="flex items-center justify-between gap-4 py-2.5">
+                    <span class="text-[12px] text-ink-2">Active sessions</span>
+                    <button type="button" class="btn btn-outline btn-sm !px-3 !py-1 !text-[10.5px]">View sessions</button>
+                </div>
+            </div>
+            <p class="mt-3 text-[10.5px] text-muted">Review devices and strengthen account security.</p>
+        </div>
+
+        <!-- Workspace -->
+        <div class="card p-5">
+            <h2 class="text-[15px] font-semibold text-ink">Workspace preferences</h2>
+            <div class="mt-2 divide-y divide-line-soft">
+                <div class="flex items-center justify-between gap-4 py-2.5">
+                    <span class="text-[12px] text-ink-2">Theme</span>
+                    <span class="w-48 rounded-md border border-line bg-white px-3 py-1.5 text-center text-[11px] text-ink-2">Light</span>
+                </div>
+                <div class="flex items-center justify-between gap-4 py-2.5">
+                    <span class="text-[12px] text-ink-2">Language</span>
+                    <span class="w-48 rounded-md border border-line bg-white px-3 py-1.5 text-center text-[11px] text-ink-2">English</span>
+                </div>
+                <div class="flex items-center justify-between gap-4 py-2.5">
+                    <span class="text-[12px] text-ink-2">Time zone</span>
+                    <span class="w-48 rounded-md border border-line bg-white px-3 py-1.5 text-center text-[11px] text-ink-2">IST (UTC +5:30)</span>
+                </div>
+                <div class="flex items-center justify-between gap-4 py-2.5">
+                    <span class="text-[12px] text-ink-2">Default team view</span>
+                    <span class="w-48 rounded-md border border-line bg-white px-3 py-1.5 text-center text-[11px] text-ink-2">All departments</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Account data -->
+    <section class="card flex flex-wrap items-center justify-between gap-4 p-5">
+        <div>
+            <h2 class="text-[15px] font-semibold text-ink">Account data</h2>
+            <p class="mt-1 text-[11.5px] text-muted">Download a copy of your personal information and account preferences.</p>
+            <p class="mt-0.5 text-[10.5px] text-muted">Team data exports are available on the Reports page.</p>
+        </div>
+        <button type="button" class="btn btn-outline btn-sm">Download my data</button>
+    </section>
+
+    <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+        <p class="text-[10.5px] text-muted">Preferences apply to your manager account only.</p>
+        <div class="flex gap-2">
+            <button type="button" class="btn btn-outline btn-sm !px-5">Cancel</button>
+            <button type="button" class="btn btn-soft btn-sm !px-5">Save changes</button>
+        </div>
+    </div>
+</div>
+
+<!-- Edit modal -->
+<div id="edit-manager-settings" class="fixed inset-0 z-50 hidden items-center justify-center bg-ink/40 p-4" data-modal>
+    <div class="w-full max-w-md rounded-xl border border-line bg-white p-6 shadow-2xl">
+        <div class="flex items-start justify-between">
+            <div>
+                <h2 class="text-[18px] font-bold text-ink">Edit profile</h2>
+                <p class="mt-0.5 text-[12px] text-muted">Update your account information.</p>
+            </div>
+            <button type="button" class="rounded-md p-1 text-muted hover:bg-cream" data-modal-close aria-label="Close"><svg class="h-4 w-4"><use href="#i-x" /></svg></button>
+        </div>
+        <div class="mt-4 space-y-3">
+            <label class="block"><span class="label">Full name</span><input class="field" value="Priya Shah" /></label>
+            <label class="block"><span class="label">Email address</span><input class="field" value="priya.shah@skillbridge.ai" /></label>
+            <label class="block"><span class="label">Department</span><input class="field" value="Engineering" /></label>
+        </div>
+        <div class="mt-5 flex justify-end gap-2">
+            <button type="button" class="btn btn-outline btn-sm" data-modal-close>Cancel</button>
+            <button type="button" class="btn btn-primary btn-sm" data-modal-close>Save changes</button>
+        </div>
+    </div>
+</div>

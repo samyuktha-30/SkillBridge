@@ -1,0 +1,146 @@
+@{
+    Layout = "_AppLayout";
+    ViewData["Title"] = "AI Assistant";
+    var quickActions = new[]
+    {
+        ("Create a Practice Exercise", "code-xml"),
+        ("Summarize My Learning Plan", "list-checks"),
+        ("Check My Assessment Results", "chart-no-axes-column"),
+        ("Get Learning Recommendations", "lightbulb")
+    };
+}
+
+<div class="space-y-5">
+    <!-- Header -->
+    <section class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="page-title">AI Assistant</h1>
+            <p class="mt-1 text-[13px] text-muted">Ask questions, get instant help, and learn at your own pace.</p>
+        </div>
+    </section>
+
+    <section class="grid grid-cols-1 gap-4 xl:grid-cols-[1.65fr_1fr]">
+        <!-- Chat -->
+        <div class="card flex flex-col overflow-hidden">
+            <div class="flex flex-wrap gap-1.5 border-b border-line-soft px-4 py-3" data-pill-group="lilac">
+                <button type="button" class="inline-flex items-center gap-1.5 rounded-lg border border-transparent px-3 py-1.5 text-[11.5px] font-medium text-ink-2/80 is-active" data-pill>
+                    <svg class="h-3.5 w-3.5"><use href="#i-message-circle" /></svg> Ask a Question
+                </button>
+                <button type="button" class="inline-flex items-center gap-1.5 rounded-lg border border-transparent px-3 py-1.5 text-[11.5px] font-medium text-ink-2/80 hover:bg-cream" data-pill>
+                    <svg class="h-3.5 w-3.5"><use href="#i-code-xml" /></svg> Coding Help
+                </button>
+                <button type="button" class="inline-flex items-center gap-1.5 rounded-lg border border-transparent px-3 py-1.5 text-[11.5px] font-medium text-ink-2/80 hover:bg-cream" data-pill>
+                    <svg class="h-3.5 w-3.5"><use href="#i-list-checks" /></svg> Explain Concept
+                </button>
+                <button type="button" class="inline-flex items-center gap-1.5 rounded-lg border border-transparent px-3 py-1.5 text-[11.5px] font-medium text-ink-2/80 hover:bg-cream" data-pill>
+                    <svg class="h-3.5 w-3.5"><use href="#i-circle-alert" /></svg> My Mistakes
+                </button>
+                <button type="button" class="inline-flex items-center gap-1.5 rounded-lg border border-transparent px-3 py-1.5 text-[11.5px] font-medium text-ink-2/80 hover:bg-cream" data-pill>
+                    <svg class="h-3.5 w-3.5"><use href="#i-target" /></svg> Practice Exercise
+                </button>
+            </div>
+
+            <div class="flex-1 space-y-5 overflow-y-auto px-5 py-5" style="max-height: 600px" data-chat-log>
+                <!-- User -->
+                <div class="flex justify-end">
+                    <div class="max-w-[78%]">
+                        <div class="rounded-xl rounded-tr-sm bg-brand-soft px-4 py-2.5 text-[12.5px] text-ink">Explain dependency injection in ASP.NET Core.</div>
+                        <p class="mt-1 text-right text-[10px] text-muted">10:24 AM</p>
+                    </div>
+                    <span class="ml-2 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky text-[10px] font-semibold text-ink">AS</span>
+                </div>
+
+                <!-- Assistant -->
+                <div class="flex items-start gap-2.5">
+                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-lilac text-[#5a4382]">
+                        <svg class="h-4 w-4"><use href="#i-bot" /></svg>
+                    </span>
+                    <div class="max-w-[86%]">
+                        <div class="rounded-xl rounded-tl-sm bg-lilac/80 px-4 py-3 text-[12px] leading-relaxed text-ink-2">
+                            <p>Dependency Injection (DI) in ASP.NET Core is a design pattern that allows you to provide dependencies to a class from an external source, rather than creating them inside the class.</p>
+                            <p class="mt-2 font-semibold text-ink">Key Points:</p>
+                            <ul class="mt-1 space-y-1">
+                                <li class="flex items-start gap-1.5"><svg class="mt-[3px] h-3 w-3 shrink-0 text-brand-deep"><use href="#i-circle-check" /></svg> Promotes loose coupling</li>
+                                <li class="flex items-start gap-1.5"><svg class="mt-[3px] h-3 w-3 shrink-0 text-brand-deep"><use href="#i-circle-check" /></svg> Improves testability</li>
+                                <li class="flex items-start gap-1.5"><svg class="mt-[3px] h-3 w-3 shrink-0 text-brand-deep"><use href="#i-circle-check" /></svg> Uses built-in DI container</li>
+                            </ul>
+                            <p class="mt-2 font-semibold text-ink">Example:</p>
+                            <pre class="mt-1.5 overflow-x-auto rounded-md border border-[#d9cfee] bg-white/60 p-3 text-[10.5px] leading-relaxed text-ink-2"><code>public class HomeController
+{
+    private readonly ILogger&lt;HomeController&gt; _logger;
+
+    public HomeController(ILogger&lt;HomeController&gt; logger)
+    {
+        _logger = logger;
+    }
+}</code></pre>
+                            <p class="mt-2">Would you like to see a practical example or a coding exercise?</p>
+                        </div>
+                        <p class="mt-1 text-[10px] text-muted">10:24 AM</p>
+                    </div>
+                </div>
+            </div>
+
+            <form class="flex items-center gap-2 border-t border-line-soft px-4 py-3" data-chat-form>
+                <button type="button" class="shrink-0 rounded-md p-1.5 text-muted hover:bg-cream" aria-label="Attach file">
+                    <svg class="h-4 w-4"><use href="#i-paperclip" /></svg>
+                </button>
+                <input type="text" placeholder="Type your message..." class="field field-sm flex-1 !border-0 !bg-transparent !px-1 focus:!ring-0" />
+                <button type="submit" class="btn btn-primary !rounded-md !px-3 !py-2" aria-label="Send message">
+                    <svg class="h-4 w-4"><use href="#i-send" /></svg>
+                </button>
+            </form>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-4">
+            <div class="card p-5">
+                <h2 class="section-title flex items-center gap-2"><svg class="h-4 w-4 text-brand-deep"><use href="#i-star" /></svg> Quick Actions</h2>
+                <div class="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+                    @foreach (var (label, icon) in quickActions)
+                    {
+                        <button type="button" class="flex h-full items-center gap-2.5 rounded-lg bg-lilac/70 px-3.5 py-3 text-left text-[11.5px] font-medium text-ink transition hover:bg-lilac">
+                            <svg class="h-4 w-4 shrink-0 text-[#5a4382]"><use href="#i-@icon" /></svg>
+                            <span class="leading-snug">@label</span>
+                        </button>
+                    }
+                </div>
+            </div>
+
+            <div class="card p-5">
+                <h2 class="section-title flex items-center gap-2"><svg class="h-4 w-4 text-brand-deep"><use href="#i-lightbulb" /></svg> Learning Tips</h2>
+                <p class="mt-1 text-[11.5px] text-muted">Learn efficiently with these tips:</p>
+                <div class="mt-2 flex items-start gap-3">
+                    <ul class="flex-1 space-y-2 text-[11.5px] text-ink-2">
+                        <li class="flex items-start gap-1.5"><svg class="mt-[3px] h-3.5 w-3.5 shrink-0 text-brand"><use href="#i-circle-check" /></svg> Practice regularly, even for small topics.</li>
+                        <li class="flex items-start gap-1.5"><svg class="mt-[3px] h-3.5 w-3.5 shrink-0 text-brand"><use href="#i-circle-check" /></svg> Review your assessment mistakes.</li>
+                        <li class="flex items-start gap-1.5"><svg class="mt-[3px] h-3.5 w-3.5 shrink-0 text-brand"><use href="#i-circle-check" /></svg> Follow your personalized learning plan.</li>
+                    </ul>
+                    <span class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-brand-soft/60 text-brand-deep">
+                        <svg class="h-9 w-9"><use href="#i-bot" /></svg>
+                    </span>
+                </div>
+                <button type="button" class="btn btn-outline btn-sm mt-3">View More <svg class="h-3.5 w-3.5"><use href="#i-arrow-right" /></svg></button>
+            </div>
+
+            <div class="card p-5">
+                <h2 class="section-title flex items-center gap-2"><svg class="h-4 w-4 text-brand-deep"><use href="#i-book-open" /></svg> Related Resources</h2>
+                <p class="mt-1 text-[11.5px] text-muted">Helpful resources for Dependency Injection:</p>
+                <div class="mt-3 flex items-center gap-3 rounded-lg bg-lilac/70 px-3.5 py-3">
+                    <svg class="h-4 w-4 shrink-0 text-[#5a4382]"><use href="#i-file-text" /></svg>
+                    <div class="min-w-0 flex-1">
+                        <p class="truncate text-[12px] font-semibold text-ink">ASP.NET Core DI Overview</p>
+                        <p class="text-[10.5px] text-muted">Microsoft Learn</p>
+                    </div>
+                    <svg class="h-4 w-4 shrink-0 text-[#5a4382]"><use href="#i-external-link" /></svg>
+                </div>
+                <div class="mt-2 flex items-center justify-between">
+                    <button type="button" class="btn btn-outline btn-sm">View More Resources <svg class="h-3.5 w-3.5"><use href="#i-arrow-right" /></svg></button>
+                    <span class="flex h-12 w-12 items-center justify-center rounded-full bg-brand-soft/60 text-brand-deep">
+                        <svg class="h-7 w-7"><use href="#i-book-open" /></svg>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

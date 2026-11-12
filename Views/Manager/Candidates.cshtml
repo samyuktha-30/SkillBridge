@@ -1,0 +1,155 @@
+@model SkillBridge.Services.MockDataService
+@{
+    Layout = "_AppLayout";
+    ViewData["Title"] = "Candidate Management";
+    var stats = new[]
+    {
+        ("Active candidates", "6", "Across 2 open roles"),
+        ("Awaiting assessment", "2", "Invitations sent · Results pending"),
+        ("In interview", "2", "Skills assessments completed"),
+        ("Offer stage", "1", "Awaiting candidate response")
+    };
+}
+
+<div class="space-y-4">
+    <!-- Header -->
+    <section class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="page-title">Candidate Management</h1>
+            <p class="mt-1 text-[13px] text-muted">Track applicants, review assessments, and manage hiring stages.</p>
+        </div>
+        <div class="flex items-center gap-4">
+            <img src="/img/people-hero.png" alt="" class="hidden h-[72px] w-auto select-none sm:block" draggable="false" />
+            <button type="button" class="btn btn-primary" data-modal-open="add-candidate">Add candidate</button>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        @foreach (var (label, value, note) in stats)
+        {
+            <div class="card p-4">
+                <p class="text-[12px] text-ink-2/80">@label</p>
+                <p class="mt-1.5 text-[26px] font-bold leading-none">@value</p>
+                <p class="mt-2 text-[11px] text-muted">@note</p>
+            </div>
+        }
+    </section>
+
+    <!-- Filters -->
+    <section class="grid grid-cols-1 gap-3 lg:grid-cols-[1.4fr_1fr_1fr_auto]">
+        <label class="block">
+            <span class="mb-1 block text-[11px] text-muted">Search candidates</span>
+            <input type="search" placeholder="Search by name or email" class="field field-sm" data-search-input="#candidate-table tbody tr" />
+        </label>
+        <label class="block">
+            <span class="mb-1 block text-[11px] text-muted">Job role</span>
+            <span class="relative block">
+                <select class="field field-sm appearance-none pr-8">
+                    @foreach (var role in Model.JobRoles)
+                    {
+                        <option>@role</option>
+                    }
+                </select>
+                <svg class="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted"><use href="#i-chevron-down" /></svg>
+            </span>
+        </label>
+        <label class="block">
+            <span class="mb-1 block text-[11px] text-muted">Pipeline stage</span>
+            <span class="relative block">
+                <select class="field field-sm appearance-none pr-8">
+                    @foreach (var stage in Model.Stages)
+                    {
+                        <option>@stage</option>
+                    }
+                </select>
+                <svg class="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted"><use href="#i-chevron-down" /></svg>
+            </span>
+        </label>
+        <div class="flex items-end">
+            <button type="button" class="btn btn-outline btn-sm w-full py-2.5">Apply filters</button>
+        </div>
+    </section>
+
+    <!-- Table -->
+    <section class="card overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="data-table" id="candidate-table">
+                <thead>
+                    <tr>
+                        <th class="!bg-sky/70">Candidate</th>
+                        <th class="!bg-sky/70">Job role</th>
+                        <th class="!bg-sky/70">Department</th>
+                        <th class="!bg-sky/70">Stage</th>
+                        <th class="!bg-sky/70">Skill score</th>
+                        <th class="!bg-sky/70">Next follow-up</th>
+                        <th class="!bg-sky/70">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var candidate in Model.Candidates)
+                    {
+                        <tr>
+                            <td class="whitespace-nowrap font-medium text-ink">@candidate.Name</td>
+                            <td class="text-muted">@candidate.Role</td>
+                            <td class="text-muted">@candidate.Department</td>
+                            <td class="text-muted">@candidate.Stage</td>
+                            <td class="text-muted">@candidate.Score</td>
+                            <td class="text-muted">@candidate.FollowUp</td>
+                            <td><a href="/manager/candidates" class="text-[11.5px] font-medium text-brand-deep underline decoration-brand/40 underline-offset-2 hover:text-ink">Review</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <div class="flex flex-wrap items-center justify-between gap-2 text-[10.5px] text-muted">
+        <span>Showing 6 of 6 active candidates</span>
+        <span>Skill scores reflect the latest completed role assessment.</span>
+    </div>
+
+    <!-- Notes -->
+    <section class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div class="card p-5">
+            <h2 class="section-title">Next steps</h2>
+            <ul class="mt-2 space-y-2 text-[11.5px] text-muted">
+                <li>Follow up with Jordan Lee and Ethan Davis on their pending assessments.</li>
+                <li>Send a reminder before scheduling a skills-based interview.</li>
+            </ul>
+        </div>
+        <div class="card p-5">
+            <h2 class="section-title">Hiring workflow</h2>
+            <p class="mt-2 text-[11.5px] text-muted">Screening → Assessment → Interview → Offer</p>
+            <p class="mt-2 text-[11.5px] text-muted">Candidates remain separate from employees until an offer is accepted.</p>
+        </div>
+    </section>
+</div>
+
+<!-- Add candidate modal -->
+<div id="add-candidate" class="fixed inset-0 z-50 hidden items-center justify-center bg-ink/40 p-4" data-modal>
+    <div class="w-full max-w-md rounded-xl border border-line bg-white p-6 shadow-2xl">
+        <div class="flex items-start justify-between">
+            <div>
+                <h2 class="text-[18px] font-bold text-ink">Add candidate</h2>
+                <p class="mt-0.5 text-[12px] text-muted">Start a new application in your pipeline.</p>
+            </div>
+            <button type="button" class="rounded-md p-1 text-muted hover:bg-cream" data-modal-close aria-label="Close"><svg class="h-4 w-4"><use href="#i-x" /></svg></button>
+        </div>
+        <div class="mt-4 space-y-3">
+            <label class="block"><span class="label">Full name</span><input class="field" placeholder="e.g. Jordan Lee" /></label>
+            <label class="block"><span class="label">Email address</span><input class="field" placeholder="name@example.com" /></label>
+            <label class="block"><span class="label">Job role</span>
+                <select class="field">
+                    @foreach (var role in Model.JobRoles)
+                    {
+                        <option>@role</option>
+                    }
+                </select>
+            </label>
+        </div>
+        <div class="mt-5 flex justify-end gap-2">
+            <button type="button" class="btn btn-outline btn-sm" data-modal-close>Cancel</button>
+            <button type="button" class="btn btn-primary btn-sm" data-modal-close>Add candidate</button>
+        </div>
+    </div>
+</div>

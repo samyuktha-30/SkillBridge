@@ -1,0 +1,150 @@
+@model SkillBridge.Services.MockDataService
+@{
+    Layout = "_AppLayout";
+    ViewData["Title"] = "Learning Plan Management";
+    var courses = new[]
+    {
+        ("Java Foundations", "Java", "Completed"),
+        ("SQL Query Practice", "SQL", "Not started"),
+        ("Applied Java", "Java", "Not started")
+    };
+}
+
+<div class="space-y-4">
+    <!-- Header -->
+    <section class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="page-title">Learning Plan Management</h1>
+            <p class="mt-1 text-[13px] text-muted">Assign development plans and monitor employee course progress.</p>
+        </div>
+        <div class="flex items-center gap-4">
+            <img src="/img/plans-hero.png" alt="" class="hidden h-[72px] w-auto select-none sm:block" draggable="false" />
+            <button type="button" class="btn btn-primary">Create learning plan</button>
+        </div>
+    </section>
+
+    <!-- Assign -->
+    <section class="card p-5">
+        <h2 class="section-title">Assign a learning plan</h2>
+        <div class="mt-3 grid grid-cols-1 gap-3 lg:grid-cols-[1fr_1.2fr_0.8fr_auto]">
+            <label class="block">
+                <span class="mb-1 block text-[11px] text-muted">Employee</span>
+                <span class="relative block">
+                    <select class="field field-sm appearance-none pr-8">
+                        <option>Select employee</option>
+                        @foreach (var name in Model.Employees)
+                        {
+                            <option>@name</option>
+                        }
+                    </select>
+                    <svg class="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted"><use href="#i-chevron-down" /></svg>
+                </span>
+            </label>
+            <label class="block">
+                <span class="mb-1 block text-[11px] text-muted">Learning plan</span>
+                <span class="relative block">
+                    <select class="field field-sm appearance-none pr-8">
+                        @foreach (var plan in Model.PlanNames)
+                        {
+                            <option>@plan</option>
+                        }
+                    </select>
+                    <svg class="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted"><use href="#i-chevron-down" /></svg>
+                </span>
+            </label>
+            <label class="block">
+                <span class="mb-1 block text-[11px] text-muted">Due date</span>
+                <input type="text" value="30 Nov 2026" class="field field-sm" />
+            </label>
+            <div class="flex items-end">
+                <button type="button" class="btn btn-primary btn-sm w-full py-2.5">Assign plan</button>
+            </div>
+        </div>
+        <p class="mt-2 text-[10.5px] text-muted">Assigned employees receive an email notification. Existing course completion is retained.</p>
+    </section>
+
+    <!-- Plans table -->
+    <section class="space-y-2">
+        <div class="flex flex-wrap items-end justify-between gap-3">
+            <div>
+                <h2 class="section-title">Employee learning plans</h2>
+                <p class="mt-0.5 text-[11px] text-muted">Showing 4 employees · Alex Morgan selected</p>
+            </div>
+            <div class="flex gap-2">
+                <button type="button" class="btn btn-soft btn-sm !px-3 !py-1.5 !text-[11px]">Status: All</button>
+                <button type="button" class="btn btn-soft btn-sm !px-3 !py-1.5 !text-[11px]">Department: All</button>
+            </div>
+        </div>
+
+        <div class="card overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th class="!bg-brand-soft/80">Employee</th>
+                            <th class="!bg-brand-soft/80">Learning plan</th>
+                            <th class="!bg-brand-soft/80">Courses completed</th>
+                            <th class="!bg-brand-soft/80">Progress</th>
+                            <th class="!bg-brand-soft/80">Due date</th>
+                            <th class="!bg-brand-soft/80">Status</th>
+                            <th class="!bg-brand-soft/80">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var (plan, index) in Model.Plans.Select((p, i) => (p, i)))
+                        {
+                            <tr class="@(index == 0 ? "bg-brand-soft/35" : "")">
+                                <td class="whitespace-nowrap font-medium text-ink">@plan.Employee</td>
+                                <td class="text-muted">@plan.Plan</td>
+                                <td class="text-muted">@plan.Completed</td>
+                                <td class="text-muted">@plan.Progress</td>
+                                <td class="text-muted">@plan.DueDate</td>
+                                <td class="text-muted">@plan.Status</td>
+                                <td><a href="/manager/learning-plans" class="text-[11.5px] font-medium text-brand-deep underline decoration-brand/40 underline-offset-2 hover:text-ink">View</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Details -->
+    <section class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div class="card p-5">
+            <h2 class="text-[14px] font-semibold text-ink">Alex Morgan · Java &amp; SQL development</h2>
+            <div class="mt-3 overflow-hidden rounded-lg border border-line">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th class="!bg-brand-soft/80">Course</th>
+                            <th class="!bg-brand-soft/80">Skill</th>
+                            <th class="!bg-brand-soft/80">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var (course, skill, status) in courses)
+                        {
+                            <tr>
+                                <td class="font-medium text-ink-2">@course</td>
+                                <td class="text-muted">@skill</td>
+                                <td class="@(status == "Completed" ? "font-medium text-brand-deep" : "text-muted")">@status</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card p-5">
+            <h2 class="section-title">Plan details</h2>
+            <p class="mt-2 text-[11.5px] text-muted">1 of 3 courses completed · 33%</p>
+            <p class="mt-1.5 text-[11px] text-muted">Targets: Java 2 / 3 → 3 / 3 · SQL 2 / 3 → 3 / 3</p>
+            <p class="mt-2 text-[11.5px] text-muted">Next: SQL Query Practice. Reassess after all courses are completed.</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+                <button type="button" class="btn btn-primary btn-sm">Edit plan</button>
+                <button type="button" class="btn btn-primary btn-sm">Send reminder</button>
+            </div>
+        </div>
+    </section>
+</div>

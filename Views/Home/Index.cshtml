@@ -1,0 +1,116 @@
+﻿@{
+    ViewData["Title"] = "Smart Skill-Gap & Training Planner";
+    Layout = "_Layout";
+}
+
+<div class="flex min-h-screen flex-col bg-cream">
+    <header class="shrink-0 border-b border-line/70 bg-white">
+        <div class="mx-auto flex h-[84px] w-full max-w-[1440px] items-center gap-8 px-6 lg:px-10">
+            <a href="/" class="flex items-center gap-2.5">
+                <svg class="h-[27px] w-[27px] text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                    <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                </svg>
+                <span class="text-[18px] font-bold tracking-[-0.01em]">SkillBridge AI</span>
+            </a>
+
+            <nav class="ml-8 hidden items-center gap-9 text-[13px] text-ink-2/80 md:flex">
+                <a href="/" class="relative py-1 font-medium text-ink">
+                    Home
+                    <span class="absolute -bottom-[3px] left-0 h-[2px] w-full rounded bg-ink"></span>
+                </a>
+                <a href="#about" class="py-1 transition hover:text-ink">About</a>
+                <a href="#features" class="py-1 transition hover:text-ink">Features</a>
+                <a href="#how" class="py-1 transition hover:text-ink">How It Works</a>
+                <a href="#benefits" class="py-1 transition hover:text-ink">Benefits</a>
+            </nav>
+
+            <div class="ml-auto flex items-center gap-3">
+                <a href="/login" class="btn btn-primary px-5 py-2.5">
+                    Login
+                    <svg class="h-4 w-4"><use href="#i-arrow-right" /></svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-center px-6 py-10 lg:px-10">
+        <div class="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-16">
+            <div class="max-w-[560px]">
+                <span class="inline-flex items-center gap-2 rounded-full border border-line bg-lilac-soft px-4 py-1.5 text-[11.5px] font-medium text-ink-2">
+                    <svg class="h-3.5 w-3.5 text-brand"><use href="#i-sparkles" /></svg>
+                    Smarter Skills. A Stronger Workforce.
+                </span>
+
+                <h1 class="mt-6 text-[40px] font-bold leading-[1.06] tracking-[-0.03em] text-ink sm:text-[52px] lg:text-[58px]">
+                    SkillBridge AI<br />
+                    Smart Skill-Gap &amp;<br />
+                    Training Planner
+                </h1>
+
+                <p class="mt-7 text-[16px] font-semibold text-ink-2">Assess. Identify. Train. Empower.</p>
+                <p class="mt-2 max-w-[430px] text-[14px] leading-relaxed text-muted">
+                    Bridge the gap between your current skills and company expectations with AI-powered personalized learning plans.
+                </p>
+
+                <div class="mt-8 flex flex-wrap items-center gap-3">
+                    <a href="/signup" class="btn btn-primary btn-lg px-6">
+                        Get Started
+                        <svg class="h-4 w-4"><use href="#i-arrow-right" /></svg>
+                    </a>
+                    <a href="#features" class="btn btn-outline btn-lg px-6">Learn More</a>
+                </div>
+            </div>
+
+            <div class="relative flex justify-center lg:justify-end">
+                <img src="/img/hero.png" alt="Illustration of an employee reviewing skill insights on a laptop" class="w-full max-w-[600px] select-none" draggable="false" />
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="mx-auto w-full max-w-[1440px] px-6 pb-10 lg:px-10">
+        <div class="grid grid-cols-1 gap-y-6 border-t border-line/70 pt-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-y-0">
+            <div class="flex gap-3.5 lg:border-r lg:border-line/70 lg:pr-8">
+                <span class="icon-tile h-10 w-10 shrink-0 bg-brand-soft text-brand-deep">
+                    <svg class="h-5 w-5"><use href="#i-target" /></svg>
+                </span>
+                <div>
+                    <h3 class="text-[13.5px] font-semibold text-ink">Identify Skill Gaps</h3>
+                    <p class="mt-1 max-w-[190px] text-[12px] leading-snug text-muted">Analyze performance against job role requirements</p>
+                </div>
+            </div>
+            <div class="flex gap-3.5 lg:border-r lg:border-line/70 lg:px-8">
+                <span class="icon-tile h-10 w-10 shrink-0 bg-lilac text-[#5a4382]">
+                    <svg class="h-5 w-5"><use href="#i-sparkles" /></svg>
+                </span>
+                <div>
+                    <h3 class="text-[13.5px] font-semibold text-ink">Get AI-Powered Plans</h3>
+                    <p class="mt-1 max-w-[190px] text-[12px] leading-snug text-muted">Receive personalized learning paths</p>
+                </div>
+            </div>
+            <div class="flex gap-3.5 lg:border-r lg:border-line/70 lg:px-8">
+                <span class="icon-tile h-10 w-10 shrink-0 bg-sky text-[#2c5480]">
+                    <svg class="h-5 w-5"><use href="#i-trending-up" /></svg>
+                </span>
+                <div>
+                    <h3 class="text-[13.5px] font-semibold text-ink">Track Progress</h3>
+                    <p class="mt-1 max-w-[190px] text-[12px] leading-snug text-muted">Monitor improvement with real-time insights</p>
+                </div>
+            </div>
+            <div class="flex gap-3.5 lg:pl-8">
+                <span class="icon-tile h-10 w-10 shrink-0 bg-lilac text-[#5a4382]">
+                    <svg class="h-5 w-5"><use href="#i-users" /></svg>
+                </span>
+                <div>
+                    <h3 class="text-[13.5px] font-semibold text-ink">Build Job-Ready Talent</h3>
+                    <p class="mt-1 max-w-[190px] text-[12px] leading-snug text-muted">Empower employees and strengthen your workforce</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="mx-auto flex w-full max-w-[1440px] items-center justify-between px-6 pb-6 text-[11.5px] text-muted lg:px-10">
+        <span>© 2026 SkillBridge AI. All rights reserved.</span>
+        <span class="hidden sm:inline">Smarter skills. A stronger workforce.</span>
+    </footer>
+</div>

@@ -1,0 +1,137 @@
+@model SkillBridge.Services.MockDataService
+@{
+    Layout = "_AppLayout";
+    ViewData["Title"] = "Training & Progress Monitoring";
+}
+
+<div class="space-y-4">
+    <!-- Header -->
+    <section class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="page-title">Training &amp; Progress Monitoring</h1>
+            <p class="mt-1 text-[13px] text-muted">Monitor assigned training, track completion, and follow up with your team.</p>
+        </div>
+        <img src="/img/chart-hero.png" alt="" class="hidden h-[70px] w-auto select-none sm:block" draggable="false" />
+    </section>
+
+    <!-- Stats -->
+    <section class="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div class="rounded-xl border border-[#c9dcf3] bg-sky p-4">
+            <p class="text-[12px] text-ink-2/80">Assigned plans</p>
+            <p class="mt-1.5 text-[26px] font-bold leading-none">3</p>
+            <p class="mt-2 text-[11px] text-muted">Across Engineering and Operations</p>
+        </div>
+        <div class="rounded-xl border border-[#cfe7da] bg-brand-soft/70 p-4">
+            <p class="text-[12px] text-ink-2/80">Completed plans</p>
+            <p class="mt-1.5 text-[26px] font-bold leading-none">1 of 3</p>
+            <p class="mt-2 text-[11px] text-muted">33% of assigned plans</p>
+        </div>
+        <div class="rounded-xl border border-[#cfe7da] bg-brand-soft/70 p-4">
+            <p class="text-[12px] text-ink-2/80">Needs attention</p>
+            <p class="mt-1.5 text-[26px] font-bold leading-none">1</p>
+            <p class="mt-2 text-[11px] text-muted">Training has not started</p>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="grid grid-cols-1 gap-3 lg:grid-cols-[1.4fr_1fr_1fr_auto]">
+        <label class="block">
+            <span class="mb-1 block text-[11px] text-muted">Search employees</span>
+            <input type="search" placeholder="Search by name" class="field field-sm" data-search-input="#training-table tbody tr" />
+        </label>
+        <label class="block">
+            <span class="mb-1 block text-[11px] text-muted">Department</span>
+            <span class="relative block">
+                <select class="field field-sm appearance-none pr-8">
+                    @foreach (var department in Model.Departments)
+                    {
+                        <option>@department</option>
+                    }
+                </select>
+                <svg class="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted"><use href="#i-chevron-down" /></svg>
+            </span>
+        </label>
+        <label class="block">
+            <span class="mb-1 block text-[11px] text-muted">Status</span>
+            <span class="relative block">
+                <select class="field field-sm appearance-none pr-8">
+                    <option>All statuses</option>
+                    <option>In progress</option>
+                    <option>Not started</option>
+                    <option>Completed</option>
+                </select>
+                <svg class="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted"><use href="#i-chevron-down" /></svg>
+            </span>
+        </label>
+        <div class="flex items-end">
+            <button type="button" class="btn btn-outline btn-sm w-full py-2.5">Apply filters</button>
+        </div>
+    </section>
+
+    <!-- Table -->
+    <section class="space-y-2">
+        <div>
+            <h2 class="section-title">Employee training progress</h2>
+            <p class="mt-0.5 text-[11px] text-muted">Showing 4 employees · Alex Morgan selected</p>
+        </div>
+        <div class="card overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="data-table" id="training-table">
+                    <thead>
+                        <tr>
+                            <th class="!bg-brand-soft/80">Employee</th>
+                            <th class="!bg-brand-soft/80">Learning plan</th>
+                            <th class="!bg-brand-soft/80">Completed</th>
+                            <th class="!bg-brand-soft/80">Progress</th>
+                            <th class="!bg-brand-soft/80">Due date</th>
+                            <th class="!bg-brand-soft/80">Status</th>
+                            <th class="!bg-brand-soft/80">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var (plan, index) in Model.Plans.Select((p, i) => (p, i)))
+                        {
+                            var action = index == 0 ? "View" : index == 1 ? "Remind" : index == 3 ? "Review" : "View";
+                            <tr>
+                                <td class="whitespace-nowrap font-medium text-ink">@plan.Employee</td>
+                                <td class="text-muted">@plan.Plan</td>
+                                <td class="text-muted">@plan.Completed</td>
+                                <td class="text-muted">@plan.Progress</td>
+                                <td class="text-muted">@plan.DueDate</td>
+                                <td class="text-muted">@plan.Status</td>
+                                <td>
+                                    @if (action == "Remind")
+                                    {
+                                        <button type="button" class="btn btn-primary btn-sm !px-2.5 !py-1 !text-[10.5px]">Remind</button>
+                                    }
+                                    else
+                                    {
+                                        <a href="/manager/training" class="text-[11.5px] font-medium text-brand-deep underline decoration-brand/40 underline-offset-2 hover:text-ink">@action</a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detail -->
+    <section class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div class="card p-5">
+            <h2 class="text-[14px] font-semibold text-ink">Alex Morgan · Java &amp; SQL development</h2>
+            <p class="mt-1.5 text-[11px] text-muted">1 of 3 courses completed · Due 30 Nov 2026</p>
+            <div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-[#f1f6f2]"><div class="h-full w-0 rounded-full bg-brand" data-progress="33"></div></div>
+            <p class="mt-3 text-[11.5px] text-ink-2">Java Foundations — <span class="text-brand-deep">Completed</span></p>
+            <p class="mt-1.5 text-[11.5px] text-muted">SQL Query Practice — Not started <span class="mx-1.5 text-line">·</span> Applied Java — Not started</p>
+        </div>
+
+        <div class="card p-5">
+            <h2 class="section-title">Manager follow-up</h2>
+            <p class="mt-2 text-[11.5px] leading-relaxed text-muted">Sam Patel has not started training. Send a reminder before the 30 Nov deadline.</p>
+            <button type="button" class="btn btn-outline btn-sm mt-3">Send reminder</button>
+            <p class="mt-3 text-[10.5px] text-muted">Next review: 20 Nov 2026</p>
+        </div>
+    </section>
+</div>

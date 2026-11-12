@@ -1,0 +1,160 @@
+is_global = true
+build_property.TargetFramework = net10.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v10.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EntryPointFilePath = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = SkillBridge
+build_property.RootNamespace = SkillBridge
+build_property.ProjectDir = /home/mdharoon/Desktop/Folderzz/SkillBridge/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 10.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = /home/mdharoon/Desktop/Folderzz/SkillBridge
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 10.0
+build_property.EnableCodeStyleSeverity = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Account/ForgotPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Gb3Jnb3RQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Mb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Account/SignUp.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9TaWduVXAuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Employee/Assessments.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRW1wbG95ZWUvQXNzZXNzbWVudHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Employee/Assistant.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRW1wbG95ZWUvQXNzaXN0YW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Employee/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRW1wbG95ZWUvRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Employee/LearningPlan.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRW1wbG95ZWUvTGVhcm5pbmdQbGFuLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Employee/Notifications.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRW1wbG95ZWUvTm90aWZpY2F0aW9ucy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Employee/Progress.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRW1wbG95ZWUvUHJvZ3Jlc3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Employee/Resources.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRW1wbG95ZWUvUmVzb3VyY2VzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Employee/Settings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRW1wbG95ZWUvU2V0dGluZ3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Employee/SignUp2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRW1wbG95ZWUvU2lnblVwMi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Employee/Skills.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRW1wbG95ZWUvU2tpbGxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Manager/CandidateDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWFuYWdlci9DYW5kaWRhdGVEZXRhaWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Manager/Candidates.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWFuYWdlci9DYW5kaWRhdGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Manager/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWFuYWdlci9EYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Manager/LearningPlans.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWFuYWdlci9MZWFybmluZ1BsYW5zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Manager/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWFuYWdlci9Qcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Manager/Reports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWFuYWdlci9SZXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Manager/Settings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWFuYWdlci9TZXR0aW5ncy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Manager/SkillGapDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWFuYWdlci9Ta2lsbEdhcERldGFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Manager/SkillGaps.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWFuYWdlci9Ta2lsbEdhcHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Manager/Training.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWFuYWdlci9UcmFpbmluZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Manager/TrainingDetail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWFuYWdlci9UcmFpbmluZ0RldGFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Shared/_AppLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19BcHBMYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Shared/_Icons.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19JY29ucy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Shared/_Toast.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19Ub2FzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mdharoon/Desktop/Folderzz/SkillBridge/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-kououbslw6

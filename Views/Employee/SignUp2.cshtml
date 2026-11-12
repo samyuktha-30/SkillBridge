@@ -1,0 +1,86 @@
+@model string
+
+@{
+    Layout = "_AppLayout";
+    ViewData["Title"] = "Sign Up";
+}
+
+<div class="space-y-5">
+    <!-- Header -->
+    <section class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="page-title">Create Your Account</h1>
+            <p class="mt-1 text-[13px] text-muted">Join SkillBridge AI and start building your skills.</p>
+        </div>
+        <div class="flex items-center gap-4 rounded-xl border border-[#c9dcf3] bg-sky px-5 py-3">
+            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-white/60 text-[#2c5480]"><svg class="h-[18px] w-[18px]"><use href="#i-user" /></svg></span>
+            <div class="leading-tight">
+                <p class="text-[10.5px] text-[#4a6a8f]">Choose your role</p>
+                <p class="text-[13px] font-semibold text-ink">Who are you?</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Role Selection -->
+    <section class="space-y-4">
+        <p class="text-[13px] text-muted">Select your role to get started with personalized content.</p>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+                <input type="radio" name="role" value="Employee" id="employee" class="sr-only Hogan">
+                <label for="employee" class="group cursor-pointer rounded-lg border border-line px-5 py-3 transition group-has-checked:border-[#93b7e0] group-has-checked:bg-sky/60 group-has-checked:ring-1 group-has-checked:ring-[#93b7e0]/40">
+                    <div class="flex items-start gap-3">
+                        <svg class="h-[20px] w-[20px] shrink-0 text-ink-2"><use href="#i-graduation-cap" /></svg>
+                        <div>
+                            <span class="block truncat">Employee</span>
+                            <span class="text-[10px] text-muted">Software Developer path</span>
+                        </div>
+                    </div>
+                </label>
+            </div>
+            <div>
+                <input type="radio" name="role" value="Manager" id="manager" class="sr-only Hogan">
+                <label for="manager" class="group cursor-pointer rounded-lg border border-line px-5 py-3 transition group-has-checked:border-[#93b7e0] group-has-checked:bg-lilac/60 group-has-checked:ring-1 group-has-checked:ring-[#a8c1e0]/40">
+                    <div class="flex items-start gap-3">
+                        <svg class="h-[20px] w-[20px] shrink-0 text-ink-2"><use href="#i-building-2" /></svg>
+                        <div>
+                            <span class="block truncat">Manager</span>
+                            <span class="text-[10px] text-muted">Engineering Manager path</span>
+                        </div>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form -->
+    <section class="space-y-5">
+        <form method="post" action="/signup" class="max-w-md">
+            <div>
+                <input type="email" name="email" required placeholder="Email Address" class="field pl-10" autocomplete="email" />
+            </div>
+            <div>
+                <input type="password" name="password" required placeholder="Password" class="field pl-10 pr-10" autocomplete="current-password" />
+            </div>
+            <div>
+                <input type="text" name="fullName" required placeholder="Full Name" class="field pl-10" />
+            </div>
+            <div>
+                <input type="text" name="company" placeholder="Company (optional)" class="field pl-10" />
+            </div>
+            <button type="submit" class="btn btn-primary w-full py-3">Create Account</button>
+        </form>
+    </section>
+
+    <!-- Divider -->
+    <section class="flex items-center gap-4 py-6">
+        <span class="flex h-px bg-line"></span>
+        <span class="text-[10px] text-muted">Or continue with</span>
+        <span class="flex h-px bg-line"></span>
+    </section>
+
+    <!-- Demo -->
+    <section class="pt-6">
+        <p class="text-[12px] text-muted">Already have an account? <a href="/login" class="font-medium text-brand-deep">Sign in</a></p>
+    </section>
+</div>

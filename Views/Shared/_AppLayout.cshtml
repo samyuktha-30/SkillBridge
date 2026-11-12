@@ -1,0 +1,170 @@
+@{
+    var isManager = (ViewData["Nav"] as string) == "Manager";
+    var active = ViewData["Active"] as string ?? "";
+    var name = User.Identity?.Name ?? "Arjun Sharma";
+    var initials = User.FindFirst("initials")?.Value ?? "AS";
+    var roleLabel = isManager ? "Engineering Manager" : "Employee";
+    var tone = User.FindFirst("tone")?.Value ?? (isManager ? "lilac" : "sky");
+    var title = ViewData["Title"] as string ?? ViewData["PageTitle"] as string ?? "SkillBridge AI";
+    var breadcrumb = ViewData["Breadcrumb"] as string ?? "Workspace / Overview";
+
+    var employeeNav = new (string Key, string Label, string Url, string Icon, string? Badge)[]
+    {
+        ("dashboard", "Dashboard", "/employee/dashboard", "house", null),
+        ("skills", "My Skills", "/employee/skills", "chart-no-axes-column", null),
+        ("assessments", "Assessments", "/employee/assessments", "clipboard-list", null),
+        ("learning", "AI Learning Plan", "/employee/learning-plan", "sparkles", null),
+        ("resources", "Resources", "/employee/resources", "book-open", null),
+        ("progress", "My Progress", "/employee/progress", "trending-up", null),
+        ("assistant", "AI Assistant", "/employee/assistant", "message-circle", null),
+        ("notifications", "Notifications", "/employee/notifications", "bell", "2")
+    };
+
+    var managerNav = new (string Key, string Label, string Url, string Icon, string? Badge)[]
+    {
+        ("dashboard", "Manager Dashboard", "/manager/dashboard", "layout-dashboard", null),
+        ("candidates", "Candidate Management", "/manager/candidates", "users", null),
+        ("plans", "Learning Plan Management", "/manager/learning-plans", "book-open", null),
+        ("training", "Training & Progress Monitoring", "/manager/training", "trending-up", null),
+        ("gaps", "Skill Gap Analytics", "/manager/skill-gaps", "chart-no-axes-column", null),
+        ("profile", "Profile", "/manager/profile", "user", null),
+        ("reports", "Reports", "/manager/reports", "file-text", null)
+    };
+
+    var navItems = isManager ? managerNav : employeeNav;
+    var settingsUrl = isManager ? "/manager/settings" : "/employee/settings";
+    var settingsLabel = isManager ? "Settings" : "Profile Settings";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@title · SkillBridge AI</title>
+    <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/css/site.css" asp-append-version="true" />
+</head>
+<body class="min-h-screen bg-cream text-ink">
+    <partial name="_Icons" />
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 flex w-[232px] -translate-x-full flex-col border-r border-line bg-white transition-transform duration-200 lg:static lg:translate-x-0">
+            <div class="flex h-[72px] shrink-0 items-center gap-2.5 px-5">
+                <svg class="h-[26px] w-[26px] text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                    <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                </svg>
+                <span class="text-[16.5px] font-bold tracking-[-0.01em] text-ink">SkillBridge AI</span>
+                <button type="button" class="ml-auto rounded-md p-1 text-muted hover:bg-cream lg:hidden" data-sidebar-close aria-label="Close menu">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12" /></svg>
+                </button>
+            </div>
+
+            <nav class="flex-1 overflow-y-auto px-3 pb-4 pt-1">
+                @if (isManager)
+                {
+                    <div class="px-3 pb-2 pt-1 text-[10.5px] font-semibold uppercase tracking-[0.09em] text-muted">Manager workspace</div>
+                }
+                @foreach (var item in navItems)
+                {
+                    <a href="@item.Url" class="nav-item mb-0.5 @(active == item.Key ? "nav-item-active" : "")">
+                        <svg class="h-[17px] w-[17px]"><use href="#i-@item.Icon" /></svg>
+                        <span class="min-w-0 flex-1 leading-[1.25]">@item.Label</span>
+                        @if (item.Badge is not null)
+                        {
+                            <span class="flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-brand-soft px-1 text-[10.5px] font-semibold text-brand-deep">@item.Badge</span>
+                        }
+                    </a>
+                }
+                <div class="my-3 h-px w-full bg-line-soft"></div>
+                <a href="@settingsUrl" class="nav-item mb-0.5 @(active == "settings" ? "nav-item-active" : "")">
+                    <svg class="h-[17px] w-[17px]"><use href="#i-settings" /></svg>
+                    <span class="min-w-0 flex-1">@settingsLabel</span>
+                </a>
+                <form method="post" action="/logout">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="nav-item w-full text-left">
+                        <svg class="h-[17px] w-[17px]"><use href="#i-log-out" /></svg>
+                        <span>Logout</span>
+                    </button>
+                </form>
+            </nav>
+
+            <div class="p-3">
+                <div class="flex items-center gap-2.5 rounded-lg px-3 py-2.5 @(isManager ? "bg-lilac/70" : "bg-cream-deep/60")">
+                    <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[11.5px] font-semibold text-ink @(tone == "lilac" ? "bg-lilac" : "bg-sky")">@initials</span>
+                    <div class="min-w-0 flex-1 leading-tight">
+                        <div class="truncate text-[12.5px] font-semibold text-ink">@name</div>
+                        <div class="truncate text-[11px] text-muted">@roleLabel</div>
+                    </div>
+                    <svg class="h-3.5 w-3.5 shrink-0 text-muted"><use href="#i-chevron-right" /></svg>
+                </div>
+            </div>
+        </aside>
+
+        <div id="sidebar-backdrop" class="fixed inset-0 z-30 hidden bg-ink/30 lg:hidden" data-sidebar-close></div>
+
+        <div class="flex min-w-0 flex-1 flex-col">
+            <!-- Topbar -->
+            <header class="sticky top-0 z-20 flex h-[72px] shrink-0 items-center gap-3 border-b border-line bg-white px-5 sm:px-7">
+                <button type="button" class="rounded-lg border border-line p-2 text-ink-2 lg:hidden" data-sidebar-open aria-label="Open menu">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
+                </button>
+
+                @if (isManager)
+                {
+                    <div class="hidden items-center gap-2 text-[12.5px] text-muted sm:flex">
+                        <span>@breadcrumb</span>
+                    </div>
+                }
+                else
+                {
+                    <label class="relative hidden w-full max-w-[420px] items-center sm:flex">
+                        <svg class="pointer-events-none absolute left-3.5 h-4 w-4 text-muted"><use href="#i-search" /></svg>
+                        <input type="search" placeholder="Search skills, topics, or resources..." class="h-10 w-full rounded-full border border-line bg-cream/70 pl-10 pr-4 text-[12.5px] text-ink placeholder:text-muted/80 focus:border-brand focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/10" />
+                    </label>
+                }
+
+                <div class="ml-auto flex items-center gap-3 sm:gap-4">
+                    <a href="@(isManager ? "/manager/reports" : "/employee/notifications")" class="relative rounded-full p-1.5 text-ink-2/70 transition hover:bg-cream hover:text-ink" aria-label="Notifications">
+                        <svg class="h-[19px] w-[19px]"><use href="#i-bell" /></svg>
+                        <span class="absolute right-1 top-1 h-2 w-2 rounded-full bg-brand ring-2 ring-white"></span>
+                    </a>
+                    <div class="hidden h-7 w-px bg-line sm:block"></div>
+                    <button type="button" class="flex items-center gap-2.5 rounded-full py-1 pl-1 pr-1 text-left hover:bg-cream" data-menu-trigger="user-menu">
+                        <span class="flex h-9 w-9 items-center justify-center rounded-full text-[11.5px] font-semibold text-ink @(tone == "lilac" ? "bg-lilac" : "bg-sky")">@initials</span>
+                        <span class="hidden leading-tight sm:block">
+                            <span class="block text-[12.5px] font-semibold text-ink">@name</span>
+                            @if (isManager)
+                            {
+                                <span class="block text-[10.5px] text-muted">@roleLabel</span>
+                            }
+                        </span>
+                        <svg class="hidden h-3.5 w-3.5 text-muted sm:block"><use href="#i-chevron-down" /></svg>
+                    </button>
+                    <div id="user-menu" class="absolute right-5 top-[62px] hidden w-52 rounded-xl border border-line bg-white p-1.5 shadow-lg">
+                        <a href="@settingsUrl" class="flex items-center gap-2 rounded-lg px-3 py-2 text-[12.5px] text-ink-2 hover:bg-cream">
+                            <svg class="h-4 w-4"><use href="#i-settings" /></svg> Account settings
+                        </a>
+                        <form method="post" action="/logout">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-[12.5px] text-ink-2 hover:bg-cream">
+                                <svg class="h-4 w-4"><use href="#i-log-out" /></svg> Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </header>
+
+            <main class="min-w-0 flex-1 px-5 py-6 sm:px-7 sm:py-7">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <partial name="_Toast" />
+    <script src="/js/app.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

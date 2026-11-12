@@ -1,0 +1,103 @@
+@model SkillBridge.Services.MockDataService
+@{
+    Layout = "_AppLayout";
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="space-y-4">
+    <!-- Header -->
+    <section class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="page-title">My Profile</h1>
+            <p class="mt-1 text-[13px] text-muted">Manage your personal information and management responsibilities.</p>
+        </div>
+        <img src="/img/people-hero.png" alt="" class="hidden h-[72px] w-auto select-none sm:block" draggable="false" />
+    </section>
+
+    <!-- Identity -->
+    <section class="card flex flex-wrap items-start justify-between gap-4 p-5">
+        <div>
+            <h2 class="text-[24px] font-bold leading-tight tracking-[-0.02em]">Priya Shah</h2>
+            <p class="mt-1 text-[12.5px] text-ink-2">Engineering Manager <span class="mx-1 text-line">·</span> Engineering</p>
+            <p class="mt-2 text-[11.5px] text-muted">Manage employee development across Engineering and Operations.</p>
+        </div>
+        <button type="button" class="btn btn-soft !px-6" data-modal-open="edit-manager">Edit profile</button>
+    </section>
+
+    <section class="grid grid-cols-1 gap-4 lg:grid-cols-[1.5fr_1fr]">
+        <!-- Personal -->
+        <div class="card p-5">
+            <h2 class="text-[15px] font-semibold text-ink">Personal information</h2>
+            <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <label class="block"><span class="label">Full name</span><input class="field field-sm" value="Priya Shah" readonly /></label>
+                <label class="block"><span class="label">Email address</span><input class="field field-sm" value="priya.shah@skillbridge.ai" readonly /></label>
+                <label class="block"><span class="label">Phone number</span><input class="field field-sm" value="+91 98765 43210" readonly /></label>
+                <label class="block"><span class="label">Location</span><input class="field field-sm" value="Bengaluru, India" readonly /></label>
+                <label class="block"><span class="label">Job title</span><input class="field field-sm" value="Engineering Manager" readonly /></label>
+                <label class="block"><span class="label">Employee ID</span><input class="field field-sm" value="MGR-1024" readonly /></label>
+            </div>
+            <p class="mt-3 text-[10.5px] text-muted">Role and department changes are managed by your administrator.</p>
+        </div>
+
+        <!-- Scope -->
+        <div class="card p-5">
+            <h2 class="text-[15px] font-semibold text-ink">Management scope</h2>
+            <div class="mt-3 space-y-3">
+                <div>
+                    <p class="text-[10.5px] text-muted">Managed employees</p>
+                    <p class="text-[16px] font-semibold text-ink">24</p>
+                </div>
+                <div>
+                    <p class="text-[10.5px] text-muted">Departments</p>
+                    <p class="text-[13px] font-semibold text-ink">Engineering, Operations</p>
+                </div>
+                <div>
+                    <p class="text-[10.5px] text-muted">Assessment coverage</p>
+                    <p class="text-[13px] font-semibold text-ink">18 of 24 employees</p>
+                </div>
+                <div>
+                    <p class="text-[10.5px] text-muted">Employees with skill gaps</p>
+                    <p class="text-[13px] font-semibold text-ink">12</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Responsibilities -->
+        <div class="card p-5">
+            <h2 class="text-[15px] font-semibold text-ink">Development responsibilities</h2>
+            <p class="mt-2 text-[11.5px] text-muted">Review assessments, assign learning plans, and monitor team progress.</p>
+            <p class="mt-2 text-[11.5px] text-muted">Review cadence: Monthly <span class="mx-1.5 text-line">·</span> Next review: 20 Nov 2026</p>
+            <a href="/manager/dashboard" class="btn btn-outline btn-sm mt-3">View team dashboard</a>
+        </div>
+
+        <!-- Access -->
+        <div class="card p-5">
+            <h2 class="text-[15px] font-semibold text-ink">Account access</h2>
+            <p class="mt-2 text-[11.5px] text-muted">Manager access <span class="mx-1 text-line">·</span> <span class="font-medium text-brand-deep">Active</span></p>
+            <p class="mt-2 text-[11.5px] text-muted">Control sign-in and notification preferences.</p>
+            <a href="/manager/settings" class="btn btn-outline btn-sm mt-3">Open settings</a>
+        </div>
+    </section>
+</div>
+
+<!-- Edit modal -->
+<div id="edit-manager" class="fixed inset-0 z-50 hidden items-center justify-center bg-ink/40 p-4" data-modal>
+    <div class="w-full max-w-md rounded-xl border border-line bg-white p-6 shadow-2xl">
+        <div class="flex items-start justify-between">
+            <div>
+                <h2 class="text-[18px] font-bold text-ink">Edit profile</h2>
+                <p class="mt-0.5 text-[12px] text-muted">Update your contact information.</p>
+            </div>
+            <button type="button" class="rounded-md p-1 text-muted hover:bg-cream" data-modal-close aria-label="Close"><svg class="h-4 w-4"><use href="#i-x" /></svg></button>
+        </div>
+        <div class="mt-4 space-y-3">
+            <label class="block"><span class="label">Full name</span><input class="field" value="Priya Shah" /></label>
+            <label class="block"><span class="label">Phone number</span><input class="field" value="+91 98765 43210" /></label>
+            <label class="block"><span class="label">Location</span><input class="field" value="Bengaluru, India" /></label>
+        </div>
+        <div class="mt-5 flex justify-end gap-2">
+            <button type="button" class="btn btn-outline btn-sm" data-modal-close>Cancel</button>
+            <button type="button" class="btn btn-primary btn-sm" data-modal-close>Save changes</button>
+        </div>
+    </div>
+</div>

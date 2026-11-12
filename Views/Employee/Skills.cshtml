@@ -1,0 +1,146 @@
+@model SkillBridge.Services.MockDataService
+@{
+    Layout = "_AppLayout";
+    ViewData["Title"] = "My Skills";
+    var target = User.FindFirst("target_role")?.Value ?? "Software Developer";
+    var recent = Model.Assessments.FirstOrDefault(a => a.Title.Contains(".NET"));
+}
+
+<div class="space-y-5">
+    <!-- Header -->
+    <section class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="page-title">My Skills</h1>
+            <p class="mt-1 text-[13px] text-muted">Track your current skills and see where you need to improve.</p>
+        </div>
+        <div class="flex items-center gap-4 rounded-xl border border-[#c9dcf3] bg-sky px-5 py-3">
+            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-white/60 text-[#2c5480]">
+                <svg class="h-[18px] w-[18px]"><use href="#i-target" /></svg>
+            </span>
+            <div class="leading-tight">
+                <p class="text-[10.5px] text-[#4a6a8f]">Your Target Role</p>
+                <p class="text-[13px] font-semibold text-ink">@target</p>
+            </div>
+            <a href="/employee/learning-plan" class="ml-4 inline-flex items-center gap-1 text-[11.5px] font-medium text-ink-2 hover:text-brand-deep">
+                Change <svg class="h-3.5 w-3.5"><use href="#i-arrow-right" /></svg>
+            </a>
+            <img src="/img/chart-hero.png" alt="" class="ml-2 hidden h-11 w-auto select-none sm:block" draggable="false" />
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div class="card relative overflow-hidden p-4 pb-6">
+            <div class="flex items-start justify-between gap-2">
+                <div class="flex items-center gap-2.5">
+                    <span class="flex h-9 w-9 items-center justify-center rounded-full bg-sky text-[#2c5480]"><svg class="h-[18px] w-[18px]"><use href="#i-chart-no-axes-column" /></svg></span>
+                    <p class="text-[12px] text-ink-2/80">Overall Skill Score</p>
+                </div>
+                <span class="inline-flex items-center gap-0.5 text-[10.5px] font-semibold text-brand-deep"><svg class="h-3 w-3"><use href="#i-trending-up" /></svg> +8%</span>
+            </div>
+            <p class="mt-2 text-[24px] font-bold leading-none">72%</p>
+            <div class="absolute inset-x-4 bottom-3 h-1.5 overflow-hidden rounded-full bg-sky/70"><div class="h-full w-0 rounded-full bg-brand" data-progress="72"></div></div>
+        </div>
+        <div class="card relative overflow-hidden p-4 pb-6">
+            <div class="flex items-start justify-between gap-2">
+                <div class="flex items-center gap-2.5">
+                    <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-soft text-brand-deep"><svg class="h-[18px] w-[18px]"><use href="#i-circle-check" /></svg></span>
+                    <p class="text-[12px] text-ink-2/80">Skills Met</p>
+                </div>
+            </div>
+            <p class="mt-2 text-[24px] font-bold leading-none">8 / 12</p>
+            <div class="absolute inset-x-4 bottom-3 h-1.5 overflow-hidden rounded-full bg-brand-soft"><div class="h-full w-0 rounded-full bg-brand" data-progress="67"></div></div>
+        </div>
+        <div class="card relative overflow-hidden p-4 pb-6">
+            <div class="flex items-start justify-between gap-2">
+                <div class="flex items-center gap-2.5">
+                    <span class="flex h-9 w-9 items-center justify-center rounded-full bg-sky text-[#2c5480]"><svg class="h-[18px] w-[18px]"><use href="#i-circle-alert" /></svg></span>
+                    <p class="text-[12px] text-ink-2/80">Skills with Gap</p>
+                </div>
+            </div>
+            <p class="mt-2 text-[24px] font-bold leading-none">4</p>
+            <div class="absolute inset-x-4 bottom-3 h-1.5 overflow-hidden rounded-full bg-sky/70"><div class="h-full w-0 rounded-full bg-brand" data-progress="33"></div></div>
+        </div>
+        <div class="card relative overflow-hidden p-4 pb-6">
+            <div class="flex items-start justify-between gap-2">
+                <div class="flex items-center gap-2.5">
+                    <span class="flex h-9 w-9 items-center justify-center rounded-full bg-brand-soft text-brand-deep"><svg class="h-[18px] w-[18px]"><use href="#i-trophy" /></svg></span>
+                    <p class="text-[12px] text-ink-2/80">Improvement Goal</p>
+                </div>
+            </div>
+            <p class="mt-2 text-[24px] font-bold leading-none">90%</p>
+            <div class="absolute inset-x-4 bottom-3 h-1.5 overflow-hidden rounded-full bg-brand-soft"><div class="h-full w-0 rounded-full bg-brand" data-progress="90"></div></div>
+        </div>
+    </section>
+
+    <!-- Breakdown + radar -->
+    <section class="grid grid-cols-1 gap-4 xl:grid-cols-[1.15fr_1fr]">
+        <div class="card p-5">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <h2 class="section-title flex items-center gap-2"><svg class="h-4 w-4 text-brand-deep"><use href="#i-chart-no-axes-column" /></svg> Skill Breakdown</h2>
+                <div class="flex gap-1.5" data-filter-group data-filter-target="#skill-list [data-skill]">
+                    <button type="button" class="tab-pill tab-pill-soft tab-pill-active !px-3 !py-1 !text-[11px]" data-filter="all">All</button>
+                    <button type="button" class="tab-pill tab-pill-soft !px-3 !py-1 !text-[11px]" data-filter="technical">Technical</button>
+                    <button type="button" class="tab-pill tab-pill-soft !px-3 !py-1 !text-[11px]" data-filter="soft">Soft Skills</button>
+                </div>
+            </div>
+
+            <div id="skill-list" class="mt-3 divide-y divide-line-soft">
+                @foreach (var skill in Model.Skills)
+                {
+                    <div class="flex items-center gap-3 py-2.5" data-skill data-category="technical">
+                        <span class="flex h-7 w-9 shrink-0 items-center justify-center rounded-md bg-sky text-[10px] font-semibold text-[#2c5480]">@skill.Code</span>
+                        <span class="w-[104px] shrink-0 truncate text-[12.5px] font-medium text-ink">@skill.Name</span>
+                        <span class="flex flex-1 items-center gap-1">
+                            @for (var i = 0; i < skill.Max; i++)
+                            {
+                                var tone = i < skill.Level - 1 ? "bg-brand" : i == skill.Level - 1 ? "bg-brand/45" : "bg-[#e8f0ea]";
+                                <span class="h-1.5 flex-1 rounded-full @tone"></span>
+                            }
+                        </span>
+                        <span class="w-9 shrink-0 text-right text-[12px] text-ink-2">@skill.Level / @skill.Max</span>
+                        <span class="badge w-24 shrink-0 justify-center @(skill.Met ? "badge-green" : "badge-blue")">@(skill.Met ? "Met" : "Gap")</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="card p-5">
+            <h2 class="section-title flex items-center gap-2"><svg class="h-4 w-4 text-brand-deep"><use href="#i-trending-up" /></svg> Skills Radar</h2>
+            <div class="mt-2 flex flex-1 items-center justify-center gap-1">
+                <div class="h-[300px] min-w-0 w-full max-w-[340px]"
+                     data-radar='{"labels":["C#","React","SQL","Python","Communication"],"you":[70,55,80,75,85],"required":[85,85,85,85,85]}'></div>
+                <div class="hidden shrink-0 flex-col gap-4 pb-6 text-[10.5px] leading-tight text-ink-2/80 sm:flex">
+                    <span class="inline-flex items-start gap-1.5"><span class="mt-[3px] h-2 w-2 shrink-0 rounded-full bg-brand"></span> Your Skills</span>
+                    <span class="inline-flex items-start gap-1.5"><span class="mt-[3px] h-2 w-2 shrink-0 rounded-full bg-[#8fbfae]"></span> Required Level</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom -->
+    <section class="grid grid-cols-1 gap-4 lg:grid-cols-[1.15fr_1fr]">
+        <div class="card p-5">
+            <div class="flex items-center justify-between">
+                <h2 class="section-title flex items-center gap-2"><svg class="h-4 w-4 text-brand-deep"><use href="#i-clipboard-list" /></svg> Recent Assessments</h2>
+                <a href="/employee/assessments" class="inline-flex items-center gap-1 text-[11.5px] font-medium text-ink-2 hover:text-brand-deep">View All <svg class="h-3.5 w-3.5"><use href="#i-arrow-right" /></svg></a>
+            </div>
+            <div class="mt-3 flex items-center gap-3 rounded-lg border border-line px-4 py-3">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand-deep"><svg class="h-[18px] w-[18px]"><use href="#i-code-xml" /></svg></span>
+                <div class="min-w-0 flex-1">
+                    <p class="truncate text-[13px] font-semibold">Technical Assessment – .NET</p>
+                    <p class="mt-0.5 text-[11px] text-muted">Completed on Oct 25, 2025 • Score: 85%</p>
+                </div>
+                <span class="badge badge-green shrink-0">Passed</span>
+            </div>
+        </div>
+
+        <div class="card p-5">
+            <h2 class="section-title flex items-center gap-2"><svg class="h-4 w-4 text-brand-deep"><use href="#i-lightbulb" /></svg> Key Insights</h2>
+            <div class="mt-3 flex items-start gap-2.5 rounded-lg bg-brand-soft/80 px-4 py-3 text-[12px] text-brand-deep">
+                <svg class="mt-0.5 h-4 w-4 shrink-0"><use href="#i-circle-check" /></svg>
+                <span>You are on track! Keep completing your learning plan to reach your target role.</span>
+            </div>
+        </div>
+    </section>
+</div>

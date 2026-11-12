@@ -1,0 +1,116 @@
+@model SkillBridge.Services.MockDataService
+@{
+    Layout = "_AppLayout";
+    ViewData["Title"] = "Notifications";
+    var filters = new (string Value, string Label, string Icon)[]
+    {
+        ("all", "All", "layers"),
+        ("assessment", "Assessment", "clipboard-list"),
+        ("learning", "Learning", "book-open"),
+        ("system", "System", "settings"),
+        ("reminder", "Reminder", "clock")
+    };
+}
+
+<div class="space-y-5">
+    <!-- Header band -->
+    <section class="relative flex flex-wrap items-center justify-between gap-4 overflow-hidden rounded-xl bg-brand-soft px-6 py-5">
+        <div>
+            <h1 class="page-title">Notifications</h1>
+            <p class="mt-1 text-[13px] text-ink-2/80">Stay updated with your assessments, learning plan and important updates.</p>
+        </div>
+        <svg viewBox="0 0 120 120" class="hidden h-[88px] w-auto select-none sm:block" fill="none" aria-hidden="true">
+            <circle cx="60" cy="20" r="8" fill="#3CA289" stroke="#0D2246" stroke-width="2.4" />
+            <path d="M60 32c-15 0-24 11-24 26v13c0 4.2-2.2 7.8-6 11h60c-3.8-3.2-6-6.8-6-11V58c0-15-9-26-24-26Z" fill="#EAE3F5" stroke="#0D2246" stroke-width="2.4" stroke-linejoin="round" />
+            <path d="M45 58c1-9 7-15 15-17" stroke="#0D2246" stroke-width="2.4" stroke-linecap="round" />
+            <path d="M47 91h26" stroke="#0D2246" stroke-width="2.4" stroke-linecap="round" />
+            <path d="M54 99h12" stroke="#0D2246" stroke-width="2.4" stroke-linecap="round" />
+            <path d="M60 105v2" stroke="#0D2246" stroke-width="2.4" stroke-linecap="round" />
+        </svg>
+    </section>
+
+    <section class="grid grid-cols-1 gap-4 xl:grid-cols-[1.35fr_1fr]">
+        <!-- List -->
+        <div class="space-y-3">
+            <div class="flex flex-wrap gap-2" data-filter-group data-filter-target="#notification-list [data-notification]">
+                @foreach (var filter in filters)
+                {
+                    <button type="button" class="tab-pill @(filter.Value == "all" ? "tab-pill-active" : "")" data-filter="@filter.Value">
+                        <svg class="h-3.5 w-3.5"><use href="#i-@filter.Icon" /></svg>
+                        @filter.Label
+                    </button>
+                }
+            </div>
+
+            <div id="notification-list" class="space-y-2">
+                @foreach (var item in Model.Notifications)
+                {
+                    <article class="flex items-start gap-3 rounded-xl border px-4 py-3 transition @(item.Unread ? "border-[#d9cfee] bg-lilac/35" : "border-line bg-white hover:border-brand/30")" data-notification data-category="@item.Kind">
+                        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lilac/80 text-[#5a4382]">
+                            <svg class="h-[18px] w-[18px]"><use href="#i-@item.Icon" /></svg>
+                        </span>
+                        <div class="min-w-0 flex-1">
+                            <p class="text-[12.5px] font-semibold text-ink">@item.Title</p>
+                            <p class="mt-0.5 text-[11.5px] leading-snug text-muted">@item.Body</p>
+                        </div>
+                        <div class="flex shrink-0 items-center gap-1.5 pt-1">
+                            <span class="text-[10.5px] text-muted">@item.Time</span>
+                            @if (item.Unread)
+                            {
+                                <span class="h-1.5 w-1.5 rounded-full bg-brand"></span>
+                            }
+                        </div>
+                    </article>
+                }
+            </div>
+
+            <div class="flex items-center gap-1.5 pt-1">
+                <button type="button" class="flex h-7 w-7 items-center justify-center rounded-full border border-line bg-white text-muted hover:border-brand/40" aria-label="Previous page"><svg class="h-3.5 w-3.5"><use href="#i-chevron-left" /></svg></button>
+                <button type="button" class="flex h-7 w-7 items-center justify-center rounded-full bg-brand text-[11px] font-semibold text-white">1</button>
+                <button type="button" class="flex h-7 w-7 items-center justify-center rounded-full border border-line bg-white text-[11px] font-medium text-ink-2 hover:border-brand/40">2</button>
+                <button type="button" class="flex h-7 w-7 items-center justify-center rounded-full border border-line bg-white text-[11px] font-medium text-ink-2 hover:border-brand/40">3</button>
+                <button type="button" class="flex h-7 w-7 items-center justify-center rounded-full border border-line bg-white text-muted hover:border-brand/40" aria-label="Next page"><svg class="h-3.5 w-3.5"><use href="#i-chevron-right" /></svg></button>
+            </div>
+        </div>
+
+        <!-- Detail -->
+        <div class="card h-fit p-5">
+            <div class="flex items-start justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <span class="flex h-11 w-11 items-center justify-center rounded-full bg-brand-soft text-brand-deep">
+                        <svg class="h-5 w-5"><use href="#i-clipboard-list" /></svg>
+                    </span>
+                    <h2 class="text-[17px] font-semibold text-ink">Assessment Reminder</h2>
+                </div>
+                <span class="badge badge-blue">Assessment</span>
+            </div>
+            <p class="mt-2 flex items-center gap-1.5 text-[10.5px] text-muted">
+                <svg class="h-3 w-3"><use href="#i-clock" /></svg> 2 hours ago <span class="text-line">•</span> 25 Sep 2026, 06:15 PM
+            </p>
+
+            <div class="mt-4 flex items-start gap-2.5 rounded-lg bg-brand-soft/80 px-4 py-3 text-[12px] text-ink-2">
+                <svg class="mt-0.5 h-4 w-4 shrink-0 text-brand-deep"><use href="#i-info" /></svg>
+                <span>Your SQL Assessment is scheduled for tomorrow at 10:00 AM. Please make sure to complete it within the given time.</span>
+            </div>
+
+            <div class="mt-6 flex justify-center py-2">
+                <svg viewBox="0 0 260 160" class="h-[160px] w-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="52" y="34" width="130" height="108" rx="10" fill="#DDEFE5" stroke="#0D2246" stroke-width="2.2" />
+                    <path d="M52 62 H182" stroke="#0D2246" stroke-width="2.2" />
+                    <rect x="76" y="22" width="12" height="24" rx="5" fill="#fff" stroke="#0D2246" stroke-width="2.2" />
+                    <rect x="146" y="22" width="12" height="24" rx="5" fill="#fff" stroke="#0D2246" stroke-width="2.2" />
+                    <path d="M92 116 L112 136 L156 86" stroke="#0D2246" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="56" cy="126" r="22" fill="#fff" stroke="#0D2246" stroke-width="2.2" />
+                    <path d="M56 112 V126 L66 132" stroke="#0D2246" stroke-width="2.2" stroke-linecap="round" />
+                    <path d="M196 46 L202 62 L218 68 L202 74 L196 90 L190 74 L174 68 L190 62 Z" fill="#EAE3F5" stroke="#0D2246" stroke-width="2" stroke-linejoin="round" />
+                    <path d="M212 106 c0 -10 16 -10 16 0 v10 h-16 z" fill="#DDEFE5" stroke="#0D2246" stroke-width="2.2" />
+                    <path d="M208 118 h24" stroke="#0D2246" stroke-width="2.2" stroke-linecap="round" />
+                </svg>
+            </div>
+
+            <a href="/employee/assessments" class="btn btn-primary mt-4 w-full py-3">
+                <svg class="h-4 w-4"><use href="#i-play" /></svg> Go to Assessment
+            </a>
+        </div>
+    </section>
+</div>

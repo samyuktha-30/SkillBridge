@@ -1,0 +1,189 @@
+@model SkillBridge.Services.MockDataService
+@{
+    Layout = "_AppLayout";
+    ViewData["Title"] = "Manager Dashboard";
+    var training = new[]
+    {
+        ("Not Started", "19 / 120", 12.5),
+        ("In Progress", "35 / 120", 29.2),
+        ("Completed", "70 / 120", 58.3)
+    };
+}
+
+<div class="space-y-4">
+    <!-- Header -->
+    <section class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="page-title">Manager Dashboard</h1>
+            <p class="mt-1 text-[13px] text-muted">Monitor employee skills, track training progress and manage team development.</p>
+        </div>
+        <img src="/img/mgr-hero.png" alt="" class="hidden h-[70px] w-auto select-none sm:block" draggable="false" />
+    </section>
+
+    <!-- Stats -->
+    <section class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        @foreach (var stat in Model.ManagerStats)
+        {
+            var isBlue = stat.Tone == "blue";
+            <div class="rounded-xl border p-4 @(isBlue ? "border-[#c9dcf3] bg-sky" : "border-[#cfe7da] bg-brand-soft/70")">
+                <div class="flex items-start justify-between">
+                    <p class="text-[12px] text-ink-2/80">@stat.Label</p>
+                    <span class="flex h-8 w-8 items-center justify-center rounded-full @(isBlue ? "bg-white/60 text-[#2c5480]" : "bg-white/70 text-brand-deep")">
+                        <svg class="h-4 w-4"><use href="#i-@stat.Icon" /></svg>
+                    </span>
+                </div>
+                <p class="mt-2 text-[26px] font-bold leading-none">@stat.Value</p>
+                <p class="mt-2 text-[11px] text-muted">@stat.Note</p>
+            </div>
+        }
+    </section>
+
+    <!-- Charts -->
+    <section class="grid grid-cols-1 gap-4 xl:grid-cols-2">
+        <div class="card p-5">
+            <h2 class="section-title">Skill Gap Overview</h2>
+            <p class="mt-0.5 text-[11.5px] text-muted">Average team proficiency by skill</p>
+            <div class="mt-3 flex items-center gap-4 text-[10.5px] text-muted">
+                <span class="inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-sm bg-brand"></span> Current proficiency</span>
+                <span class="inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-sm bg-[#cfe7da]"></span> Target proficiency · 80%</span>
+            </div>
+            <div class="mt-3 space-y-3.5">
+                @foreach (var row in Model.SkillGapOverview)
+                {
+                    <div class="flex items-center gap-3">
+                        <span class="w-28 shrink-0 text-[11.5px] text-ink-2">@row.Label</span>
+                        <div class="relative h-2.5 flex-1 overflow-hidden rounded-sm bg-[#f1f6f2]">
+                            <div class="absolute inset-y-0 left-0 rounded-sm bg-[#cfe7da]" style="width:@(row.Target)%"></div>
+                            <div class="absolute inset-y-0 left-0 rounded-sm bg-brand" style="width:@(row.Current)%"></div>
+                        </div>
+                        <span class="w-8 shrink-0 text-right text-[11px] font-medium text-ink-2">@(row.Current)%</span>
+                    </div>
+                }
+            </div>
+            <div class="mt-3 flex justify-between pl-[102px] text-[9.5px] text-muted">
+                <span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>
+            </div>
+        </div>
+
+        <div class="card p-5">
+            <div class="flex items-start justify-between">
+                <div>
+                    <h2 class="section-title">Employee Performance</h2>
+                    <p class="mt-0.5 text-[11.5px] text-muted">Latest employee assessment scores</p>
+                </div>
+                <span class="badge badge-muted">5 employees</span>
+            </div>
+            <p class="mt-3 inline-flex items-center gap-1.5 text-[10.5px] text-muted"><span class="h-2 w-2 rounded-sm bg-brand"></span> Assessment score (%)</p>
+
+            <div class="mt-1 pl-9">
+                <div class="relative h-[152px]">
+                    @foreach (var tick in new[] { 0, 25, 50, 75, 100 })
+                    {
+                        <div class="absolute left-0 right-0 border-t border-line-soft" style="bottom:@(tick)%"></div>
+                        <span class="absolute -left-9 w-7 text-right text-[9px] text-muted" style="bottom:@(tick)%; transform:translateY(50%)">@(tick)%</span>
+                    }
+                    <div class="relative flex h-full items-end justify-around gap-2 px-1">
+                        @foreach (var item in Model.EmployeePerformance)
+                        {
+                            <div class="flex h-full w-full flex-col items-center justify-end">
+                                <span class="mb-1 text-[9.5px] font-semibold text-ink">@(item.Score)%</span>
+                                <div class="w-6 rounded-t-sm bg-brand" style="height:@(item.Score * 1.18)px"></div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="mt-2 flex justify-around gap-2 px-1">
+                    @foreach (var item in Model.EmployeePerformance)
+                    {
+                        <span class="w-full truncate text-center text-[9px] text-muted">@item.Name</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Attention + training -->
+    <section class="grid grid-cols-1 gap-4 xl:grid-cols-[1.45fr_1fr]">
+        <div class="card p-5">
+            <div class="flex items-start justify-between">
+                <h2 class="section-title">Employees Needing Attention</h2>
+                <span class="text-[10.5px] text-muted">3 of 24 requiring training</span>
+            </div>
+            <table class="data-table mt-3">
+                <thead>
+                    <tr>
+                        <th class="!rounded-l-md">Employee Name</th>
+                        <th>Department</th>
+                        <th>Skill Gap</th>
+                        <th>Progress</th>
+                        <th class="!rounded-r-md">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var employee in Model.Attention)
+                    {
+                        <tr>
+                            <td>
+                                <div class="flex items-center gap-2">
+                                    <span class="flex h-7 w-7 items-center justify-center rounded-full text-[9.5px] font-semibold text-ink @(employee.Tone == "blue" ? "bg-sky" : employee.Tone == "green" ? "bg-brand-soft" : "bg-lilac")">@employee.Initials</span>
+                                    <span class="font-medium text-ink">@employee.Name</span>
+                                </div>
+                            </td>
+                            <td class="text-muted">@employee.Department</td>
+                            <td><span class="badge badge-blue !py-0.5">@employee.Skill</span></td>
+                            <td>
+                                <div class="flex items-center gap-2">
+                                    <span class="h-1.5 w-16 overflow-hidden rounded-full bg-line-soft"><span class="block h-full rounded-full bg-brand" data-progress="@employee.Percent"></span></span>
+                                    <span class="text-[10.5px] text-ink-2">@employee.Progress</span>
+                                </div>
+                            </td>
+                            <td><a href="/manager/skill-gaps" class="btn btn-outline btn-sm !px-2.5 !py-1 !text-[10.5px]">View Details</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card p-5">
+            <h2 class="section-title">Training Progress</h2>
+            <p class="mt-0.5 text-[11.5px] text-muted">Training status across 120 employees</p>
+            <div class="mt-4 space-y-4">
+                @foreach (var (label, count, percent) in training)
+                {
+                    <div>
+                        <div class="flex items-center justify-between text-[11px]">
+                            <span class="text-ink-2">@label</span>
+                            <span class="text-muted">@count <span class="ml-1 font-medium text-ink-2">@(percent.ToString("0.0"))%</span></span>
+                        </div>
+                        <div class="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-[#f1f6f2]">
+                            <div class="h-full w-0 rounded-full bg-brand" data-progress="@percent"></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- Activity -->
+    <section class="card p-5">
+        <div class="flex items-center justify-between">
+            <h2 class="section-title">Recent Activities</h2>
+            <span class="text-[10.5px] text-muted">Latest team updates</span>
+        </div>
+        <div class="mt-3 grid grid-cols-1 gap-4 md:grid-cols-3 md:divide-x md:divide-line-soft">
+            @foreach (var activity in Model.ManagerActivity)
+            {
+                <div class="flex items-start gap-2.5 md:px-4 md:first:pl-0">
+                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-soft/70 text-brand-deep"><svg class="h-4 w-4"><use href="#i-@activity.Icon" /></svg></span>
+                    <div class="min-w-0">
+                        <p class="text-[11.5px] font-semibold text-ink">@activity.Title</p>
+                        <p class="mt-0.5 truncate text-[10.5px] text-muted">@activity.Detail</p>
+                        <p class="mt-0.5 text-[10px] text-muted">@activity.Time</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+    <p class="text-[10px] text-muted">Example data - Chart values, employee profiles and recent activities are illustrative.</p>
+</div>

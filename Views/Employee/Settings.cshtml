@@ -1,0 +1,172 @@
+@model SkillBridge.Services.MockDataService
+@{
+    Layout = "_AppLayout";
+    ViewData["Title"] = "Profile Settings";
+    var user = Model.Employee;
+    var name = User.Identity?.Name ?? user.Name;
+    var email = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value ?? user.Email;
+    var department = User.FindFirst("department")?.Value ?? user.Department;
+    var employeeId = User.FindFirst("employee_id")?.Value ?? user.EmployeeId;
+    var notifications = new (string Label, bool On)[]
+    {
+        ("Assessment Reminders", true),
+        ("Learning Plan Updates", true),
+        ("Training Deadline Alerts", true),
+        ("System Announcements", false),
+        ("Email Notifications", true)
+    };
+}
+
+<div class="space-y-5">
+    <!-- Header -->
+    <section class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="page-title">Settings</h1>
+            <p class="mt-1 text-[13px] text-muted">Manage your account preferences, notifications, privacy and security.</p>
+        </div>
+        <span class="flex h-16 w-16 items-center justify-center rounded-b-2xl rounded-t-[40px] bg-brand-soft text-brand-deep">
+            <svg class="h-8 w-8"><use href="#i-shield-check" /></svg>
+        </span>
+    </section>
+
+    <section class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <!-- Account -->
+        <div class="card p-5">
+            <h2 class="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-ink">
+                <svg class="h-4 w-4 text-brand-deep"><use href="#i-user" /></svg> Account Settings
+            </h2>
+            <dl class="mt-2 divide-y divide-line-soft text-[12px]">
+                <div class="flex items-center gap-4 py-2.5"><dt class="w-24 shrink-0 text-muted">Full Name</dt><dd class="font-medium text-ink-2">@name</dd></div>
+                <div class="flex items-center gap-4 py-2.5"><dt class="w-24 shrink-0 text-muted">Email Address</dt><dd class="truncate font-medium text-ink-2">@email</dd></div>
+                <div class="flex items-center gap-4 py-2.5"><dt class="w-24 shrink-0 text-muted">Employee ID</dt><dd class="font-medium text-ink-2">@employeeId</dd></div>
+                <div class="flex items-center gap-4 py-2.5"><dt class="w-24 shrink-0 text-muted">Department</dt><dd class="font-medium text-ink-2">@department</dd></div>
+            </dl>
+            <button type="button" class="btn btn-primary btn-sm mt-4" data-modal-open="edit-profile">
+                <svg class="h-3.5 w-3.5"><use href="#i-pencil" /></svg> Edit Profile
+            </button>
+        </div>
+
+        <!-- Notifications -->
+        <div class="card p-5">
+            <h2 class="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-ink">
+                <svg class="h-4 w-4 text-brand-deep"><use href="#i-bell" /></svg> Notification Preferences
+            </h2>
+            <div class="mt-2 divide-y divide-line-soft">
+                @foreach (var (label, on) in notifications)
+                {
+                    <div class="flex items-center justify-between gap-4 py-2.5">
+                        <span class="text-[12px] text-ink-2">@label</span>
+                        <span class="toggle @(on ? "toggle-on" : "")" role="switch" aria-checked="@(on ? "true" : "false")" tabindex="0"></span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Privacy -->
+        <div class="card p-5">
+            <h2 class="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-ink">
+                <svg class="h-4 w-4 text-brand-deep"><use href="#i-shield-check" /></svg> Privacy &amp; Security
+            </h2>
+            <div class="mt-2 divide-y divide-line-soft">
+                <div class="flex items-center justify-between gap-4 py-2.5">
+                    <span class="text-[12px] text-ink-2">Change Password</span>
+                    <button type="button" class="inline-flex items-center gap-1 text-[11.5px] font-medium text-ink-2 hover:text-brand-deep">Update <svg class="h-3.5 w-3.5"><use href="#i-chevron-right" /></svg></button>
+                </div>
+                <div class="flex items-center justify-between gap-4 py-2.5">
+                    <span class="text-[12px] text-ink-2">Two-Factor Authentication</span>
+                    <span class="toggle" role="switch" aria-checked="false" tabindex="0"></span>
+                </div>
+                <div class="flex items-center justify-between gap-4 py-2.5">
+                    <span class="text-[12px] text-ink-2">Active Sessions</span>
+                    <button type="button" class="inline-flex items-center gap-1 text-[11.5px] font-medium text-ink-2 hover:text-brand-deep">View sessions <svg class="h-3.5 w-3.5"><use href="#i-chevron-right" /></svg></button>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm mt-4">
+                <svg class="h-3.5 w-3.5"><use href="#i-lock" /></svg> Manage Account Security
+            </button>
+        </div>
+
+        <!-- Appearance -->
+        <div class="card p-5">
+            <h2 class="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-ink">
+                <svg class="h-4 w-4 text-brand-deep"><use href="#i-sliders-horizontal" /></svg> Appearance &amp; Preferences
+            </h2>
+            <div class="mt-2 divide-y divide-line-soft">
+                <div class="flex items-center justify-between gap-4 py-2.5">
+                    <span class="text-[12px] text-ink-2">Theme</span>
+                    <div class="flex overflow-hidden rounded-lg border border-line" data-pill-group="soft">
+                        <button type="button" class="inline-flex items-center gap-1 px-3 py-1.5 text-[11px] text-ink-2 is-active" data-pill><svg class="h-3 w-3"><use href="#i-sun" /></svg> Light</button>
+                        <button type="button" class="inline-flex items-center gap-1 px-3 py-1.5 text-[11px] text-muted hover:bg-cream" data-pill><svg class="h-3 w-3"><use href="#i-moon" /></svg> Dark</button>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between gap-4 py-2.5">
+                    <span class="text-[12px] text-ink-2">Language</span>
+                    <label class="relative w-28">
+                        <select class="field field-sm appearance-none pr-8 text-[11.5px]">
+                            <option>English</option>
+                            <option>Hindi</option>
+                            <option>Spanish</option>
+                        </select>
+                        <svg class="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted"><use href="#i-chevron-down" /></svg>
+                    </label>
+                </div>
+                <div class="flex items-center justify-between gap-4 py-2.5">
+                    <span class="text-[12px] text-ink-2">Time Zone</span>
+                    <label class="relative w-28">
+                        <select class="field field-sm appearance-none pr-8 text-[11.5px]">
+                            <option>IST (UTC +5:30)</option>
+                            <option>GMT (UTC +0:00)</option>
+                            <option>EST (UTC -5:00)</option>
+                        </select>
+                        <svg class="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted"><use href="#i-chevron-down" /></svg>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Account management -->
+    <section class="card p-5">
+        <h2 class="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-ink">
+            <svg class="h-4 w-4 text-brand-deep"><use href="#i-database" /></svg> Account Management
+        </h2>
+        <div class="mt-3 flex flex-col gap-4 divide-y divide-line-soft md:flex-row md:items-center md:divide-x md:divide-y-0">
+            <div class="flex flex-1 flex-wrap items-center justify-between gap-3 md:pr-8">
+                <div>
+                    <p class="text-[12.5px] font-semibold text-ink">Download My Data</p>
+                    <p class="mt-0.5 text-[11px] text-muted">Get a copy of your profile and learning activity.</p>
+                </div>
+                <button type="button" class="btn btn-primary btn-sm"><svg class="h-3.5 w-3.5"><use href="#i-download" /></svg> Download</button>
+            </div>
+            <div class="flex flex-1 flex-wrap items-center justify-between gap-3 pt-4 md:pl-8 md:pt-0">
+                <div>
+                    <p class="text-[12.5px] font-semibold text-ink">Delete Account</p>
+                    <p class="mt-0.5 text-[11px] text-muted">Permanently remove your account and data.</p>
+                </div>
+                <button type="button" class="btn btn-outline btn-sm">Delete Account</button>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Edit profile modal -->
+<div id="edit-profile" class="fixed inset-0 z-50 hidden items-center justify-center bg-ink/40 p-4" data-modal>
+    <div class="w-full max-w-md rounded-xl border border-line bg-white p-6 shadow-2xl">
+        <div class="flex items-start justify-between">
+            <div>
+                <h2 class="text-[18px] font-bold text-ink">Edit profile</h2>
+                <p class="mt-0.5 text-[12px] text-muted">Update your personal information.</p>
+            </div>
+            <button type="button" class="rounded-md p-1 text-muted hover:bg-cream" data-modal-close aria-label="Close"><svg class="h-4 w-4"><use href="#i-x" /></svg></button>
+        </div>
+        <div class="mt-4 space-y-3">
+            <label class="block"><span class="label">Full name</span><input class="field" value="@name" /></label>
+            <label class="block"><span class="label">Email address</span><input class="field" value="@email" /></label>
+            <label class="block"><span class="label">Department</span><input class="field" value="@department" /></label>
+        </div>
+        <div class="mt-5 flex justify-end gap-2">
+            <button type="button" class="btn btn-outline btn-sm" data-modal-close>Cancel</button>
+            <button type="button" class="btn btn-primary btn-sm" data-modal-close>Save changes</button>
+        </div>
+    </div>
+</div>

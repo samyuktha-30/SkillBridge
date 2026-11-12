@@ -1,0 +1,118 @@
+@model SkillBridge.Services.MockDataService
+@{
+    Layout = "_AppLayout";
+    ViewData["Title"] = "Reports";
+    var templates = new[]
+    {
+        ("Assessment summary", "Assessment coverage, scores, and employee results.", "24 employees · 18 assessed"),
+        ("Skill gap summary", "Role readiness, skill shortfalls, and priority areas.", "12 employees with gaps"),
+        ("Training progress", "Assigned plans, completion status, and due dates.", "3 assigned plans · 1 completed")
+    };
+}
+
+<div class="space-y-4">
+    <!-- Header -->
+    <section class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="page-title">Reports</h1>
+            <p class="mt-1 text-[13px] text-muted">Generate and download reports on your team's skills and learning progress.</p>
+        </div>
+        <img src="/img/reports-hero.png" alt="" class="hidden h-[70px] w-auto select-none sm:block" draggable="false" />
+    </section>
+
+    <!-- Generate -->
+    <section class="card p-5">
+        <h2 class="section-title">Generate a report</h2>
+        <div class="mt-3 grid grid-cols-1 gap-3 lg:grid-cols-[1.1fr_1.1fr_1fr_auto]">
+            <label class="block">
+                <span class="mb-1 block text-[11px] text-muted">Report type</span>
+                <span class="relative block">
+                    <select class="field field-sm appearance-none pr-8">
+                        <option>Skill gap summary</option>
+                        <option>Assessment summary</option>
+                        <option>Training progress</option>
+                    </select>
+                    <svg class="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted"><use href="#i-chevron-down" /></svg>
+                </span>
+            </label>
+            <label class="block">
+                <span class="mb-1 block text-[11px] text-muted">Department</span>
+                <span class="relative block">
+                    <select class="field field-sm appearance-none pr-8">
+                        @foreach (var department in Model.Departments)
+                        {
+                            <option>@department</option>
+                        }
+                    </select>
+                    <svg class="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted"><use href="#i-chevron-down" /></svg>
+                </span>
+            </label>
+            <label class="block">
+                <span class="mb-1 block text-[11px] text-muted">Date range</span>
+                <input class="field field-sm" value="1–30 Nov 2026" />
+            </label>
+            <div class="flex items-end">
+                <button type="button" class="btn btn-soft w-full !py-2.5 !text-[11.5px]">Generate report</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Templates -->
+    <section class="grid grid-cols-1 gap-4 md:grid-cols-3">
+        @foreach (var (title, description, stat) in templates)
+        {
+            <div class="card p-5">
+                <h2 class="text-[15px] font-semibold text-ink">@title</h2>
+                <p class="mt-1.5 text-[11.5px] leading-snug text-muted">@description</p>
+                <p class="mt-3 text-[11px] text-muted">@stat</p>
+                <button type="button" class="btn btn-outline btn-sm mt-3">Use template</button>
+            </div>
+        }
+    </section>
+
+    <!-- Recent -->
+    <section class="space-y-2">
+        <div>
+            <h2 class="section-title">Recent reports</h2>
+            <p class="mt-0.5 text-[11px] text-muted">Reports generated for your management scope</p>
+        </div>
+        <div class="card overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th class="!bg-brand-soft/80">Report name</th>
+                            <th class="!bg-brand-soft/80">Department</th>
+                            <th class="!bg-brand-soft/80">Generated on</th>
+                            <th class="!bg-brand-soft/80">Created by</th>
+                            <th class="!bg-brand-soft/80">Format</th>
+                            <th class="!bg-brand-soft/80">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var report in Model.Reports)
+                        {
+                            <tr>
+                                <td class="whitespace-nowrap font-medium text-ink">@report.Name</td>
+                                <td class="text-muted">@report.Department</td>
+                                <td class="text-muted">@report.GeneratedOn</td>
+                                <td class="text-muted">@report.CreatedBy</td>
+                                <td class="text-muted">@report.Format</td>
+                                <td><a href="/manager/reports" class="text-[11.5px] font-medium text-brand-deep underline decoration-brand/40 underline-offset-2 hover:text-ink">Download</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scheduled -->
+    <section class="card flex flex-wrap items-center justify-between gap-4 p-5">
+        <div>
+            <h2 class="section-title">Scheduled reporting</h2>
+            <p class="mt-1 text-[11.5px] text-muted">Monthly team summary <span class="mx-1 text-line">·</span> First day of each month <span class="mx-1 text-line">·</span> Delivered to priya.shah@skillbridge.ai</p>
+        </div>
+        <button type="button" class="btn btn-outline btn-sm">Manage schedule</button>
+    </section>
+</div>

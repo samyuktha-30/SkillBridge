@@ -1,0 +1,202 @@
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/rpswa.dswa.cache.json
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/SkillBridge.GeneratedMSBuildEditorConfig.editorconfig
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/SkillBridge.AssemblyInfoInputs.cache
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/SkillBridge.AssemblyInfo.cs
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/SkillBridge.csproj.CoreCompileInputs.cache
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/SkillBridge.MvcApplicationPartsAssemblyInfo.cache
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/SkillBridge.RazorAssemblyInfo.cache
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/SkillBridge.RazorAssemblyInfo.cs
+/home/mdharoon/Documents/Default Project/SkillBridge/bin/Debug/net10.0/appsettings.Development.json
+/home/mdharoon/Documents/Default Project/SkillBridge/bin/Debug/net10.0/appsettings.json
+/home/mdharoon/Documents/Default Project/SkillBridge/bin/Debug/net10.0/package-lock.json
+/home/mdharoon/Documents/Default Project/SkillBridge/bin/Debug/net10.0/package.json
+/home/mdharoon/Documents/Default Project/SkillBridge/bin/Debug/net10.0/SkillBridge.staticwebassets.runtime.json
+/home/mdharoon/Documents/Default Project/SkillBridge/bin/Debug/net10.0/SkillBridge.staticwebassets.endpoints.json
+/home/mdharoon/Documents/Default Project/SkillBridge/bin/Debug/net10.0/SkillBridge
+/home/mdharoon/Documents/Default Project/SkillBridge/bin/Debug/net10.0/SkillBridge.deps.json
+/home/mdharoon/Documents/Default Project/SkillBridge/bin/Debug/net10.0/SkillBridge.runtimeconfig.json
+/home/mdharoon/Documents/Default Project/SkillBridge/bin/Debug/net10.0/SkillBridge.dll
+/home/mdharoon/Documents/Default Project/SkillBridge/bin/Debug/net10.0/SkillBridge.pdb
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/rjimswa.dswa.cache.json
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/rjsmrazor.dswa.cache.json
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/rjsmcshtml.dswa.cache.json
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/scopedcss/Views/Shared/_Layout.cshtml.rz.scp.css
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/scopedcss/bundle/SkillBridge.styles.css
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/scopedcss/projectbundle/SkillBridge.bundle.scp.css
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/giys1c8eak-{0}-61n19gt1b8-61n19gt1b8.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/qjqqw0x03x-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/6ti4i1h7w5-{0}-bqjiyaj88i-bqjiyaj88i.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/v0bakrr592-{0}-c2jlpeoesf-c2jlpeoesf.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/pjkwyoatjf-{0}-erw9l3u2r3-erw9l3u2r3.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/d4ey84xcu9-{0}-aexeepp0ev-aexeepp0ev.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/rbjpfd1kvm-{0}-d7shbmvgxk-d7shbmvgxk.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/yg2v4h3ku2-{0}-ausgxo2sd3-ausgxo2sd3.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/v6i1n84bv3-{0}-k8d9w2qqmf-k8d9w2qqmf.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/bj1tngbc4k-{0}-cosvhxvwiu-cosvhxvwiu.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/r4fdlazeih-{0}-ub07r2b239-ub07r2b239.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/e1spmti31e-{0}-fvhpjtyr6v-fvhpjtyr6v.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/bcchx8mgz1-{0}-b7pk76d08c-b7pk76d08c.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/0f4qvuw3if-{0}-fsbi9cje9m-fsbi9cje9m.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/ry14eohx49-{0}-rzd6atqjts-rzd6atqjts.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/5dal1pbf0d-{0}-ee0r1s7dh0-ee0r1s7dh0.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/90k6v7qejf-{0}-dxx9fxp4il-dxx9fxp4il.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/70un75048o-{0}-jd9uben2k1-jd9uben2k1.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/q5uzpg7zhj-{0}-khv3u5hwcm-khv3u5hwcm.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/xo32kzcjmj-{0}-r4e9w2rdcm-r4e9w2rdcm.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/ufwz5gfdax-{0}-lcd1t2u6c8-lcd1t2u6c8.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/ceceiqj4q3-{0}-c2oey78nd0-c2oey78nd0.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/7oqdwt7h8g-{0}-tdbxkamptv-tdbxkamptv.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/5o9hidek7n-{0}-j5mq2jizvt-j5mq2jizvt.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/q4r3tvkuvq-{0}-06098lyss8-06098lyss8.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/06w5mswhsa-{0}-nvvlpmu67g-nvvlpmu67g.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/fkswa8e96c-{0}-s35ty4nyc5-s35ty4nyc5.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/fg697mkk7n-{0}-pj5nd1wqec-pj5nd1wqec.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/0jrtztes99-{0}-46ein0sx1k-46ein0sx1k.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/wuiv6p6qto-{0}-v0zj4ognzu-v0zj4ognzu.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/9miz7sz7sd-{0}-37tfw0ft22-37tfw0ft22.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/b3ecd0m710-{0}-hrwsygsryq-hrwsygsryq.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/40hvpyfaop-{0}-pk9g2wxc8p-pk9g2wxc8p.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/noanuij03p-{0}-ft3s53vfgj-ft3s53vfgj.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/6fvtb91jdm-{0}-6cfz1n2cew-6cfz1n2cew.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/ve12hdeoee-{0}-6pdc2jztkx-6pdc2jztkx.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/atcfa6o278-{0}-493y06b0oq-493y06b0oq.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/11wfbq7xaj-{0}-iovd86k7lj-iovd86k7lj.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/zlez14fabd-{0}-vr1egmr9el-vr1egmr9el.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/n507e830wf-{0}-kbrnm935zg-kbrnm935zg.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/l397s2hpdb-{0}-jj8uyg4cgr-jj8uyg4cgr.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/5wn67hbh8t-{0}-y7v9cxd14o-y7v9cxd14o.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/4e3hqfuqxg-{0}-notf2xhcfb-notf2xhcfb.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/3ar5v2z2sv-{0}-h1s4sie4z3-h1s4sie4z3.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/z7464htih3-{0}-63fj8s7r0e-63fj8s7r0e.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/4hl19ji21w-{0}-0j3bgjxly4-0j3bgjxly4.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/n4kuink73i-{0}-47otxtyo56-47otxtyo56.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/1qcvhtqfmh-{0}-4v8eqarkd7-4v8eqarkd7.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/ppknmxt4ac-{0}-356vix0kms-356vix0kms.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/w261x35hic-{0}-83jwlth58m-83jwlth58m.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/bm8yi959cs-{0}-mrlpezrjn3-mrlpezrjn3.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/5a7pas7hq2-{0}-lzl9nlhx6b-lzl9nlhx6b.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/kgv5v9jhnb-{0}-ag7o75518u-ag7o75518u.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/0rtgy1wwjp-{0}-x0q3zqp4vz-x0q3zqp4vz.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/7iu6ky041z-{0}-0i3buxo5is-0i3buxo5is.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/wk9cttwl3e-{0}-o1o13a6vjx-o1o13a6vjx.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/hchm7nd1ju-{0}-ttgo8qnofa-ttgo8qnofa.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/oj5ap8crwx-{0}-2z0ns9nrw6-2z0ns9nrw6.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/pu854hlap7-{0}-muycvpuwrr-muycvpuwrr.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/tx261cd46z-{0}-87fc7y1x7t-87fc7y1x7t.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/jkz0vc0aij-{0}-mlv21k5csn-mlv21k5csn.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/buy7pzgcc4-{0}-ci4gljx7h1-ci4gljx7h1.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/i2imysrix6-{0}-ci4gljx7h1-ci4gljx7h1.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/staticwebassets.build.json
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/staticwebassets.build.json.cache
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/staticwebassets.development.json
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/staticwebassets.build.endpoints.json
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/swae.build.ex.cache
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/SkillBridge.dll
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/refint/SkillBridge.dll
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/SkillBridge.pdb
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/SkillBridge.genruntimeconfig.cache
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/ref/SkillBridge.dll
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/jfrpnp93xn-{0}-uxtt40h8jc-uxtt40h8jc.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/bo3dzyqagf-{0}-z9mu9gb3gw-z9mu9gb3gw.gz
+/home/mdharoon/Documents/Default Project/SkillBridge/obj/Debug/net10.0/compressed/a6vjiei4e5-{0}-nhshjmztw7-nhshjmztw7.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/bin/Debug/net10.0/appsettings.Development.json
+/home/mdharoon/Desktop/Folderzz/SkillBridge/bin/Debug/net10.0/appsettings.json
+/home/mdharoon/Desktop/Folderzz/SkillBridge/bin/Debug/net10.0/package-lock.json
+/home/mdharoon/Desktop/Folderzz/SkillBridge/bin/Debug/net10.0/package.json
+/home/mdharoon/Desktop/Folderzz/SkillBridge/bin/Debug/net10.0/SkillBridge.staticwebassets.endpoints.json
+/home/mdharoon/Desktop/Folderzz/SkillBridge/bin/Debug/net10.0/SkillBridge.staticwebassets.runtime.json
+/home/mdharoon/Desktop/Folderzz/SkillBridge/bin/Debug/net10.0/SkillBridge
+/home/mdharoon/Desktop/Folderzz/SkillBridge/bin/Debug/net10.0/SkillBridge.deps.json
+/home/mdharoon/Desktop/Folderzz/SkillBridge/bin/Debug/net10.0/SkillBridge.runtimeconfig.json
+/home/mdharoon/Desktop/Folderzz/SkillBridge/bin/Debug/net10.0/SkillBridge.dll
+/home/mdharoon/Desktop/Folderzz/SkillBridge/bin/Debug/net10.0/SkillBridge.pdb
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/rpswa.dswa.cache.json
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/SkillBridge.GeneratedMSBuildEditorConfig.editorconfig
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/SkillBridge.AssemblyInfoInputs.cache
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/SkillBridge.AssemblyInfo.cs
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/SkillBridge.csproj.CoreCompileInputs.cache
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/SkillBridge.MvcApplicationPartsAssemblyInfo.cache
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/SkillBridge.RazorAssemblyInfo.cache
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/SkillBridge.RazorAssemblyInfo.cs
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/rjimswa.dswa.cache.json
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/rjsmrazor.dswa.cache.json
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/rjsmcshtml.dswa.cache.json
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/scopedcss/Views/Shared/_Layout.cshtml.rz.scp.css
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/scopedcss/bundle/SkillBridge.styles.css
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/scopedcss/projectbundle/SkillBridge.bundle.scp.css
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/a6vjiei4e5-{0}-nhshjmztw7-nhshjmztw7.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/giys1c8eak-{0}-61n19gt1b8-61n19gt1b8.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/jfrpnp93xn-{0}-uxtt40h8jc-uxtt40h8jc.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/bo3dzyqagf-{0}-z9mu9gb3gw-z9mu9gb3gw.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/qjqqw0x03x-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/6ti4i1h7w5-{0}-bqjiyaj88i-bqjiyaj88i.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/v0bakrr592-{0}-c2jlpeoesf-c2jlpeoesf.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/pjkwyoatjf-{0}-erw9l3u2r3-erw9l3u2r3.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/d4ey84xcu9-{0}-aexeepp0ev-aexeepp0ev.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/rbjpfd1kvm-{0}-d7shbmvgxk-d7shbmvgxk.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/yg2v4h3ku2-{0}-ausgxo2sd3-ausgxo2sd3.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/v6i1n84bv3-{0}-k8d9w2qqmf-k8d9w2qqmf.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/bj1tngbc4k-{0}-cosvhxvwiu-cosvhxvwiu.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/r4fdlazeih-{0}-ub07r2b239-ub07r2b239.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/e1spmti31e-{0}-fvhpjtyr6v-fvhpjtyr6v.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/bcchx8mgz1-{0}-b7pk76d08c-b7pk76d08c.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/0f4qvuw3if-{0}-fsbi9cje9m-fsbi9cje9m.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/ry14eohx49-{0}-rzd6atqjts-rzd6atqjts.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/5dal1pbf0d-{0}-ee0r1s7dh0-ee0r1s7dh0.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/90k6v7qejf-{0}-dxx9fxp4il-dxx9fxp4il.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/70un75048o-{0}-jd9uben2k1-jd9uben2k1.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/q5uzpg7zhj-{0}-khv3u5hwcm-khv3u5hwcm.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/xo32kzcjmj-{0}-r4e9w2rdcm-r4e9w2rdcm.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/ufwz5gfdax-{0}-lcd1t2u6c8-lcd1t2u6c8.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/ceceiqj4q3-{0}-c2oey78nd0-c2oey78nd0.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/7oqdwt7h8g-{0}-tdbxkamptv-tdbxkamptv.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/5o9hidek7n-{0}-j5mq2jizvt-j5mq2jizvt.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/q4r3tvkuvq-{0}-06098lyss8-06098lyss8.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/06w5mswhsa-{0}-nvvlpmu67g-nvvlpmu67g.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/fkswa8e96c-{0}-s35ty4nyc5-s35ty4nyc5.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/fg697mkk7n-{0}-pj5nd1wqec-pj5nd1wqec.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/0jrtztes99-{0}-46ein0sx1k-46ein0sx1k.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/wuiv6p6qto-{0}-v0zj4ognzu-v0zj4ognzu.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/9miz7sz7sd-{0}-37tfw0ft22-37tfw0ft22.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/b3ecd0m710-{0}-hrwsygsryq-hrwsygsryq.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/40hvpyfaop-{0}-pk9g2wxc8p-pk9g2wxc8p.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/noanuij03p-{0}-ft3s53vfgj-ft3s53vfgj.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/6fvtb91jdm-{0}-6cfz1n2cew-6cfz1n2cew.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/ve12hdeoee-{0}-6pdc2jztkx-6pdc2jztkx.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/atcfa6o278-{0}-493y06b0oq-493y06b0oq.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/11wfbq7xaj-{0}-iovd86k7lj-iovd86k7lj.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/zlez14fabd-{0}-vr1egmr9el-vr1egmr9el.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/n507e830wf-{0}-kbrnm935zg-kbrnm935zg.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/l397s2hpdb-{0}-jj8uyg4cgr-jj8uyg4cgr.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/5wn67hbh8t-{0}-y7v9cxd14o-y7v9cxd14o.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/4e3hqfuqxg-{0}-notf2xhcfb-notf2xhcfb.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/3ar5v2z2sv-{0}-h1s4sie4z3-h1s4sie4z3.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/z7464htih3-{0}-63fj8s7r0e-63fj8s7r0e.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/4hl19ji21w-{0}-0j3bgjxly4-0j3bgjxly4.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/n4kuink73i-{0}-47otxtyo56-47otxtyo56.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/1qcvhtqfmh-{0}-4v8eqarkd7-4v8eqarkd7.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/ppknmxt4ac-{0}-356vix0kms-356vix0kms.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/w261x35hic-{0}-83jwlth58m-83jwlth58m.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/bm8yi959cs-{0}-mrlpezrjn3-mrlpezrjn3.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/5a7pas7hq2-{0}-lzl9nlhx6b-lzl9nlhx6b.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/kgv5v9jhnb-{0}-ag7o75518u-ag7o75518u.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/0rtgy1wwjp-{0}-x0q3zqp4vz-x0q3zqp4vz.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/7iu6ky041z-{0}-0i3buxo5is-0i3buxo5is.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/wk9cttwl3e-{0}-o1o13a6vjx-o1o13a6vjx.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/hchm7nd1ju-{0}-ttgo8qnofa-ttgo8qnofa.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/oj5ap8crwx-{0}-2z0ns9nrw6-2z0ns9nrw6.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/pu854hlap7-{0}-muycvpuwrr-muycvpuwrr.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/tx261cd46z-{0}-87fc7y1x7t-87fc7y1x7t.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/jkz0vc0aij-{0}-mlv21k5csn-mlv21k5csn.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/buy7pzgcc4-{0}-ci4gljx7h1-ci4gljx7h1.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/compressed/i2imysrix6-{0}-ci4gljx7h1-ci4gljx7h1.gz
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/staticwebassets.build.json
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/staticwebassets.build.json.cache
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/staticwebassets.development.json
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/staticwebassets.build.endpoints.json
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/swae.build.ex.cache
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/SkillBridge.dll
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/refint/SkillBridge.dll
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/SkillBridge.pdb
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/SkillBridge.genruntimeconfig.cache
+/home/mdharoon/Desktop/Folderzz/SkillBridge/obj/Debug/net10.0/ref/SkillBridge.dll

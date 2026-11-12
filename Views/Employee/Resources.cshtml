@@ -1,0 +1,148 @@
+@model SkillBridge.Services.MockDataService
+@{
+    Layout = "_AppLayout";
+    ViewData["Title"] = "Resources";
+
+    string Slug(string value) => value.ToLowerInvariant().Replace(" ", "-");
+    string Icon(string category) => category switch
+    {
+        "Programming" => "code-xml",
+        "Data Science" => "chart-no-axes-column",
+        "Machine Learning" => "bot",
+        "Web Development" => "globe",
+        "Soft Skills" => "users",
+        _ => "layers"
+    };
+    var recommended = new[]
+    {
+        ("React Fundamentals", "Video • 1h 15m", "code-xml", true),
+        ("System Design Basics", "Article • 15 min", "book-open", false),
+        ("Java Collections", "Practice • 20 questions", "graduation-cap", false),
+        ("DSA for Interviews", "Course • 4h", "chart-no-axes-column", false)
+    };
+    var featuredArt = new Dictionary<string, string>
+    {
+        ["Complete Python Bootcamp"] = "resource-python.png",
+        ["Data Analysis with Pandas"] = "resource-pandas.png",
+        ["Machine Learning Basics"] = "resource-ml.png",
+        ["SQL Practice Exercises"] = "resource-sql.png"
+    };
+}
+
+<div class="space-y-5">
+    <!-- Header -->
+    <section class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="page-title">Training Resources</h1>
+            <p class="mt-1 text-[13px] text-muted">Explore curated learning materials to build your skills and close skill gaps.</p>
+        </div>
+        <div class="flex items-center gap-4 rounded-xl border border-[#c9dcf3] bg-sky px-5 py-3">
+            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-white/60 text-[#2c5480]"><svg class="h-[18px] w-[18px]"><use href="#i-target" /></svg></span>
+            <div class="leading-tight">
+                <p class="text-[10.5px] text-[#4a6a8f]">Your Learning Goal</p>
+                <p class="text-[13px] font-semibold text-ink">Become a Java Developer</p>
+            </div>
+            <a href="/employee/learning-plan" class="ml-4 inline-flex items-center gap-1 text-[11.5px] font-medium text-ink-2 hover:text-brand-deep">View Plan <svg class="h-3.5 w-3.5"><use href="#i-arrow-right" /></svg></a>
+            <span class="ml-2 flex h-12 w-12 items-center justify-center rounded-full bg-white/50 text-[#5a4382]">
+                <svg class="h-7 w-7"><use href="#i-graduation-cap" /></svg>
+            </span>
+        </div>
+    </section>
+
+    <!-- Search + filters -->
+    <section class="flex flex-col gap-3 lg:flex-row lg:items-center">
+        <label class="relative flex-1">
+            <svg class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"><use href="#i-search" /></svg>
+            <input type="search" placeholder="Search for courses, videos, or topics..." class="field pl-10" data-search-input="#resource-grid [data-resource]" />
+        </label>
+        <div class="flex gap-2">
+            <label class="relative min-w-0">
+                <select class="field appearance-none pr-9">
+                    <option value="all">All Categories</option>
+                    <option value="programming">Programming</option>
+                    <option value="data-science">Data Science</option>
+                    <option value="machine-learning">Machine Learning</option>
+                    <option value="web-development">Web Development</option>
+                    <option value="soft-skills">Soft Skills</option>
+                    <option value="other">Other</option>
+                </select>
+                <svg class="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"><use href="#i-chevron-down" /></svg>
+            </label>
+            <label class="relative min-w-0">
+                <select class="field appearance-none pr-9">
+                    <option>All Types</option>
+                    <option>Course</option>
+                    <option>Video</option>
+                    <option>Article</option>
+                    <option>Practice</option>
+                </select>
+                <svg class="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"><use href="#i-chevron-down" /></svg>
+            </label>
+        </div>
+    </section>
+
+    <section class="flex flex-wrap gap-2" data-filter-group data-filter-target="#resource-grid [data-resource]">
+        @foreach (var (category, label) in Model.ResourceCategories)
+        {
+            var icon = category == "all" ? "layers" : Icon(label);
+            <button type="button" class="tab-pill @(category == "all" ? "tab-pill-active" : "")" data-filter="@category">
+                <svg class="h-3.5 w-3.5"><use href="#i-@icon" /></svg>
+                @label
+            </button>
+        }
+    </section>
+
+    <!-- Featured -->
+    <section class="space-y-3">
+        <div class="flex items-center justify-between">
+            <h2 class="section-title flex items-center gap-2"><svg class="h-4 w-4 text-brand-deep"><use href="#i-star" /></svg> Featured Resources</h2>
+            <a href="/employee/resources" class="inline-flex items-center gap-1 text-[11.5px] font-medium text-ink-2 hover:text-brand-deep">View All <svg class="h-3.5 w-3.5"><use href="#i-arrow-right" /></svg></a>
+        </div>
+
+        <div id="resource-grid" class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            @foreach (var resource in Model.FeaturedResources)
+            {
+                var cat = Slug(resource.Category);
+                <article class="card flex flex-col overflow-hidden" data-resource data-category="@cat">
+                    <img src="/img/@featuredArt[resource.Title]" alt="" class="block w-full select-none" draggable="false" />
+                    <div class="flex flex-1 flex-col p-4">
+                        <h3 class="text-[13.5px] font-semibold text-ink">@resource.Title</h3>
+                        <p class="mt-1 text-[11.5px] leading-snug text-muted">@resource.Description</p>
+                        <div class="mt-auto flex flex-nowrap items-center justify-between gap-2 pt-4">
+                            <span class="inline-flex items-center gap-1 whitespace-nowrap text-[10.5px] text-muted"><svg class="h-3 w-3 shrink-0"><use href="#i-clock" /></svg> @resource.Duration <span class="text-line">|</span> <svg class="h-3 w-3 shrink-0"><use href="#i-trending-up" /></svg> @resource.Level</span>
+                            <a href="/employee/resources" class="btn btn-primary btn-sm shrink-0 !px-2.5 !text-[11px]">@resource.Action <svg class="h-3 w-3"><use href="#i-arrow-right" /></svg></a>
+                        </div>
+                    </div>
+                </article>
+            }
+        </div>
+    </section>
+
+    <!-- Recommended -->
+    <section class="space-y-3">
+        <div class="flex items-center justify-between">
+            <h2 class="section-title flex items-center gap-2"><svg class="h-4 w-4 text-brand-deep"><use href="#i-sparkles" /></svg> Recommended for You</h2>
+            <a href="/employee/resources" class="inline-flex items-center gap-1 text-[11.5px] font-medium text-ink-2 hover:text-brand-deep">View All <svg class="h-3.5 w-3.5"><use href="#i-arrow-right" /></svg></a>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            @foreach (var (title, meta, icon, isRecommended) in recommended)
+            {
+                <a href="/employee/resources" class="card flex items-center gap-3 p-4 transition hover:border-brand/40">
+                    <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-lilac/70 text-[#5a4382]">
+                        <svg class="h-5 w-5"><use href="#i-@icon" /></svg>
+                    </span>
+                    <div class="min-w-0 flex-1">
+                        <p class="truncate text-[12.5px] font-semibold text-ink">@title</p>
+                        <p class="mt-0.5 text-[10.5px] text-muted">@meta</p>
+                        @if (isRecommended)
+                        {
+                            <span class="badge badge-lilac mt-1.5 !py-0.5 !text-[9.5px]">Recommended</span>
+                        }
+                    </div>
+                    <svg class="h-4 w-4 shrink-0 text-muted"><use href="#i-chevron-right" /></svg>
+                </a>
+            }
+        </div>
+    </section>
+</div>

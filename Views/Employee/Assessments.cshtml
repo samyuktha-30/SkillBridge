@@ -1,0 +1,132 @@
+@model SkillBridge.Services.MockDataService
+@{
+    Layout = "_AppLayout";
+    ViewData["Title"] = "Assessments";
+    var completed = Model.Assessments.Count(a => a.Status == "Completed");
+    var pending = Model.Assessments.Count(a => a.Status == "Pending");
+    var upcoming = Model.Assessments.Count(a => a.Status == "Upcoming");
+}
+
+<div class="space-y-5">
+    <!-- Header -->
+    <section class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="page-title">My Assessments</h1>
+            <p class="mt-1 text-[13px] text-muted">Take assessments, track your performance and identify skill gaps.</p>
+        </div>
+        <div class="flex items-center gap-4 rounded-xl border border-[#c9dcf3] bg-sky px-5 py-3">
+            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-white/60 text-[#2c5480]"><svg class="h-[18px] w-[18px]"><use href="#i-graduation-cap" /></svg></span>
+            <div class="leading-tight">
+                <p class="text-[10.5px] text-[#4a6a8f]">Your Next Assessment</p>
+                <p class="text-[13px] font-semibold text-ink">Java Developer Skills Test</p>
+            </div>
+            <span class="ml-4 inline-flex items-center gap-1.5 text-[11px] font-medium text-ink-2">
+                <svg class="h-3.5 w-3.5"><use href="#i-calendar" /></svg> Due in 3 days
+            </span>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        @{
+            var stats = new (string Label, int Value, string Icon, int Bar, string Tone)[]
+            {
+                ("Total Assessments", Model.Assessments.Count, "clipboard-list", 100, "sky"),
+                ("Completed", completed, "circle-check", 60, "brand"),
+                ("Pending", pending, "clock", 20, "sky"),
+                ("Upcoming", upcoming, "calendar", 20, "brand")
+            };
+        }
+        @foreach (var stat in stats)
+        {
+            <div class="card relative overflow-hidden p-4 pb-6">
+                <div class="flex items-center gap-3">
+                    <span class="flex h-11 w-11 items-center justify-center rounded-full @(stat.Tone == "brand" ? "bg-brand-soft text-brand-deep" : "bg-sky text-[#2c5480]")">
+                        <svg class="h-5 w-5"><use href="#i-@stat.Icon" /></svg>
+                    </span>
+                    <div>
+                        <p class="text-[22px] font-bold leading-none">@stat.Value</p>
+                        <p class="mt-1 text-[11.5px] text-muted">@stat.Label</p>
+                    </div>
+                </div>
+                <div class="absolute bottom-0 left-0 h-1.5 w-full @(stat.Tone == "brand" ? "bg-brand-soft" : "bg-sky/60")">
+                    <div class="h-full w-0 bg-brand" data-progress="@stat.Bar"></div>
+                </div>
+            </div>
+        }
+    </section>
+
+    <!-- Filters -->
+    <section class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+        <div class="flex flex-wrap gap-2" data-filter-group data-filter-target="#assessment-list [data-assessment]">
+            <button type="button" class="tab-pill tab-pill-active" data-filter="all">All (@Model.Assessments.Count)</button>
+            <button type="button" class="tab-pill" data-filter="completed">Completed (@completed)</button>
+            <button type="button" class="tab-pill" data-filter="pending">Pending (@pending)</button>
+            <button type="button" class="tab-pill" data-filter="upcoming">Upcoming (@upcoming)</button>
+        </div>
+        <div class="flex gap-2">
+            <label class="relative flex-1 xl:w-[240px]">
+                <svg class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"><use href="#i-search" /></svg>
+                <input type="search" placeholder="Search assessments..." class="field field-sm !rounded-lg pl-9" data-search-input="#assessment-list [data-assessment]" />
+            </label>
+            <label class="relative">
+                <select class="field field-sm appearance-none !rounded-lg pr-8">
+                    <option>Filter</option>
+                    <option>Newest</option>
+                    <option>Oldest</option>
+                </select>
+                <svg class="pointer-events-none absolute right-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted"><use href="#i-chevron-down" /></svg>
+            </label>
+        </div>
+    </section>
+
+    <!-- List -->
+    <section id="assessment-list" class="card divide-y divide-line-soft overflow-hidden">
+        @foreach (var item in Model.Assessments)
+        {
+            var isCompleted = item.Status == "Completed";
+            var isPending = item.Status == "Pending";
+            var badge = item.Status switch
+            {
+                "Completed" => "badge-green",
+                "Upcoming" => "badge-lilac",
+                _ => "badge-blue"
+            };
+            <div class="flex flex-wrap items-center gap-4 px-4 py-3.5" data-assessment data-category="@item.Status.ToLowerInvariant()">
+                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sky/80 text-[#2c5480]">
+                    <svg class="h-5 w-5"><use href="#i-clipboard-list" /></svg>
+                </span>
+                <div class="min-w-0 flex-1">
+                    <p class="text-[13px] font-semibold text-ink">@item.Title</p>
+                    <p class="mt-0.5 text-[11px] text-muted">@item.Subtitle</p>
+                </div>
+                <div class="flex w-48 shrink-0 items-center gap-2">
+                    <svg class="h-3.5 w-3.5 shrink-0 text-muted"><use href="#i-calendar" /></svg>
+                    <div class="leading-tight">
+                        <p class="text-[10.5px] text-muted">@item.MetaLabel</p>
+                        <p class="text-[11.5px] font-medium text-ink-2">@item.MetaValue</p>
+                    </div>
+                </div>
+                <div class="flex w-40 shrink-0 items-center gap-2">
+                    <svg class="h-3.5 w-3.5 shrink-0 text-muted"><use href="#i-@(isCompleted ? "circle-check" : "clock")" /></svg>
+                    <div class="leading-tight">
+                        <p class="text-[10.5px] text-muted">@(isCompleted ? "Score" : "Duration")</p>
+                        <p class="text-[11.5px] font-medium text-ink-2">@(isCompleted ? item.Score : "60 mins")</p>
+                    </div>
+                </div>
+                <span class="badge w-32 shrink-0 justify-center @badge">@item.Status</span>
+                <div class="ml-auto shrink-0">
+                    @if (isPending)
+                    {
+                        <a href="/employee/assessments" class="btn btn-primary btn-sm">@item.Action <svg class="h-3.5 w-3.5"><use href="#i-arrow-right" /></svg></a>
+                    }
+                    else
+                    {
+                        <a href="/employee/assessments" class="btn btn-outline btn-sm">@item.Action <svg class="h-3.5 w-3.5"><use href="#i-arrow-right" /></svg></a>
+                    }
+                </div>
+            </div>
+        }
+        <div class="hidden px-4 py-6 text-center text-[12px] text-muted" data-empty-state>No assessments match your search.</div>
+    </section>
+</div>

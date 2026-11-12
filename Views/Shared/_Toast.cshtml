@@ -1,0 +1,7 @@
+@{
+    var toast = TempData["Toast"] as string;
+}
+<div id="toast" data-toast="@toast" class="pointer-events-none fixed bottom-6 left-1/2 z-[60] hidden -translate-x-1/2 items-center gap-2 rounded-lg bg-ink px-4 py-2.5 text-[12.5px] font-medium text-white shadow-xl">
+    <svg class="h-4 w-4 text-brand-soft"><use href="#i-circle-check" /></svg>
+    <span id="toast-text">@toast</span>
+</div>

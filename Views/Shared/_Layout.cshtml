@@ -1,0 +1,21 @@
+﻿@{
+    var title = ViewData["Title"] as string ?? "SkillBridge AI";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@title · SkillBridge AI</title>
+    <meta name="description" content="SkillBridge AI – smart skill-gap analysis and personalized training plans." />
+    <link rel="preload" href="/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/css/site.css" asp-append-version="true" />
+</head>
+<body class="min-h-screen bg-cream text-ink">
+    <partial name="_Icons" />
+    @RenderBody()
+    <partial name="_Toast" />
+    <script src="/js/app.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

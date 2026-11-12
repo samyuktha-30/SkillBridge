@@ -1,0 +1,77 @@
+@model dynamic
+
+@{
+    Layout = "_AppLayout";
+    ViewData["Title"] = "Skill Gap Analysis";
+}
+
+<div class="space-y-5">
+    <!-- Header -->
+    <section class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <h1 class="page-title">Skill Gap Analysis</h1>
+            <p class="mt-1 text-[13px] text-muted">Identify and close skill gaps across your team.</p>
+        </div>
+        <img src="/img/reports-hero.png" alt="" class="hidden h-[70px] w-auto select-none sm:block" draggable="false" />
+    </section>
+
+    <!-- Gap Analysis -->
+    <section class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-xl overflow-hidden">
+            <thead>
+                <tr class="bg-gray-50">
+                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Employee</th>
+                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Current Role</th>
+                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Target Role</th>
+                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Gap Analysis</th>
+                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Progress</th>
+                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var gap in Model.gaps)
+                {
+                    <tr class="border-b">
+                        <td class="font-medium text-ink p-4">@gap.employeeName</td>
+                        <td class="text-muted p-4">@gap.currentRole</td>
+                        <td class="text-muted p-4">@gap.targetRole</td>
+                        <td class="p-4">
+                            <div class="space-y-2">
+                                <p class="text-[10px] text-muted">@gap.currentSkills</p>
+                                <p class="text-[10px] text-target">@gap.targetSkills</p>
+                            </div>
+                        </td>
+                        <td class="p-4">
+                            <div class="h-2 w-0 rounded-full bg-brand" data-progress="@gap.progress"></div>
+                        </td>
+                        <td class="p-4">
+                            <a href="#" class="text-[11px] font-medium text-brand-decor underline decoration-brand/40 underline-offset-2 hover:text-ink">Close Gap</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Summary -->
+    <section class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div>
+            <p class="text-[12px] text-muted">Total gaps</p>
+            <p class="text-[20px] font-bold text-ink">12</p>
+        </div>
+        <div>
+            <p class="text-[12px] text-muted">Average closure rate</p>
+            <p class="text-[20px] font-bold text-ink">45%</p>
+        </div>
+    </section>
+
+    <!-- Recommendations -->
+    <section class="mt-6 pt-6 border-t border-line-soft">
+        <h2 class="text-[13px] font-medium text-ink text-uppercase">Recommendations</h2>
+        <ol class="list-decimal list-inside space-y-3 text-[11px] text-muted">
+            <li>Provide targeted training for Java development</li>
+            <li>Assign SQL certification courses for 3 team members</li>
+            <li>Schedule React workshop for Q1 2024</li>
+        </ol>
+    </section>
+</div>

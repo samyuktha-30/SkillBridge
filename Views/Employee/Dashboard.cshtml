@@ -1,0 +1,234 @@
+@model SkillBridge.Services.MockDataService
+@{
+    Layout = "_AppLayout";
+    ViewData["Title"] = "Employee Dashboard";
+    var target = User.FindFirst("target_role")?.Value ?? "Software Developer";
+}
+
+<div class="space-y-5">
+    <!-- Greeting -->
+    <section class="flex flex-wrap items-start justify-between gap-5">
+        <div>
+            <p class="text-[10.5px] font-semibold uppercase tracking-[0.12em] text-muted">Employee dashboard</p>
+            <h1 class="mt-1.5 text-[29px] font-bold leading-tight tracking-[-0.025em]">Welcome back, Hero!</h1>
+            <p class="mt-1 text-[13px] text-muted">Track your progress, bridge skill gaps and grow your career.</p>
+        </div>
+        <div class="flex items-center gap-4">
+            <img src="/img/dash-hero.png" alt="" class="hidden w-[130px] select-none sm:block" draggable="false" />
+            <div class="flex items-center gap-4 rounded-xl border border-[#c9dcf3] bg-sky px-5 py-3.5">
+                <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-white/60 text-[#2c5480]">
+                    <svg class="h-[18px] w-[18px]"><use href="#i-briefcase" /></svg>
+                </span>
+                <div class="leading-tight">
+                    <p class="text-[10.5px] text-[#4a6a8f]">Target Role</p>
+                    <p class="text-[12.5px] font-semibold text-ink">@target</p>
+                </div>
+                <div class="mx-1 h-8 w-px bg-[#b9d2ee]"></div>
+                <div class="leading-tight">
+                    <p class="text-[10.5px] text-[#4a6a8f]">Placement Batch</p>
+                    <p class="text-[12.5px] font-semibold text-ink">2027 Batch</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div class="rounded-xl border border-[#cfe7da] bg-brand-soft/70 p-4">
+            <div class="flex items-start justify-between">
+                <p class="text-[12px] text-ink-2/80">Assessment Status</p>
+                <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-white/70 text-brand-deep">
+                    <svg class="h-4 w-4"><use href="#i-calendar" /></svg>
+                </span>
+            </div>
+            <p class="mt-2 text-[21px] font-bold leading-none">Completed</p>
+            <p class="mt-2 text-[11px] text-muted">Last taken: 25 Oct 2026</p>
+        </div>
+
+        <div class="rounded-xl border border-[#cfe7da] bg-brand-soft/70 p-4">
+            <div class="flex items-start justify-between">
+                <p class="text-[12px] text-ink-2/80">Skill Gaps</p>
+                <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-white/70 text-brand-deep">
+                    <svg class="h-4 w-4"><use href="#i-trending-up" /></svg>
+                </span>
+            </div>
+            <p class="mt-2 text-[21px] font-bold leading-none">3 Skills</p>
+            <p class="mt-2 text-[11px] text-muted">Need Improvement</p>
+        </div>
+
+        <div class="rounded-xl border border-[#c9dcf3] bg-sky/70 p-4">
+            <div class="flex items-start justify-between">
+                <p class="text-[12px] text-ink-2/80">Learning Plan</p>
+                <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-white/70 text-[#2c5480]">
+                    <svg class="h-4 w-4"><use href="#i-graduation-cap" /></svg>
+                </span>
+            </div>
+            <p class="mt-2 text-[21px] font-bold leading-none">72%</p>
+            <div class="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/70">
+                <div class="h-full w-0 rounded-full bg-brand transition-[width] duration-700" data-progress="72"></div>
+            </div>
+        </div>
+
+        <div class="rounded-xl border border-[#cfe7da] bg-brand-soft/70 p-4">
+            <div class="flex items-start justify-between">
+                <p class="text-[12px] text-ink-2/80">Overall Progress</p>
+                <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-white/70 text-brand-deep">
+                    <svg class="h-4 w-4"><use href="#i-chart-no-axes-column" /></svg>
+                </span>
+            </div>
+            <p class="mt-2 text-[21px] font-bold leading-none">68%</p>
+            <div class="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/70">
+                <div class="h-full w-0 rounded-full bg-brand transition-[width] duration-700" data-progress="68"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills + roadmap -->
+    <section class="grid grid-cols-1 gap-4 xl:grid-cols-[0.95fr_1.15fr]">
+        <div class="card p-5">
+            <div class="flex items-center justify-between">
+                <h2 class="section-title flex items-center gap-2">
+                    <svg class="h-4 w-4 text-brand-deep"><use href="#i-chart-no-axes-column" /></svg>
+                    Your Skill Overview
+                </h2>
+                <a href="/employee/skills" class="inline-flex items-center gap-1 text-[11.5px] font-medium text-ink-2 hover:text-brand-deep">View Details <svg class="h-3.5 w-3.5"><use href="#i-arrow-right" /></svg></a>
+            </div>
+            <div class="mt-2 flex items-center gap-4">
+                <div class="h-[248px] min-w-0 flex-1"
+                     data-radar='{"labels":["Java","Python","SQL",".NET","React"],"you":[65,72,78,58,84],"required":[80,80,80,80,80]}'>
+                </div>
+                <div class="hidden shrink-0 flex-col gap-3 pr-2 text-[11px] text-ink-2/80 sm:flex">
+                    <span class="inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-brand"></span> Your Skills</span>
+                    <span class="inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-[#c9d7e8]"></span> Required Level</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-5">
+            <div class="flex items-center justify-between">
+                <h2 class="section-title flex items-center gap-2">
+                    <svg class="h-4 w-4 text-brand-deep"><use href="#i-sparkles" /></svg>
+                    Your Learning Roadmap
+                </h2>
+                <a href="/employee/learning-plan" class="inline-flex items-center gap-1 text-[11.5px] font-medium text-ink-2 hover:text-brand-deep">View Plan <svg class="h-3.5 w-3.5"><use href="#i-arrow-right" /></svg></a>
+            </div>
+
+            <ol class="mt-4 space-y-0.5">
+                @{
+                    var roadmap = new (string Title, string Subtitle, string State)[]
+                    {
+                        ("ASP.NET Core Fundamentals", "Complete by: 30 Oct 2026", "In Progress"),
+                        ("SQL Server & EF Core", "Unlocks after previous module", "Locked"),
+                        ("React Basics", "Unlocks after previous module", "Locked"),
+                        ("Final Assessment", "Unlocks after completing all modules", "Locked")
+                    };
+                }
+                @foreach (var (module, index) in roadmap.Select((m, i) => (m, i)))
+                {
+                    var isCurrent = module.State == "In Progress";
+                    var isDone = module.State == "Completed";
+                    <li class="relative flex items-center gap-3 rounded-lg px-2 py-2 @(isCurrent ? "bg-brand-soft/70" : "")">
+                        @if (index < roadmap.Length - 1)
+                        {
+                            <span class="absolute bottom-[-3px] left-[19px] top-[20px] w-px bg-line" aria-hidden="true"></span>
+                        }
+                        <span class="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-[10px] font-semibold
+                            @(isDone ? "border-brand bg-brand text-white" : isCurrent ? "border-brand-soft bg-brand-soft/80 text-brand-deep" : "border-line bg-white text-muted")">
+                            @if (isCurrent)
+                            {
+                                <svg class="h-3.5 w-3.5"><use href="#i-book-open" /></svg>
+                            }
+                            else if (isDone)
+                            {
+                                <svg class="h-3.5 w-3.5"><use href="#i-check" /></svg>
+                            }
+                            else
+                            {
+                                <svg class="h-3 w-3"><use href="#i-lock" /></svg>
+                            }
+                        </span>
+                        <div class="min-w-0 flex-1">
+                            <p class="truncate text-[12.5px] font-semibold text-ink">@module.Title</p>
+                            <p class="truncate text-[11px] text-muted">@module.Subtitle</p>
+                        </div>
+                        @if (isCurrent)
+                        {
+                            <a href="/employee/learning-plan" class="btn btn-primary btn-sm shrink-0">Continue</a>
+                        }
+                        else if (isDone)
+                        {
+                            <span class="text-[10.5px] font-medium text-brand-deep">Completed</span>
+                        }
+                        else
+                        {
+                            <svg class="h-3.5 w-3.5 shrink-0 text-muted/60"><use href="#i-lock" /></svg>
+                        }
+                    </li>
+                }
+            </ol>
+        </div>
+    </section>
+
+    <!-- Bottom row -->
+    <section class="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-[0.95fr_1fr_0.9fr]">
+        <div class="card p-5">
+            <div class="flex items-center justify-between">
+                <h2 class="section-title flex items-center gap-2">
+                    <svg class="h-4 w-4 text-brand-deep"><use href="#i-star" /></svg>
+                    Recommended for You
+                </h2>
+            </div>
+            <div class="mt-4 flex gap-3">
+                <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-lilac text-[15px] font-bold text-[#4a3570]">.NET</span>
+                <div class="min-w-0 flex-1">
+                    <p class="truncate text-[13px] font-semibold">ASP.NET Core Advanced Concepts</p>
+                    <p class="mt-0.5 text-[10.5px] text-muted">12h · Intermediate</p>
+                    <p class="mt-1 text-[11px] leading-snug text-muted">Deep dive into advanced ASP.NET Core features.</p>
+                    <a href="/employee/resources" class="btn btn-primary btn-sm mt-2.5">Start Learning</a>
+                </div>
+            </div>
+            <div class="mt-3 flex items-center justify-center gap-1.5">
+                <span class="h-1.5 w-1.5 rounded-full bg-brand"></span>
+                <span class="h-1.5 w-1.5 rounded-full bg-line"></span>
+                <span class="h-1.5 w-1.5 rounded-full bg-line"></span>
+            </div>
+        </div>
+
+        <div class="card p-5">
+            <div class="flex items-center justify-between">
+                <h2 class="section-title flex items-center gap-2">
+                    <svg class="h-4 w-4 text-brand-deep"><use href="#i-trophy" /></svg>
+                    Upcoming Activities
+                </h2>
+                <svg class="h-4 w-4 text-muted"><use href="#i-calendar" /></svg>
+            </div>
+            <ul class="mt-3 space-y-3.5">
+                <li class="flex items-start gap-3">
+                    <span class="mt-1 h-2 w-2 shrink-0 rounded-full bg-brand"></span>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-[12.5px] font-semibold">Assessment: React</p>
+                        <p class="mt-0.5 text-[11px] text-muted">Due on 30 Oct 2026</p>
+                    </div>
+                    <span class="badge badge-green shrink-0">2 days left</span>
+                </li>
+                <li class="flex items-start gap-3">
+                    <span class="mt-1 h-2 w-2 shrink-0 rounded-full bg-brand"></span>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-[12.5px] font-semibold">Learning Milestone: SQL</p>
+                        <p class="mt-0.5 text-[11px] text-muted">Due on 2 Nov 2026</p>
+                    </div>
+                    <span class="badge badge-green shrink-0">5 days left</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="relative overflow-hidden rounded-xl border border-[#d9cfee] bg-lilac p-5">
+            <div class="flex items-start justify-between gap-2">
+                <h2 class="text-[22px] font-bold leading-tight tracking-[-0.02em]">Keep Learning!</h2>
+                <svg class="h-8 w-8 shrink-0 text-[#5a4382]"><use href="#i-graduation-cap" /></svg>
+            </div>
+            <p class="mt-2 max-w-[220px] text-[12.5px] leading-relaxed text-ink-2/80">You're on the right path to build a stronger career.</p>
+            <a href="/employee/progress" class="btn btn-primary btn-sm mt-4">View Progress <svg class="h-3.5 w-3.5"><use href="#i-arrow-right" /></svg></a>
+        </div>
+    </section>
+</div>
