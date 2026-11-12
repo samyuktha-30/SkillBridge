@@ -34,6 +34,21 @@ public class ManagerController : Controller
         return View(_data);
     }
 
+    [HttpGet("/manager/candidates/detail")]
+    public IActionResult CandidateDetail(string? name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            return NotFound();
+
+        var candidate = _data.Candidates.FirstOrDefault(item =>
+            string.Equals(item.Name, name, StringComparison.OrdinalIgnoreCase));
+        if (candidate is null)
+            return NotFound();
+
+        Set("candidates", "Candidate Detail", "Manager workspace / Candidates");
+        return View(candidate);
+    }
+
     [HttpGet("/manager/learning-plans")]
     public IActionResult LearningPlans()
     {
