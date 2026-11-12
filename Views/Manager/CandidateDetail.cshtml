@@ -1,84 +1,140 @@
-@model dynamic
+@model Candidate
 
 @{
     Layout = "_AppLayout";
-    ViewData["Title"] = "Candidate Detail";
+    ViewData["Title"] = $"{Model.Name} - Candidate Detail";
+    var stages = new[] { "Screening", "Assessment", "Interview", "Offer" };
+    var currentStage = Array.IndexOf(stages, Model.Stage);
+    int? score = int.TryParse(Model.Score.TrimEnd('%'), out var parsedScore) ? parsedScore : null;
+    var avatarTone = Model.AvatarTone switch
+    {
+        "green" => "bg-brand-soft",
+        "lilac" => "bg-lilac",
+        "amber" => "bg-cream-deep",
+        _ => "bg-sky"
+    };
 }
 
-<div class="space-y-5">
-    <!-- Header -->
+<div class="space-y-4">
     <section class="flex flex-wrap items-start justify-between gap-4">
         <div>
-            <h1 class="page-title">Candidate Management</h1>
-            <p class="mt-1 text-[13px] text-muted">Track candidate progress and manage team hiring.</p>
+            <a href="/manager/candidates" class="inline-flex items-center gap-1.5 text-[11.5px] font-medium text-ink-2 hover:text-brand-deep">
+                <svg class="h-3.5 w-3.5"><use href="#i-arrow-left" /></svg>
+                Back to candidates
+            </a>
+            <div class="mt-3 flex items-center gap-3">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-[13px] font-semibold text-ink @avatarTone">@Model.Initials</span>
+                <div>
+                    <h1 class="page-title">@Model.Name</h1>
+                    <p class="mt-0.5 text-[13px] text-muted">@Model.Role <span class="mx-1 text-line">·</span> @Model.Department</p>
+                </div>
+            </div>
         </div>
-        <img src="/img/mgr-hero.png" alt="" class="hidden h-[70px] w-auto select-none sm:block" draggable="false" />
+        <span class="badge @(Model.Stage == "Offer" ? "badge-green" : Model.Stage == "Interview" ? "badge-lilac" : "badge-blue")">@Model.Stage</span>
     </section>
 
-    <!-- Candidate List -->
-    <section class="overflow-x-auto">
-        <table class="min-w-full bg-white rounded-xl overflow-hidden">
-            <thead>
-                <tr class="bg-gray-50">
-                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Candidate</th>
-                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Role</th>
-                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Department</th>
-                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Stage</th>
-                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Skill Score</th>
-                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var candidate in Model.candidates)
+    <section class="grid grid-cols-1 gap-4 xl:grid-cols-2">
+        <div class="space-y-4">
+            <div class="card p-5">
+                <h2 class="section-title">Candidate overview</h2>
+                <dl class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                        <dt class="text-[11px] text-muted">Job role</dt>
+                        <dd class="mt-0.5 text-[13px] font-medium text-ink">@Model.Role</dd>
+                    </div>
+                    <div>
+                        <dt class="text-[11px] text-muted">Department</dt>
+                        <dd class="mt-0.5 text-[13px] font-medium text-ink">@Model.Department</dd>
+                    </div>
+                    <div>
+                        <dt class="text-[11px] text-muted">Pipeline stage</dt>
+                        <dd class="mt-0.5 text-[13px] font-medium text-ink">@Model.Stage</dd>
+                    </div>
+                    <div>
+                        <dt class="text-[11px] text-muted">Next follow-up</dt>
+                        <dd class="mt-0.5 text-[13px] font-medium text-ink">@Model.FollowUp</dd>
+                    </div>
+                </dl>
+            </div>
+
+            <div class="card p-5">
+                <div class="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                        <h2 class="section-title">Assessment result</h2>
+                        <p class="mt-0.5 text-[11.5px] text-muted">Latest recorded skill assessment</p>
+                    </div>
+                    @if (score.HasValue)
+                    {
+                        <span class="badge badge-green">Completed</span>
+                    }
+                    else if (Model.Score == "Pending")
+                    {
+                        <span class="badge badge-blue">Pending</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-muted">Not assessed</span>
+                    }
+                </div>
+                @if (score.HasValue)
                 {
-                    <tr class="border-b">
-                        <td class="whitespace-nowrap font-medium text-ink p-4">@candidate.name</td>
-                        <td class="text-muted p-4">@candidate.role</td>
-                        <td class="text-muted p-4">@candidate.department</td>
-                        <td class="text-muted p-4">@candidate.stage</td>
-                        <td class="text-muted p-4">@candidate.score</td>
-                        <td class="p-4">
-                            <a href="/manager/candidates" class="text-[11.5px] font-medium text-brand-decor underline decoration-brand/40 underline-offset-2 hover:text-ink">Review</a>
-                        </td>
-                    </tr>
+                    <div class="mt-4 flex items-center gap-3">
+                        <span class="text-[28px] font-bold leading-none text-ink">@score.Value%</span>
+                        <div class="h-2 flex-1 overflow-hidden rounded-full bg-brand-soft">
+                            <div class="h-full rounded-full bg-brand" data-progress="@score.Value"></div>
+                        </div>
+                    </div>
                 }
-            </tbody>
-        </table>
-    </section>
+                else
+                {
+                    <p class="mt-4 text-[13px] text-ink-2">
+                        @(Model.Score == "Pending" ? "Assessment results are not available yet." : "No assessment score has been recorded.")
+                    </p>
+                }
+            </div>
+        </div>
 
-    <!-- Stats & Actions -->
-    <section class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div>
-            <p class="text-[12px] text-muted">Active candidates</p>
-            <p class="text-[20px] font-bold text-ink">6</p>
-        </div>
-        <div>
-            <p class="text-[12px] text-muted">Hiring pipeline</p>
-            <p class="text-[20px] font-bold text-ink">2</p>
-        </div>
-    </section>
+        <aside class="space-y-4">
+            <div class="card p-5">
+                <h2 class="section-title">Hiring pipeline</h2>
+                <ol class="mt-4 space-y-1">
+                    @for (var index = 0; index < stages.Length; index++)
+                    {
+                        var isComplete = currentStage > index;
+                        var isCurrent = currentStage == index;
+                        <li class="flex items-center gap-3 rounded-lg px-2 py-2 @(isCurrent ? "bg-brand-soft/70" : "")">
+                            <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border @(isComplete ? "border-brand bg-brand text-white" : isCurrent ? "border-brand bg-white text-brand-deep" : "border-line bg-white text-muted")">
+                                @if (isComplete)
+                                {
+                                    <svg class="h-3.5 w-3.5"><use href="#i-check" /></svg>
+                                }
+                                else
+                                {
+                                    <span class="text-[10px] font-semibold">@(index + 1)</span>
+                                }
+                            </span>
+                            <span class="flex-1 text-[12.5px] @(isCurrent ? "font-semibold text-ink" : "text-ink-2")">@stages[index]</span>
+                            @if (isCurrent)
+                            {
+                                <span class="badge badge-blue">Current</span>
+                            }
+                            else if (isComplete)
+                            {
+                                <span class="text-[10.5px] text-brand-deep">Complete</span>
+                            }
+                        </li>
+                    }
+                </ol>
+            </div>
 
-    <!-- Filters -->
-    <section class="mt-6 pt-6 border-t border-line-soft">
-        <div class="flex flex-wrap items-center gap-3">
-            <label class="relative">
-                <span class="text-[10px] text-muted">Department</span>
-                <select class="appearance-none rounded-md border border-line px-3 py-2 text-[10px]">
-                    <option>All</option>
-                    <option>Engineering</option>
-                    <option>Marketing</option>
-                    <option>Sales</option>
-                </select>
-            </label>
-            <label class="relative">
-                <span class="text-[10px] text-muted">Status</span>
-                <select class="appearance-none rounded-md border border-line px-3 py-2 text-[10px]">
-                    <option>All</option>
-                    <option>Active</option>
-                    <option>Interviewing</option>
-                </select>
-            </label>
-            <button type="button" class="btn btn-outline px-4 py-2 text-[10px]">Add Candidate</button>
-        </div>
+            <div class="rounded-xl border border-[#c9dcf3] bg-sky p-5">
+                <h2 class="flex items-center gap-2 text-[14px] font-semibold text-ink">
+                    <svg class="h-4 w-4 text-[#2c5480]"><use href="#i-calendar" /></svg>
+                    Follow-up
+                </h2>
+                <p class="mt-2 text-[13px] font-medium text-ink">@Model.FollowUp</p>
+                <p class="mt-1 text-[11px] text-muted">Next scheduled candidate follow-up.</p>
+            </div>
+        </aside>
     </section>
 </div>

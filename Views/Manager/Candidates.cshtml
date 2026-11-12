@@ -96,7 +96,7 @@
                             <td class="text-muted">@candidate.Stage</td>
                             <td class="text-muted">@candidate.Score</td>
                             <td class="text-muted">@candidate.FollowUp</td>
-                            <td><a href="/manager/candidates" class="text-[11.5px] font-medium text-brand-deep underline decoration-brand/40 underline-offset-2 hover:text-ink">Review</a></td>
+                            <td><a asp-controller="Manager" asp-action="CandidateDetail" asp-route-name="@candidate.Name" class="text-[11.5px] font-medium text-brand-deep underline decoration-brand/40 underline-offset-2 hover:text-ink">Review</a></td>
                         </tr>
                     }
                 </tbody>
