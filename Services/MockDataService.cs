@@ -150,11 +150,11 @@ public class MockDataService
         ("Java", 8), ("SQL", 6), ("Problem solving", 5), ("Communication", 3),
     };
 
-    public IReadOnlyList<(string Label, string Value)> SkillGapRows { get; } = new List<(string, string)>
+    public IReadOnlyList<ManagerSkillGap> SkillGapRows { get; } = new List<ManagerSkillGap>
     {
-        ("Alex Morgan", "Java|2 / 5|3 / 5|1 level|Java Foundations"),
-        ("Alex Morgan", "SQL|2 / 5|3 / 5|1 level|SQL Query Practice"),
-        ("Chris Taylor", "Not assessed|—|—|Unknown|Complete assessment"),
+        new("Alex Morgan", "Software Developer", "Engineering", "Java", 2, 3, "Java Foundations"),
+        new("Alex Morgan", "Software Developer", "Engineering", "SQL", 2, 3, "SQL Query Practice"),
+        new("Chris Taylor", "Support Analyst", "Operations", "Not assessed", null, null, "Complete assessment"),
     };
 
     public IReadOnlyList<string> Departments { get; } = new List<string> { "Engineering", "Operations", "Data & Insights", "All departments" };

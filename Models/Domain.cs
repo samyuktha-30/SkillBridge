@@ -65,3 +65,23 @@ public record ActivityItem(string Title, string Detail, string Time, string Icon
 public record Achievement(string Title, string Icon);
 
 public record ManagerEmployee(string Name, string Initials, string Tone, string Department, string Skill, string Progress, int Percent);
+
+public record ManagerSkillGap(
+    string Employee,
+    string Role,
+    string Department,
+    string Skill,
+    int? CurrentLevel,
+    int? RequiredLevel,
+    string RecommendedAction)
+{
+    public int? Gap => CurrentLevel.HasValue && RequiredLevel.HasValue
+        ? Math.Max(0, RequiredLevel.Value - CurrentLevel.Value)
+        : null;
+}
+
+public record ManagerSkillGapDetail(
+    string Employee,
+    string Role,
+    string Department,
+    IReadOnlyList<ManagerSkillGap> Skills);

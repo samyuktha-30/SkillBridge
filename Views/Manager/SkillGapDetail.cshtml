@@ -1,77 +1,95 @@
-@model dynamic
+@model ManagerSkillGapDetail
 
 @{
     Layout = "_AppLayout";
-    ViewData["Title"] = "Skill Gap Analysis";
+    ViewData["Title"] = $"{Model.Employee} - Skill Gap Detail";
+    var gapCount = Model.Skills.Count(skill => skill.Gap is > 0);
 }
 
-<div class="space-y-5">
-    <!-- Header -->
+<div class="space-y-4">
     <section class="flex flex-wrap items-start justify-between gap-4">
         <div>
-            <h1 class="page-title">Skill Gap Analysis</h1>
-            <p class="mt-1 text-[13px] text-muted">Identify and close skill gaps across your team.</p>
+            <a href="/manager/skill-gaps" class="inline-flex items-center gap-1.5 text-[11.5px] font-medium text-ink-2 hover:text-brand-deep">
+                <svg class="h-3.5 w-3.5"><use href="#i-arrow-left" /></svg>
+                Back to skill gap analytics
+            </a>
+            <div class="mt-3">
+                <h1 class="page-title">@Model.Employee</h1>
+                <p class="mt-1 text-[13px] text-muted">@Model.Role <span class="mx-1 text-line">·</span> @Model.Department</p>
+            </div>
         </div>
-        <img src="/img/reports-hero.png" alt="" class="hidden h-[70px] w-auto select-none sm:block" draggable="false" />
+        <img src="/img/chart-hero.png" alt="" class="hidden h-[70px] w-auto select-none sm:block" draggable="false" />
     </section>
 
-    <!-- Gap Analysis -->
-    <section class="overflow-x-auto">
-        <table class="min-w-full bg-white rounded-xl overflow-hidden">
-            <thead>
-                <tr class="bg-gray-50">
-                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Employee</th>
-                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Current Role</th>
-                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Target Role</th>
-                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Gap Analysis</th>
-                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Progress</th>
-                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var gap in Model.gaps)
-                {
-                    <tr class="border-b">
-                        <td class="font-medium text-ink p-4">@gap.employeeName</td>
-                        <td class="text-muted p-4">@gap.currentRole</td>
-                        <td class="text-muted p-4">@gap.targetRole</td>
-                        <td class="p-4">
-                            <div class="space-y-2">
-                                <p class="text-[10px] text-muted">@gap.currentSkills</p>
-                                <p class="text-[10px] text-target">@gap.targetSkills</p>
-                            </div>
-                        </td>
-                        <td class="p-4">
-                            <div class="h-2 w-0 rounded-full bg-brand" data-progress="@gap.progress"></div>
-                        </td>
-                        <td class="p-4">
-                            <a href="#" class="text-[11px] font-medium text-brand-decor underline decoration-brand/40 underline-offset-2 hover:text-ink">Close Gap</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </section>
-
-    <!-- Summary -->
     <section class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div>
-            <p class="text-[12px] text-muted">Total gaps</p>
-            <p class="text-[20px] font-bold text-ink">12</p>
+        <div class="rounded-xl border border-[#c9dcf3] bg-sky p-4">
+            <p class="text-[12px] text-ink-2/80">Skills reviewed</p>
+            <p class="mt-1.5 text-[24px] font-bold leading-none">@Model.Skills.Count</p>
+            <p class="mt-2 text-[11px] text-muted">Current and required levels on a 1–5 scale</p>
         </div>
-        <div>
-            <p class="text-[12px] text-muted">Average closure rate</p>
-            <p class="text-[20px] font-bold text-ink">45%</p>
+        <div class="rounded-xl border border-[#c9dcf3] bg-sky p-4">
+            <p class="text-[12px] text-ink-2/80">Identified skill gaps</p>
+            <p class="mt-1.5 text-[24px] font-bold leading-none">@gapCount</p>
+            <p class="mt-2 text-[11px] text-muted">Skills below the role requirement</p>
         </div>
     </section>
 
-    <!-- Recommendations -->
-    <section class="mt-6 pt-6 border-t border-line-soft">
-        <h2 class="text-[13px] font-medium text-ink text-uppercase">Recommendations</h2>
-        <ol class="list-decimal list-inside space-y-3 text-[11px] text-muted">
-            <li>Provide targeted training for Java development</li>
-            <li>Assign SQL certification courses for 3 team members</li>
-            <li>Schedule React workshop for Q1 2024</li>
-        </ol>
+    <section class="space-y-2">
+        <div>
+            <h2 class="section-title">Skill proficiency</h2>
+            <p class="mt-0.5 text-[11px] text-muted">Compare current proficiency with the required level for @Model.Role.</p>
+        </div>
+        <div class="card overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th class="!bg-sky/70">Skill</th>
+                            <th class="!bg-sky/70">Current proficiency</th>
+                            <th class="!bg-sky/70">Required proficiency</th>
+                            <th class="!bg-sky/70">Skill gap</th>
+                            <th class="!bg-sky/70">Recommended action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var skill in Model.Skills)
+                        {
+                            <tr>
+                                <td class="font-medium text-ink">@skill.Skill</td>
+                                <td>
+                                    @if (skill.CurrentLevel.HasValue)
+                                    {
+                                        <div class="flex min-w-[110px] items-center gap-2">
+                                            <span class="whitespace-nowrap text-ink-2">@skill.CurrentLevel.Value / 5</span>
+                                            <div class="h-2 flex-1 overflow-hidden rounded-full bg-brand-soft">
+                                                <div class="h-full rounded-full bg-brand" style="width:@(skill.CurrentLevel.Value * 20)%"></div>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Not assessed</span>
+                                    }
+                                </td>
+                                <td class="text-muted">@(skill.RequiredLevel.HasValue ? $"{skill.RequiredLevel.Value} / 5" : "—")</td>
+                                <td>
+                                    @if (skill.Gap.HasValue)
+                                    {
+                                        <span class="badge @(skill.Gap.Value > 0 ? "badge-amber" : "badge-green")">
+                                            @(skill.Gap.Value > 0 ? $"{skill.Gap.Value} level{(skill.Gap.Value == 1 ? "" : "s")} below" : "Requirement met")
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-muted">Unknown</span>
+                                    }
+                                </td>
+                                <td class="text-muted">@skill.RecommendedAction</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </section>
 </div>

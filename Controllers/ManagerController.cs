@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SkillBridge.Models;
 using SkillBridge.Services;
 
 namespace SkillBridge.Controllers;
@@ -68,6 +69,29 @@ public class ManagerController : Controller
     {
         Set("gaps", "Skill Gap Analytics", "Manager workspace");
         return View(_data);
+    }
+
+    [HttpGet("/manager/skill-gaps/detail")]
+    public IActionResult SkillGapDetail(string? name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            return NotFound();
+
+        var skills = _data.SkillGapRows
+            .Where(item => string.Equals(item.Employee, name, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+        if (skills.Count == 0)
+            return NotFound();
+
+        var employee = skills[0];
+        var detail = new ManagerSkillGapDetail(
+            employee.Employee,
+            employee.Role,
+            employee.Department,
+            skills);
+
+        Set("gaps", "Skill Gap Detail", "Manager workspace / Skill Gap Analytics");
+        return View(detail);
     }
 
     [HttpGet("/manager/profile")]

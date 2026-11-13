@@ -2,12 +2,6 @@
 @{
     Layout = "_AppLayout";
     ViewData["Title"] = "Skill Gap Analytics";
-    var gapRows = new[]
-    {
-        ("Alex Morgan", "Java", "2 / 5", "3 / 5", "1 level", "Java Foundations"),
-        ("Alex Morgan", "SQL", "2 / 5", "3 / 5", "1 level", "SQL Query Practice"),
-        ("Chris Taylor", "Not assessed", "—", "—", "Unknown", "Complete assessment")
-    };
     var maxCount = 9.0;
 }
 
@@ -88,7 +82,7 @@
     <section class="space-y-2">
         <div>
             <h2 class="section-title">Employee skill gaps</h2>
-            <p class="mt-0.5 text-[11px] text-muted">Levels use a 1–5 scale · Selected employee: Alex Morgan</p>
+            <p class="mt-0.5 text-[11px] text-muted">Levels use a 1–5 scale · Select an employee to review their skill details</p>
         </div>
         <div class="card overflow-hidden">
             <div class="overflow-x-auto">
@@ -104,15 +98,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var (name, skill, current, required, gap, action) in gapRows)
+                        @foreach (var row in Model.SkillGapRows)
                         {
                             <tr>
-                                <td class="whitespace-nowrap font-medium text-ink">@name</td>
-                                <td class="text-muted">@skill</td>
-                                <td class="text-muted">@current</td>
-                                <td class="text-muted">@required</td>
-                                <td class="text-muted">@gap</td>
-                                <td class="text-muted">@action</td>
+                                <td class="whitespace-nowrap font-medium text-ink">
+                                    <a href="@Url.Action("SkillGapDetail", "Manager", new { name = row.Employee })" class="text-brand-deep underline decoration-brand/40 underline-offset-2 hover:text-ink">@row.Employee</a>
+                                </td>
+                                <td class="text-muted">@row.Skill</td>
+                                <td class="text-muted">@(row.CurrentLevel.HasValue ? $"{row.CurrentLevel.Value} / 5" : "—")</td>
+                                <td class="text-muted">@(row.RequiredLevel.HasValue ? $"{row.RequiredLevel.Value} / 5" : "—")</td>
+                                <td class="text-muted">@(row.Gap.HasValue ? $"{row.Gap.Value} level{(row.Gap.Value == 1 ? "" : "s")}" : "Unknown")</td>
+                                <td>
+                                    <a href="@Url.Action("SkillGapDetail", "Manager", new { name = row.Employee })" class="text-[11px] font-medium text-brand-decor underline decoration-brand/40 underline-offset-2 hover:text-ink">View details</a>
+                                </td>
                             </tr>
                         }
                     </tbody>
