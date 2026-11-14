@@ -1,0 +1,169 @@
+@model ManagerLearningPlanDetail
+
+@{
+    Layout = "_AppLayout";
+    ViewData["Title"] = $"{Model.Employee} - Learning Plan Detail";
+    var statusBadge = Model.Status switch
+    {
+        "Completed" => "badge-green",
+        "In progress" => "badge-blue",
+        _ => "badge-muted"
+    };
+}
+
+<div class="space-y-5">
+    <section class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <a asp-controller="Manager" asp-action="LearningPlans" class="inline-flex items-center gap-1.5 text-[11.5px] font-medium text-ink-2 hover:text-brand-deep">
+                <svg class="h-3.5 w-3.5"><use href="#i-arrow-left" /></svg>
+                Back to Learning Plans
+            </a>
+            <div class="mt-3">
+                <h1 class="page-title">@Model.Employee</h1>
+                <p class="mt-1 text-[13px] text-muted">@Model.Role <span class="mx-1 text-line">·</span> @Model.Department</p>
+            </div>
+        </div>
+        <img src="/img/plans-hero.png" alt="" class="hidden h-[72px] w-auto select-none sm:block" draggable="false" />
+    </section>
+
+    <section class="card p-5">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+            <div>
+                <p class="text-[11px] font-medium uppercase tracking-wide text-muted">Learning plan overview</p>
+                <h2 class="mt-1 text-[18px] font-semibold text-ink">@Model.Plan</h2>
+            </div>
+            <span class="badge @statusBadge">@Model.Status</span>
+        </div>
+        <dl class="mt-4 grid grid-cols-1 gap-4 border-t border-line-soft pt-4 sm:grid-cols-3">
+            <div>
+                <dt class="text-[11px] text-muted">Employee</dt>
+                <dd class="mt-1 text-[13px] font-medium text-ink">@Model.Employee</dd>
+            </div>
+            <div>
+                <dt class="text-[11px] text-muted">Assigned date</dt>
+                <dd class="mt-1 text-[13px] font-medium text-ink">@Model.AssignedDate</dd>
+            </div>
+            <div>
+                <dt class="text-[11px] text-muted">Target completion</dt>
+                <dd class="mt-1 text-[13px] font-medium text-ink">@Model.TargetCompletionDate</dd>
+            </div>
+        </dl>
+    </section>
+
+    <section class="grid grid-cols-1 gap-4 xl:grid-cols-[1.4fr_0.8fr]">
+        <div class="space-y-5">
+            <section id="skills" class="space-y-2">
+                <div>
+                    <h2 class="section-title">Skill development goals</h2>
+                    <p class="mt-0.5 text-[11px] text-muted">Current skill levels compared with the required proficiency.</p>
+                </div>
+                <div class="card overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Target skill</th>
+                                    <th>Current proficiency</th>
+                                    <th>Required proficiency</th>
+                                    <th>Skill gap</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var skill in Model.Skills)
+                                {
+                                    <tr>
+                                        <td class="whitespace-nowrap font-medium text-ink">@skill.Name</td>
+                                        <td>
+                                            <div class="flex min-w-[115px] items-center gap-2">
+                                                <span class="whitespace-nowrap text-ink-2">@skill.CurrentLevel / 5</span>
+                                                <div class="h-2 flex-1 overflow-hidden rounded-full bg-brand-soft">
+                                                    <div class="h-full rounded-full bg-brand" style="width:@(skill.CurrentLevel * 20)%"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-muted">@skill.RequiredLevel / 5</td>
+                                        <td>
+                                            <span class="badge @(skill.Gap > 0 ? "badge-amber" : "badge-green")">
+                                                @(skill.Gap > 0 ? $"{skill.Gap} level{(skill.Gap == 1 ? "" : "s")}" : "Goal met")
+                                            </span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="recommendations" class="space-y-2">
+                <div>
+                    <h2 class="section-title">Recommended training</h2>
+                    <p class="mt-0.5 text-[11px] text-muted">Training activities selected to address this plan’s skill goals.</p>
+                </div>
+                <div class="card overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Course or training</th>
+                                    <th>Skill category</th>
+                                    <th>Duration</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var training in Model.Trainings)
+                                {
+                                    <tr>
+                                        <td class="min-w-[190px] font-medium text-ink">@training.Name</td>
+                                        <td class="text-muted">@training.SkillCategory</td>
+                                        <td class="whitespace-nowrap text-muted">@training.Duration</td>
+                                        <td><span class="badge @(training.Priority == "High" ? "badge-amber" : "badge-muted")">@training.Priority</span></td>
+                                        <td><span class="badge @(training.Status == "Completed" ? "badge-green" : training.Status == "In Progress" ? "badge-blue" : "badge-muted")">@training.Status</span></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <aside class="space-y-4">
+            <section id="progress" class="card p-5">
+                <h2 class="section-title">Learning progress</h2>
+                <div class="mt-4 flex items-end justify-between gap-3">
+                    <p class="text-[28px] font-bold leading-none text-ink">@Model.ProgressPercent%</p>
+                    <p class="text-right text-[11px] text-muted">@Model.CompletedModules completed<br />@Model.PendingModules pending</p>
+                </div>
+                <div class="mt-3 h-2.5 overflow-hidden rounded-full bg-brand-soft" role="progressbar" aria-label="Overall learning plan completion" aria-valuenow="@Model.ProgressPercent" aria-valuemin="0" aria-valuemax="100">
+                    <div class="h-full rounded-full bg-brand transition-all" style="width:@(Model.ProgressPercent)%"></div>
+                </div>
+                <div class="mt-4 space-y-3">
+                    @foreach (var training in Model.Trainings)
+                    {
+                        <div>
+                            <div class="flex items-center justify-between gap-2 text-[11px]">
+                                <span class="font-medium text-ink-2">@training.Name</span>
+                                <span class="shrink-0 text-muted">@training.Status</span>
+                            </div>
+                            <div class="mt-1.5 h-1.5 overflow-hidden rounded-full bg-cream-deep">
+                                <div class="h-full rounded-full bg-brand" style="width:@(training.ProgressPercent)%"></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <section class="card p-5">
+                <h2 class="section-title">Manager actions</h2>
+                <div class="mt-3 flex flex-col gap-2">
+                    <a href="#recommendations" class="btn btn-outline btn-sm justify-start">View assigned learning activities</a>
+                    <a href="#progress" class="btn btn-outline btn-sm justify-start">Review employee progress</a>
+                    <a href="#recommendations" class="btn btn-outline btn-sm justify-start">View training recommendations</a>
+                </div>
+            </section>
+        </aside>
+    </section>
+</div>

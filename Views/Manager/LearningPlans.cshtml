@@ -5,7 +5,7 @@
     var courses = new[]
     {
         ("Java Foundations", "Java", "Completed"),
-        ("SQL Query Practice", "SQL", "Not started"),
+        ("SQL Query Practice", "SQL", "In Progress"),
         ("Applied Java", "Java", "Not started")
     };
 }
@@ -100,7 +100,16 @@
                                 <td class="text-muted">@plan.Progress</td>
                                 <td class="text-muted">@plan.DueDate</td>
                                 <td class="text-muted">@plan.Status</td>
-                                <td><a href="/manager/learning-plans" class="text-[11.5px] font-medium text-brand-deep underline decoration-brand/40 underline-offset-2 hover:text-ink">View</a></td>
+                                <td>
+                                    @if (!string.IsNullOrWhiteSpace(plan.Id))
+                                    {
+                                        <a asp-controller="Manager" asp-action="LearningPlanDetail" asp-route-id="@plan.Id" class="whitespace-nowrap text-[11.5px] font-medium text-brand-deep underline decoration-brand/40 underline-offset-2 hover:text-ink">View details</a>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-[11.5px] text-muted">—</span>
+                                    }
+                                </td>
                             </tr>
                         }
                     </tbody>

@@ -100,10 +100,74 @@ public class MockDataService
 
     public IReadOnlyList<EmployeePlan> Plans { get; } = new List<EmployeePlan>
     {
-        new("Alex Morgan", "Java & SQL development", "1 of 3", "33%", "30 Nov 2026", "In progress", "AM", "green"),
-        new("Sam Patel", "Developer essentials", "0 of 3", "0%", "30 Nov 2026", "Not started", "SP", "blue"),
-        new("Maya Chen", "Support skills refresher", "2 of 2", "100%", "15 Nov 2026", "Completed", "MC", "lilac"),
+        new("Alex Morgan", "Java & SQL development", "1 of 3", "33%", "30 Nov 2026", "In progress", "AM", "green", "alex-java-sql"),
+        new("Sam Patel", "Developer essentials", "0 of 3", "0%", "30 Nov 2026", "Not started", "SP", "blue", "sam-developer-essentials"),
+        new("Maya Chen", "Support skills refresher", "2 of 2", "100%", "15 Nov 2026", "Completed", "MC", "lilac", "maya-support-refresher"),
         new("Chris Taylor", "Not assigned", "—", "—", "—", "Assess first", "CT", "amber"),
+    };
+
+    public IReadOnlyList<ManagerLearningPlanDetail> LearningPlanDetails { get; } = new List<ManagerLearningPlanDetail>
+    {
+        new(
+            "alex-java-sql",
+            "Alex Morgan",
+            "Software Developer",
+            "Engineering",
+            "Java & SQL development",
+            "3 Nov 2026",
+            "30 Nov 2026",
+            "In progress",
+            new List<ManagerLearningPlanSkill>
+            {
+                new("Java", 2, 3),
+                new("SQL", 2, 3),
+            },
+            new List<ManagerLearningTraining>
+            {
+                new("Java Foundations", "Java", "4 hours", "High", "Completed"),
+                new("SQL Query Practice", "SQL", "3 hours", "High", "In Progress"),
+                new("Applied Java", "Java", "5 hours", "Medium", "Not started"),
+            }),
+        new(
+            "sam-developer-essentials",
+            "Sam Patel",
+            "Software Developer",
+            "Engineering",
+            "Developer essentials",
+            "3 Nov 2026",
+            "30 Nov 2026",
+            "Not started",
+            new List<ManagerLearningPlanSkill>
+            {
+                new("C#", 2, 4),
+                new("ASP.NET Core", 2, 4),
+                new("SQL", 3, 4),
+            },
+            new List<ManagerLearningTraining>
+            {
+                new("C# Fundamentals", "C#", "4 hours", "High", "Not started"),
+                new("Building Web APIs with ASP.NET Core", "ASP.NET Core", "6 hours", "High", "Not started"),
+                new("SQL for Developers", "SQL", "3 hours", "Medium", "Not started"),
+            }),
+        new(
+            "maya-support-refresher",
+            "Maya Chen",
+            "Support Analyst",
+            "Operations",
+            "Support skills refresher",
+            "1 Nov 2026",
+            "15 Nov 2026",
+            "Completed",
+            new List<ManagerLearningPlanSkill>
+            {
+                new("Customer support", 4, 4),
+                new("Troubleshooting", 4, 4),
+            },
+            new List<ManagerLearningTraining>
+            {
+                new("Customer Conversations", "Customer support", "2 hours", "Medium", "Completed"),
+                new("Technical Troubleshooting", "Troubleshooting", "3 hours", "Medium", "Completed"),
+            }),
     };
 
     public IReadOnlyList<ManagerEmployee> Attention { get; } = new List<ManagerEmployee>

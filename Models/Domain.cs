@@ -56,7 +56,8 @@ public record EmployeePlan(
     string DueDate,
     string Status,
     string Initials,
-    string AvatarTone);
+    string AvatarTone,
+    string? Id = null);
 
 public record ReportRow(string Name, string Department, string GeneratedOn, string CreatedBy, string Format, string Action);
 
@@ -85,3 +86,45 @@ public record ManagerSkillGapDetail(
     string Role,
     string Department,
     IReadOnlyList<ManagerSkillGap> Skills);
+
+public record ManagerLearningPlanSkill(string Name, int CurrentLevel, int RequiredLevel)
+{
+    public int Gap => Math.Max(0, RequiredLevel - CurrentLevel);
+}
+
+public record ManagerLearningTraining(
+    string Name,
+    string SkillCategory,
+    string Duration,
+    string Priority,
+    string Status)
+{
+    public int ProgressPercent => Status switch
+    {
+        "Completed" => 100,
+        "In Progress" => 50,
+        _ => 0
+    };
+}
+
+public record ManagerLearningPlanDetail(
+    string Id,
+    string Employee,
+    string Role,
+    string Department,
+    string Plan,
+    string AssignedDate,
+    string TargetCompletionDate,
+    string Status,
+    IReadOnlyList<ManagerLearningPlanSkill> Skills,
+    IReadOnlyList<ManagerLearningTraining> Trainings)
+{
+    public int CompletedModules => Trainings.Count(training =>
+        string.Equals(training.Status, "Completed", StringComparison.OrdinalIgnoreCase));
+
+    public int PendingModules => Trainings.Count - CompletedModules;
+
+    public int ProgressPercent => Trainings.Count == 0
+        ? 0
+        : (int)Math.Round(CompletedModules * 100.0 / Trainings.Count);
+}

@@ -57,6 +57,21 @@ public class ManagerController : Controller
         return View(_data);
     }
 
+    [HttpGet("/manager/learning-plans/detail")]
+    public IActionResult LearningPlanDetail(string? id)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+            return NotFound();
+
+        var plan = _data.LearningPlanDetails.FirstOrDefault(item =>
+            string.Equals(item.Id, id, StringComparison.OrdinalIgnoreCase));
+        if (plan is null)
+            return NotFound();
+
+        Set("plans", "Learning Plan Detail", "Manager workspace / Learning Plans");
+        return View(plan);
+    }
+
     [HttpGet("/manager/training")]
     public IActionResult Training()
     {
