@@ -157,6 +157,20 @@ public class ManagerController : Controller
         return View(_data);
     }
 
+    [HttpGet("/manager/reports/detail")]
+    public IActionResult ReportDetail(string? id)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+            return NotFound();
+
+        var detail = _data.GetReportDetail(id);
+        if (detail is null)
+            return NotFound();
+
+        Set("reports", "Report Detail", "Manager workspace / Reports");
+        return View(detail);
+    }
+
     [HttpGet("/manager/settings")]
     public IActionResult Settings()
     {

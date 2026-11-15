@@ -216,10 +216,145 @@ public class MockDataService
 
     public IReadOnlyList<ReportRow> Reports { get; } = new List<ReportRow>
     {
-        new("November skill gap summary", "All departments", "3 Nov 2026", "Priya Shah", "PDF", "Download"),
-        new("October training progress", "Engineering", "31 Oct 2026", "Priya Shah", "CSV", "Download"),
-        new("October assessment summary", "All departments", "31 Oct 2026", "Priya Shah", "PDF", "Download"),
+        new("November skill gap summary", "All departments", "3 Nov 2026", "Priya Shah", "PDF", "View details", "november-skill-gap-summary", "Skill Gap Analysis", "1–30 Nov 2026", "Ready"),
+        new("October training progress", "Engineering", "31 Oct 2026", "Priya Shah", "CSV", "View details", "october-training-progress", "Training Progress", "1–31 Oct 2026", "Ready"),
+        new("October assessment summary", "All departments", "31 Oct 2026", "Priya Shah", "PDF", "View details", "october-assessment-summary", "Assessment Summary", "1–31 Oct 2026", "Ready"),
     };
+
+    public ManagerReportDetail? GetReportDetail(string reportId)
+    {
+        var report = Reports.FirstOrDefault(item =>
+            string.Equals(item.Id, reportId, StringComparison.OrdinalIgnoreCase));
+        if (report is null)
+            return null;
+
+        var employees = Plans
+            .Where(plan => string.Equals(report.Department, "All departments", StringComparison.OrdinalIgnoreCase) ||
+                           string.Equals(plan.Department, report.Department, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+        var employeeNames = employees
+            .Select(employee => employee.Employee)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        var skills = LearningPlanDetails
+            .Where(plan => employeeNames.Contains(plan.Employee))
+            .SelectMany(plan => plan.Skills.Select(skill =>
+                new ManagerReportSkillRow(
+                    plan.Employee,
+                    plan.Department,
+                    skill.Name,
+                    skill.CurrentLevel,
+                    skill.RequiredLevel)))
+            .ToList();
+
+        foreach (var skill in SkillGapRows.Where(skill => employeeNames.Contains(skill.Employee)))
+        {
+            if (!skills.Any(existing =>
+                    string.Equals(existing.Employee, skill.Employee, StringComparison.OrdinalIgnoreCase) &&
+                    string.Equals(existing.Skill, skill.Skill, StringComparison.OrdinalIgnoreCase)))
+            {
+                skills.Add(new ManagerReportSkillRow(
+                    skill.Employee,
+                    skill.Department,
+                    skill.Skill,
+                    skill.CurrentLevel,
+                    skill.RequiredLevel));
+            }
+        }
+
+        var planDetails = employees
+            .Select(employee => employee.Id is null
+                ? null
+                : LearningPlanDetails.FirstOrDefault(plan =>
+                    string.Equals(plan.Id, employee.Id, StringComparison.OrdinalIgnoreCase)))
+            .Where(plan => plan is not null)
+            .ToList();
+        var trainingPrograms = planDetails
+            .SelectMany(plan => plan!.Trainings.Select(training =>
+                new ManagerReportTrainingRow(
+                    plan.Employee,
+                    training.Name,
+                    training.SkillCategory,
+                    training.ProgressPercent,
+                    training.Status,
+                    training.TargetCompletionDate)))
+            .ToList();
+
+        var employeeRows = employees.Select(employee =>
+        {
+            var employeeSkills = skills
+                .Where(skill => string.Equals(skill.Employee, employee.Employee, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+            var assessmentResults = TrainingAssessments.TryGetValue(employee.Employee, out var assessments)
+                ? string.Join("; ", assessments.Select(assessment =>
+                    assessment.Score is not null
+                        ? $"{assessment.Name}: {assessment.Score}"
+                        : $"{assessment.Name}: {assessment.Result}"))
+                : "No assessment records";
+            var plan = planDetails.FirstOrDefault(detail =>
+                string.Equals(detail?.Employee, employee.Employee, StringComparison.OrdinalIgnoreCase));
+
+            return new ManagerReportEmployeeRow(
+                employee.Employee,
+                employee.Department,
+                employeeSkills.Count(skill => skill.CurrentLevel.HasValue),
+                assessmentResults,
+                plan?.ProgressPercent ?? 0,
+                plan?.Status ?? "Not assigned");
+        }).ToList();
+
+        var commonGap = skills
+            .Where(skill => skill.Gap is > 0)
+            .GroupBy(skill => skill.Skill, StringComparer.OrdinalIgnoreCase)
+            .OrderByDescending(group => group.Count())
+            .ThenBy(group => group.Key, StringComparer.OrdinalIgnoreCase)
+            .FirstOrDefault();
+
+        var completed = trainingPrograms.Count(training =>
+            string.Equals(training.Status, "Completed", StringComparison.OrdinalIgnoreCase));
+        var inProgress = trainingPrograms.Count(training =>
+            string.Equals(training.Status, "In Progress", StringComparison.OrdinalIgnoreCase));
+        var pending = trainingPrograms.Count - completed - inProgress;
+        var employeesNeedingTraining = employeeRows
+            .Where(employee =>
+                skills.Any(skill =>
+                    string.Equals(skill.Employee, employee.Name, StringComparison.OrdinalIgnoreCase) &&
+                    skill.Gap is > 0) ||
+                employee.TrainingStatus is "Not assigned" or "Not started")
+            .ToList();
+
+        var insights = new List<ManagerReportInsight>
+        {
+            new(
+                "Most common skill gaps",
+                commonGap is null
+                    ? "No skill gaps are recorded in the available employee records."
+                    : $"{commonGap.Key} is below the required level for {commonGap.Count()} employee(s)."),
+            new(
+                "Training completion snapshot",
+                trainingPrograms.Count == 0
+                    ? "No assigned training programs are recorded for this report scope."
+                    : $"Current snapshot: {completed} completed, {inProgress} in progress, and {pending} pending across {trainingPrograms.Count} programs. Historical trend data is unavailable."),
+            new(
+                "Employees requiring additional training",
+                employeesNeedingTraining.Count == 0
+                    ? "No employees with identified skill gaps or unstarted plans are present in this sample."
+                    : string.Join(", ", employeesNeedingTraining.Select(employee => employee.Name)) + "."),
+            new(
+                "Recommended manager actions",
+                commonGap is null
+                    ? "Continue reviewing employee assessments and update plans as new results are recorded."
+                    : $"Prioritize learning activities for {commonGap.Key}, then review unassigned or unstarted plans.")
+        };
+
+        return new ManagerReportDetail(
+            report,
+            skills,
+            trainingPrograms,
+            employeeRows,
+            insights,
+            "Illustrative demo metrics are calculated from the available in-memory mock records. The saved reporting period is metadata; historical snapshots are not stored.");
+    }
 
     public IReadOnlyList<ActivityItem> ManagerActivity { get; } = new List<ActivityItem>
     {

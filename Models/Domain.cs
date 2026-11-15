@@ -61,7 +61,88 @@ public record EmployeePlan(
     string Role = "",
     string Department = "");
 
-public record ReportRow(string Name, string Department, string GeneratedOn, string CreatedBy, string Format, string Action);
+public record ReportRow(
+    string Name,
+    string Department,
+    string GeneratedOn,
+    string CreatedBy,
+    string Format,
+    string Action,
+    string Id,
+    string Category,
+    string ReportingPeriod,
+    string Status);
+
+public record ManagerReportSkillRow(
+    string Employee,
+    string Department,
+    string Skill,
+    int? CurrentLevel,
+    int? RequiredLevel)
+{
+    public int? Gap => CurrentLevel.HasValue && RequiredLevel.HasValue
+        ? Math.Max(0, RequiredLevel.Value - CurrentLevel.Value)
+        : null;
+}
+
+public record ManagerReportTrainingRow(
+    string Employee,
+    string Course,
+    string SkillCategory,
+    int ProgressPercent,
+    string Status,
+    string TargetCompletionDate);
+
+public record ManagerReportEmployeeRow(
+    string Name,
+    string Department,
+    int SkillsAssessed,
+    string AssessmentResults,
+    int TrainingProgressPercent,
+    string TrainingStatus);
+
+public record ManagerReportInsight(string Title, string Detail);
+
+public record ManagerReportDetail(
+    ReportRow Report,
+    IReadOnlyList<ManagerReportSkillRow> SkillProficiency,
+    IReadOnlyList<ManagerReportTrainingRow> TrainingPrograms,
+    IReadOnlyList<ManagerReportEmployeeRow> Employees,
+    IReadOnlyList<ManagerReportInsight> Insights,
+    string DataNote)
+{
+    public int TotalEmployees => Employees.Count;
+    public int EmployeesAssessed => Employees.Count(employee => employee.SkillsAssessed > 0);
+
+    public int AverageSkillProficiencyPercent
+    {
+        get
+        {
+            var assessedSkills = SkillProficiency.Where(skill => skill.CurrentLevel.HasValue).ToList();
+            return assessedSkills.Count == 0
+                ? 0
+                : (int)Math.Round(assessedSkills.Average(skill => skill.CurrentLevel.GetValueOrDefault() * 20.0));
+        }
+    }
+
+    public int CompletedTraining => TrainingPrograms.Count(training =>
+        string.Equals(training.Status, "Completed", StringComparison.OrdinalIgnoreCase));
+    public int InProgressTraining => TrainingPrograms.Count(training =>
+        string.Equals(training.Status, "In Progress", StringComparison.OrdinalIgnoreCase));
+    public int PendingTraining => TrainingPrograms.Count - CompletedTraining - InProgressTraining;
+    public int TrainingCompletionPercent => TrainingPrograms.Count == 0
+        ? 0
+        : (int)Math.Round(TrainingPrograms.Average(training => training.ProgressPercent));
+
+    public IReadOnlyList<ManagerReportSkillRow> IdentifiedSkillGaps =>
+        SkillProficiency.Where(skill => skill.Gap is > 0).ToList();
+
+    public IReadOnlyList<ManagerReportEmployeeRow> EmployeesNeedingTraining =>
+        Employees.Where(employee =>
+            IdentifiedSkillGaps.Any(skill =>
+                string.Equals(skill.Employee, employee.Name, StringComparison.OrdinalIgnoreCase)) ||
+            employee.TrainingStatus is "Not assigned" or "Not started").ToList();
+}
 
 public record ActivityItem(string Title, string Detail, string Time, string Icon);
 
