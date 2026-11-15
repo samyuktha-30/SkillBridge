@@ -57,7 +57,9 @@ public record EmployeePlan(
     string Status,
     string Initials,
     string AvatarTone,
-    string? Id = null);
+    string? Id = null,
+    string Role = "",
+    string Department = "");
 
 public record ReportRow(string Name, string Department, string GeneratedOn, string CreatedBy, string Format, string Action);
 
@@ -97,14 +99,19 @@ public record ManagerLearningTraining(
     string SkillCategory,
     string Duration,
     string Priority,
-    string Status)
+    string Status,
+    string AssignedDate = "",
+    string TargetCompletionDate = "",
+    int? CompletionPercent = null,
+    string? StartedDate = null,
+    string? CompletedDate = null)
 {
-    public int ProgressPercent => Status switch
+    public int ProgressPercent => Math.Clamp(CompletionPercent ?? Status switch
     {
         "Completed" => 100,
         "In Progress" => 50,
         _ => 0
-    };
+    }, 0, 100);
 }
 
 public record ManagerLearningPlanDetail(
@@ -122,9 +129,41 @@ public record ManagerLearningPlanDetail(
     public int CompletedModules => Trainings.Count(training =>
         string.Equals(training.Status, "Completed", StringComparison.OrdinalIgnoreCase));
 
-    public int PendingModules => Trainings.Count - CompletedModules;
+    public int InProgressModules => Trainings.Count(training =>
+        string.Equals(training.Status, "In Progress", StringComparison.OrdinalIgnoreCase));
+
+    public int PendingModules => Trainings.Count - CompletedModules - InProgressModules;
 
     public int ProgressPercent => Trainings.Count == 0
         ? 0
-        : (int)Math.Round(CompletedModules * 100.0 / Trainings.Count);
+        : (int)Math.Round(Trainings.Average(training => training.ProgressPercent));
+}
+
+public record ManagerTrainingAssessment(
+    string Name,
+    string? Score,
+    string? CompletionDate,
+    string Status,
+    string Result);
+
+public record ManagerTrainingProgressDetail(
+    string Employee,
+    string Role,
+    string Department,
+    ManagerLearningPlanDetail? LearningPlan,
+    IReadOnlyList<ManagerTrainingAssessment> Assessments)
+{
+    public string PlanName => LearningPlan?.Plan ?? "Not assigned";
+    public string TrainingStatus => LearningPlan?.Status ?? "Not assigned";
+    public IReadOnlyList<ManagerLearningTraining> Trainings =>
+        LearningPlan?.Trainings ?? Array.Empty<ManagerLearningTraining>();
+    public int TotalCourses => Trainings.Count;
+    public int CompletedCourses => Trainings.Count(training =>
+        string.Equals(training.Status, "Completed", StringComparison.OrdinalIgnoreCase));
+    public int InProgressCourses => Trainings.Count(training =>
+        string.Equals(training.Status, "In Progress", StringComparison.OrdinalIgnoreCase));
+    public int PendingCourses => TotalCourses - CompletedCourses - InProgressCourses;
+    public int OverallCompletionPercent => TotalCourses == 0
+        ? 0
+        : (int)Math.Round(Trainings.Average(training => training.ProgressPercent));
 }

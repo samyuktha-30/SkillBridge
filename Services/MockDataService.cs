@@ -100,10 +100,10 @@ public class MockDataService
 
     public IReadOnlyList<EmployeePlan> Plans { get; } = new List<EmployeePlan>
     {
-        new("Alex Morgan", "Java & SQL development", "1 of 3", "33%", "30 Nov 2026", "In progress", "AM", "green", "alex-java-sql"),
-        new("Sam Patel", "Developer essentials", "0 of 3", "0%", "30 Nov 2026", "Not started", "SP", "blue", "sam-developer-essentials"),
-        new("Maya Chen", "Support skills refresher", "2 of 2", "100%", "15 Nov 2026", "Completed", "MC", "lilac", "maya-support-refresher"),
-        new("Chris Taylor", "Not assigned", "—", "—", "—", "Assess first", "CT", "amber"),
+        new("Alex Morgan", "Java & SQL development", "1 of 3", "53%", "30 Nov 2026", "In progress", "AM", "green", "alex-java-sql", "Software Developer", "Engineering"),
+        new("Sam Patel", "Developer essentials", "0 of 3", "0%", "30 Nov 2026", "Not started", "SP", "blue", "sam-developer-essentials", "Software Developer", "Engineering"),
+        new("Maya Chen", "Support skills refresher", "2 of 2", "100%", "15 Nov 2026", "Completed", "MC", "lilac", "maya-support-refresher", "Support Analyst", "Operations"),
+        new("Chris Taylor", "Not assigned", "—", "—", "—", "Assess first", "CT", "amber", Role: "Support Analyst", Department: "Operations"),
     };
 
     public IReadOnlyList<ManagerLearningPlanDetail> LearningPlanDetails { get; } = new List<ManagerLearningPlanDetail>
@@ -124,9 +124,9 @@ public class MockDataService
             },
             new List<ManagerLearningTraining>
             {
-                new("Java Foundations", "Java", "4 hours", "High", "Completed"),
-                new("SQL Query Practice", "SQL", "3 hours", "High", "In Progress"),
-                new("Applied Java", "Java", "5 hours", "Medium", "Not started"),
+                new("Java Foundations", "Java", "4 hours", "High", "Completed", "3 Nov 2026", "10 Nov 2026", 100, "4 Nov 2026", "8 Nov 2026"),
+                new("SQL Query Practice", "SQL", "3 hours", "High", "In Progress", "3 Nov 2026", "20 Nov 2026", 60, "9 Nov 2026"),
+                new("Applied Java", "Java", "5 hours", "Medium", "Not started", "3 Nov 2026", "30 Nov 2026"),
             }),
         new(
             "sam-developer-essentials",
@@ -145,9 +145,9 @@ public class MockDataService
             },
             new List<ManagerLearningTraining>
             {
-                new("C# Fundamentals", "C#", "4 hours", "High", "Not started"),
-                new("Building Web APIs with ASP.NET Core", "ASP.NET Core", "6 hours", "High", "Not started"),
-                new("SQL for Developers", "SQL", "3 hours", "Medium", "Not started"),
+                new("C# Fundamentals", "C#", "4 hours", "High", "Not started", "3 Nov 2026", "12 Nov 2026"),
+                new("Building Web APIs with ASP.NET Core", "ASP.NET Core", "6 hours", "High", "Not started", "3 Nov 2026", "20 Nov 2026"),
+                new("SQL for Developers", "SQL", "3 hours", "Medium", "Not started", "3 Nov 2026", "30 Nov 2026"),
             }),
         new(
             "maya-support-refresher",
@@ -165,10 +165,47 @@ public class MockDataService
             },
             new List<ManagerLearningTraining>
             {
-                new("Customer Conversations", "Customer support", "2 hours", "Medium", "Completed"),
-                new("Technical Troubleshooting", "Troubleshooting", "3 hours", "Medium", "Completed"),
+                new("Customer Conversations", "Customer support", "2 hours", "Medium", "Completed", "1 Nov 2026", "7 Nov 2026", 100, "2 Nov 2026", "5 Nov 2026"),
+                new("Technical Troubleshooting", "Troubleshooting", "3 hours", "Medium", "Completed", "1 Nov 2026", "15 Nov 2026", 100, "6 Nov 2026", "12 Nov 2026"),
             }),
     };
+
+    public IReadOnlyDictionary<string, IReadOnlyList<ManagerTrainingAssessment>> TrainingAssessments { get; } =
+        new Dictionary<string, IReadOnlyList<ManagerTrainingAssessment>>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["Alex Morgan"] = new List<ManagerTrainingAssessment>
+            {
+                new("SQL Fundamentals Assessment", "88%", "12 Nov 2026", "Completed", "Passed"),
+                new("Java Skills Check", null, null, "Upcoming", "Due 18 Nov 2026"),
+            },
+            ["Maya Chen"] = new List<ManagerTrainingAssessment>
+            {
+                new("Customer Support Assessment", "92%", "13 Nov 2026", "Completed", "Passed"),
+            },
+        };
+
+    public ManagerTrainingProgressDetail? GetTrainingProgressDetail(string employeeName)
+    {
+        var employee = Plans.FirstOrDefault(plan =>
+            string.Equals(plan.Employee, employeeName, StringComparison.OrdinalIgnoreCase));
+        if (employee is null)
+            return null;
+
+        var learningPlan = employee.Id is null
+            ? null
+            : LearningPlanDetails.FirstOrDefault(plan =>
+                string.Equals(plan.Id, employee.Id, StringComparison.OrdinalIgnoreCase));
+        var assessments = TrainingAssessments.TryGetValue(employee.Employee, out var employeeAssessments)
+            ? employeeAssessments
+            : Array.Empty<ManagerTrainingAssessment>();
+
+        return new ManagerTrainingProgressDetail(
+            employee.Employee,
+            learningPlan?.Role ?? employee.Role,
+            learningPlan?.Department ?? employee.Department,
+            learningPlan,
+            assessments);
+    }
 
     public IReadOnlyList<ManagerEmployee> Attention { get; } = new List<ManagerEmployee>
     {

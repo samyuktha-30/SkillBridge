@@ -1,82 +1,283 @@
-@model dynamic
+@model ManagerTrainingProgressDetail
 
 @{
     Layout = "_AppLayout";
-    ViewData["Title"] = "Training Programs";
+    ViewData["Title"] = $"{Model.Employee} - Training Progress";
+    var statusBadge = Model.TrainingStatus switch
+    {
+        "Completed" => "badge-green",
+        "In progress" => "badge-blue",
+        "Not started" => "badge-muted",
+        _ => "badge-amber"
+    };
+    var assignedCourses = Model.Trainings;
+    var startedCourses = assignedCourses.Where(training => training.StartedDate is not null).ToList();
+    var completedCourses = assignedCourses.Where(training => training.CompletedDate is not null).ToList();
+    var upcomingCourses = assignedCourses
+        .Where(training => !string.Equals(training.Status, "Completed", StringComparison.OrdinalIgnoreCase))
+        .ToList();
 }
 
 <div class="space-y-5">
-    <!-- Header -->
     <section class="flex flex-wrap items-start justify-between gap-4">
         <div>
-            <h1 class="page-title">Training Programs</h1>
-            <p class="mt-1 text-[13px] text-muted">Monitor course progress and manage team training.</p>
+            <a href="/manager/training" class="inline-flex items-center gap-1.5 text-[11.5px] font-medium text-ink-2 hover:text-brand-deep">
+                <svg class="h-3.5 w-3.5"><use href="#i-arrow-left" /></svg>
+                Back to Training &amp; Progress Monitoring
+            </a>
+            <div class="mt-3">
+                <h1 class="page-title">@Model.Employee</h1>
+                <p class="mt-1 text-[13px] text-muted">@Model.Role <span class="mx-1 text-line">·</span> @Model.Department</p>
+            </div>
         </div>
-        <img src="/img/plans-hero.png" alt="" class="hidden h-[72px] w-auto select-none sm:block" draggable="false" />
+        <img src="/img/chart-hero.png" alt="" class="hidden h-[70px] w-auto select-none sm:block" draggable="false" />
     </section>
 
-    <!-- Programs List -->
-    <section class="overflow-x-auto">
-        <table class="min-w-full bg-white rounded-xl overflow-hidden">
-            <thead>
-                <tr class="bg-gray-50">
-                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Course</th>
-                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Employee</th>
-                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Status</th>
-                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Progress</th>
-                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Due Date</th>
-                    <th class="text-left text-[11px] font-medium text-ink-2 p-4">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var plan in Model.plans)
-                {
-                    <tr class="border-b">
-                        <td class="whitespace-nowrap font-medium text-ink p-4">@plan.courseName</td>
-                        <td class="text-muted p-4">@plan.employeeName</td>
-                        <td class="p-4">
-                            <span class="badge @(plan.status == "Completed" ? "badge-green" : plan.status == "In Progress" ? "badge-blue" : "badge-muted")">
-                                @plan.status
-                            </span>
-                        </td>
-                        <td class="p-4">
-                            <div class="h-2 w-0 rounded-full bg-brand" data-progress="@plan.progress"></div>
-                        </td>
-                        <td class="text-muted p-4">@plan.dueDate</td>
-                        <td class="p-4">
-                            <a href="#" class="text-[11px] font-medium text-brand-decor underline decoration-brand/40 underline-offset-2 hover:text-ink">View Details</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <section class="card p-5">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+            <div>
+                <p class="text-[11px] font-medium uppercase tracking-wide text-muted">Employee overview</p>
+                <h2 class="mt-1 text-[18px] font-semibold text-ink">@Model.Employee</h2>
+                <p class="mt-0.5 text-[12px] text-muted">@Model.Role · @Model.Department</p>
+            </div>
+            <span class="badge @statusBadge">@Model.TrainingStatus</span>
+        </div>
+        <dl class="mt-4 grid grid-cols-1 gap-4 border-t border-line-soft pt-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div>
+                <dt class="text-[11px] text-muted">Assigned learning plan</dt>
+                <dd class="mt-1 text-[13px] font-medium text-ink">@Model.PlanName</dd>
+            </div>
+            <div>
+                <dt class="text-[11px] text-muted">Training status</dt>
+                <dd class="mt-1 text-[13px] font-medium text-ink">@Model.TrainingStatus</dd>
+            </div>
+            <div>
+                <dt class="text-[11px] text-muted">Assigned date</dt>
+                <dd class="mt-1 text-[13px] font-medium text-ink">@(Model.LearningPlan?.AssignedDate ?? "—")</dd>
+            </div>
+            <div>
+                <dt class="text-[11px] text-muted">Target completion</dt>
+                <dd class="mt-1 text-[13px] font-medium text-ink">@(Model.LearningPlan?.TargetCompletionDate ?? "—")</dd>
+            </div>
+        </dl>
     </section>
 
-    <!-- Summary -->
-    <section class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <section class="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div class="rounded-xl border border-[#c9dcf3] bg-sky p-4">
+            <p class="text-[12px] text-ink-2/80">Assigned courses</p>
+            <p class="mt-1.5 text-[24px] font-bold leading-none">@Model.TotalCourses</p>
+        </div>
+        <div class="rounded-xl border border-[#cfe7da] bg-brand-soft/70 p-4">
+            <p class="text-[12px] text-ink-2/80">Completed</p>
+            <p class="mt-1.5 text-[24px] font-bold leading-none">@Model.CompletedCourses</p>
+        </div>
+        <div class="rounded-xl border border-[#c9dcf3] bg-sky p-4">
+            <p class="text-[12px] text-ink-2/80">In progress</p>
+            <p class="mt-1.5 text-[24px] font-bold leading-none">@Model.InProgressCourses</p>
+        </div>
+        <div class="rounded-xl border border-line bg-white p-4">
+            <p class="text-[12px] text-ink-2/80">Pending</p>
+            <p class="mt-1.5 text-[24px] font-bold leading-none">@Model.PendingCourses</p>
+        </div>
+    </section>
+
+    <section class="card p-5">
+        <div class="flex flex-wrap items-end justify-between gap-2">
+            <div>
+                <h2 class="section-title">Overall training progress</h2>
+                <p class="mt-0.5 text-[11px] text-muted">Average course completion based on assigned training records.</p>
+            </div>
+            <p class="text-[24px] font-bold leading-none text-ink">@Model.OverallCompletionPercent%</p>
+        </div>
+        <div class="mt-3 h-2.5 overflow-hidden rounded-full bg-brand-soft" role="progressbar" aria-label="Overall training completion" aria-valuenow="@Model.OverallCompletionPercent" aria-valuemin="0" aria-valuemax="100">
+            <div class="h-full rounded-full bg-brand transition-all" style="width:@(Model.OverallCompletionPercent)%"></div>
+        </div>
+    </section>
+
+    @if (Model.TotalCourses == 0 && Model.Assessments.Count == 0)
+    {
+        <section class="rounded-xl border border-[#c9dcf3] bg-sky-soft p-5" role="status">
+            <h2 class="section-title">No training or assessment data</h2>
+            <p class="mt-1 text-[12px] text-muted">There are no courses or assessments assigned to @Model.Employee yet.</p>
+        </section>
+    }
+
+    <section class="space-y-2">
         <div>
-            <p class="text-[12px] text-muted">Active programs</p>
-            <p class="text-[20px] font-bold text-ink">8</p>
+            <h2 class="section-title">Course progress</h2>
+            <p class="mt-0.5 text-[11px] text-muted">Assigned courses, skill categories, deadlines, and completion.</p>
         </div>
-        <div>
-            <p class="text-[12px] text-muted">Completion rate</p>
-            <p class="text-[20px] font-bold text-ink">67%</p>
+        <div class="card overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Course</th>
+                            <th>Skill category</th>
+                            <th>Assigned date</th>
+                            <th>Target completion</th>
+                            <th>Completion</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.TotalCourses == 0)
+                        {
+                            <tr><td colspan="6" class="!py-6 text-center text-muted">No courses assigned.</td></tr>
+                        }
+                        @foreach (var training in Model.Trainings)
+                        {
+                            var courseBadge = training.Status switch
+                            {
+                                "Completed" => "badge-green",
+                                "In Progress" => "badge-blue",
+                                _ => "badge-muted"
+                            };
+                            <tr>
+                                <td class="min-w-[190px] font-medium text-ink">@training.Name</td>
+                                <td class="whitespace-nowrap text-muted">@training.SkillCategory</td>
+                                <td class="whitespace-nowrap text-muted">@(string.IsNullOrWhiteSpace(training.AssignedDate) ? "—" : training.AssignedDate)</td>
+                                <td class="whitespace-nowrap text-muted">@(string.IsNullOrWhiteSpace(training.TargetCompletionDate) ? "—" : training.TargetCompletionDate)</td>
+                                <td>
+                                    <div class="flex min-w-[105px] items-center gap-2">
+                                        <span class="w-9 shrink-0 text-muted">@training.ProgressPercent%</span>
+                                        <div class="h-1.5 flex-1 overflow-hidden rounded-full bg-brand-soft">
+                                            <div class="h-full rounded-full bg-brand" style="width:@(training.ProgressPercent)%"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge @courseBadge">@training.Status</span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
 
-    <!-- Filter -->
-    <section class="mt-6 pt-6 border-t border-line-soft">
-        <div class="flex flex-wrap items-center gap-3">
-            <label class="relative">
-                <span class="text-[10px] text-muted">Department</span>
-                <select class="appearance-none rounded-md border border-line px-3 py-2 text-[10px]">
-                    <option>All</option>
-                    <option>Engineering</option>
-                    <option>Design</option>
-                    <option>All Departments</option>
-                </select>
-            </label>
-            <button type="button" class="btn btn-outline px-4 py-2 text-[10px]">Add Program</button>
+    <section class="space-y-2">
+        <div>
+            <h2 class="section-title">Assessment performance</h2>
+            <p class="mt-0.5 text-[11px] text-muted">Assessment results and upcoming checks for this employee.</p>
+        </div>
+        <div class="card overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Assessment</th>
+                            <th>Score</th>
+                            <th>Completion date</th>
+                            <th>Result or status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Assessments.Count == 0)
+                        {
+                            <tr><td colspan="4" class="!py-6 text-center text-muted">No assessments recorded.</td></tr>
+                        }
+                        @foreach (var assessment in Model.Assessments)
+                        {
+                            var assessmentBadge = assessment.Status == "Completed" ? "badge-green" : "badge-blue";
+                            <tr>
+                                <td class="min-w-[190px] font-medium text-ink">@assessment.Name</td>
+                                <td class="text-muted">@(assessment.Score ?? "—")</td>
+                                <td class="whitespace-nowrap text-muted">@(assessment.CompletionDate ?? "—")</td>
+                                <td><span class="badge @assessmentBadge">@assessment.Result</span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="space-y-2">
+        <div>
+            <h2 class="section-title">Training timeline</h2>
+            <p class="mt-0.5 text-[11px] text-muted">Assignments, course starts, completed activities, and upcoming deadlines.</p>
+        </div>
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <div class="card p-4">
+                <h3 class="text-[13px] font-semibold text-ink">Assigned training</h3>
+                <ul class="mt-3 space-y-3">
+                    @foreach (var training in assignedCourses)
+                    {
+                        <li class="border-l-2 border-brand-soft pl-3">
+                            <p class="text-[11.5px] font-medium text-ink-2">@training.Name</p>
+                            <p class="text-[10.5px] text-muted">@(string.IsNullOrWhiteSpace(training.AssignedDate) ? "Assigned date unavailable" : training.AssignedDate)</p>
+                        </li>
+                    }
+                    @if (assignedCourses.Count == 0)
+                    {
+                        <li class="text-[11px] text-muted">No training assigned.</li>
+                    }
+                </ul>
+            </div>
+            <div class="card p-4">
+                <h3 class="text-[13px] font-semibold text-ink">Started training</h3>
+                <ul class="mt-3 space-y-3">
+                    @foreach (var training in startedCourses)
+                    {
+                        <li class="border-l-2 border-sky pl-3">
+                            <p class="text-[11.5px] font-medium text-ink-2">@training.Name</p>
+                            <p class="text-[10.5px] text-muted">@training.StartedDate</p>
+                        </li>
+                    }
+                    @if (startedCourses.Count == 0)
+                    {
+                        <li class="text-[11px] text-muted">No courses started.</li>
+                    }
+                </ul>
+            </div>
+            <div class="card p-4">
+                <h3 class="text-[13px] font-semibold text-ink">Completed activities</h3>
+                <ul class="mt-3 space-y-3">
+                    @foreach (var training in completedCourses)
+                    {
+                        <li class="border-l-2 border-brand pl-3">
+                            <p class="text-[11.5px] font-medium text-ink-2">@training.Name</p>
+                            <p class="text-[10.5px] text-muted">Completed @training.CompletedDate</p>
+                        </li>
+                    }
+                    @if (completedCourses.Count == 0)
+                    {
+                        <li class="text-[11px] text-muted">No activities completed.</li>
+                    }
+                </ul>
+            </div>
+            <div class="card p-4">
+                <h3 class="text-[13px] font-semibold text-ink">Upcoming deadlines</h3>
+                <ul class="mt-3 space-y-3">
+                    @foreach (var training in upcomingCourses)
+                    {
+                        <li class="border-l-2 border-[#f1d89e] pl-3">
+                            <p class="text-[11.5px] font-medium text-ink-2">@training.Name</p>
+                            <p class="text-[10.5px] text-muted">@(string.IsNullOrWhiteSpace(training.TargetCompletionDate) ? "Deadline unavailable" : training.TargetCompletionDate)</p>
+                        </li>
+                    }
+                    @if (upcomingCourses.Count == 0)
+                    {
+                        <li class="text-[11px] text-muted">No upcoming deadlines.</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="card p-5">
+        <h2 class="section-title">Manager actions</h2>
+        <div class="mt-3 flex flex-wrap gap-2">
+            @if (Model.LearningPlan is not null)
+            {
+                <a href="@Url.Action("LearningPlanDetail", "Manager", new { id = Model.LearningPlan.Id })" class="btn btn-outline btn-sm">View assigned learning plan</a>
+            }
+            else
+            {
+                <span class="btn btn-outline btn-sm cursor-not-allowed text-muted" aria-disabled="true">No learning plan assigned</span>
+            }
+            <a href="@Url.Action("SkillGapDetail", "Manager", new { name = Model.Employee })" class="btn btn-outline btn-sm">View employee skill gaps</a>
+            <a href="/manager/training" class="btn btn-soft btn-sm">Return to Training &amp; Progress Monitoring</a>
         </div>
     </section>
 </div>

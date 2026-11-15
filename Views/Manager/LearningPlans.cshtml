@@ -8,6 +8,7 @@
         ("SQL Query Practice", "SQL", "In Progress"),
         ("Applied Java", "Java", "Not started")
     };
+    var selectedPlan = Model.LearningPlanDetails.FirstOrDefault();
 }
 
 <div class="space-y-4">
@@ -147,7 +148,14 @@
 
         <div class="card p-5">
             <h2 class="section-title">Plan details</h2>
-            <p class="mt-2 text-[11.5px] text-muted">1 of 3 courses completed · 33%</p>
+            @if (selectedPlan is not null)
+            {
+                <p class="mt-2 text-[11.5px] text-muted">@selectedPlan.CompletedModules of @selectedPlan.Trainings.Count courses completed · @selectedPlan.ProgressPercent%</p>
+            }
+            else
+            {
+                <p class="mt-2 text-[11.5px] text-muted">No learning plan details available.</p>
+            }
             <p class="mt-1.5 text-[11px] text-muted">Targets: Java 2 / 3 → 3 / 3 · SQL 2 / 3 → 3 / 3</p>
             <p class="mt-2 text-[11.5px] text-muted">Next: SQL Query Practice. Reassess after all courses are completed.</p>
             <div class="mt-4 flex flex-wrap gap-2">

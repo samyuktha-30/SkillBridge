@@ -135,7 +135,7 @@
                 <h2 class="section-title">Learning progress</h2>
                 <div class="mt-4 flex items-end justify-between gap-3">
                     <p class="text-[28px] font-bold leading-none text-ink">@Model.ProgressPercent%</p>
-                    <p class="text-right text-[11px] text-muted">@Model.CompletedModules completed<br />@Model.PendingModules pending</p>
+                    <p class="text-right text-[11px] text-muted">@Model.CompletedModules completed<br />@Model.InProgressModules in progress<br />@Model.PendingModules pending</p>
                 </div>
                 <div class="mt-3 h-2.5 overflow-hidden rounded-full bg-brand-soft" role="progressbar" aria-label="Overall learning plan completion" aria-valuenow="@Model.ProgressPercent" aria-valuemin="0" aria-valuemax="100">
                     <div class="h-full rounded-full bg-brand transition-all" style="width:@(Model.ProgressPercent)%"></div>

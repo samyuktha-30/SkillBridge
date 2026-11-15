@@ -18,17 +18,17 @@
     <section class="grid grid-cols-1 gap-4 md:grid-cols-3">
         <div class="rounded-xl border border-[#c9dcf3] bg-sky p-4">
             <p class="text-[12px] text-ink-2/80">Assigned plans</p>
-            <p class="mt-1.5 text-[26px] font-bold leading-none">3</p>
+            <p class="mt-1.5 text-[26px] font-bold leading-none">@Model.Plans.Count(plan => plan.Id is not null)</p>
             <p class="mt-2 text-[11px] text-muted">Across Engineering and Operations</p>
         </div>
         <div class="rounded-xl border border-[#cfe7da] bg-brand-soft/70 p-4">
             <p class="text-[12px] text-ink-2/80">Completed plans</p>
-            <p class="mt-1.5 text-[26px] font-bold leading-none">1 of 3</p>
-            <p class="mt-2 text-[11px] text-muted">33% of assigned plans</p>
+            <p class="mt-1.5 text-[26px] font-bold leading-none">@Model.Plans.Count(plan => string.Equals(plan.Status, "Completed", StringComparison.OrdinalIgnoreCase)) of @Model.Plans.Count(plan => plan.Id is not null)</p>
+            <p class="mt-2 text-[11px] text-muted">Completed assigned plans</p>
         </div>
         <div class="rounded-xl border border-[#cfe7da] bg-brand-soft/70 p-4">
             <p class="text-[12px] text-ink-2/80">Needs attention</p>
-            <p class="mt-1.5 text-[26px] font-bold leading-none">1</p>
+            <p class="mt-1.5 text-[26px] font-bold leading-none">@Model.Plans.Count(plan => string.Equals(plan.Status, "Not started", StringComparison.OrdinalIgnoreCase))</p>
             <p class="mt-2 text-[11px] text-muted">Training has not started</p>
         </div>
     </section>
@@ -72,7 +72,7 @@
     <section class="space-y-2">
         <div>
             <h2 class="section-title">Employee training progress</h2>
-            <p class="mt-0.5 text-[11px] text-muted">Showing 4 employees · Alex Morgan selected</p>
+            <p class="mt-0.5 text-[11px] text-muted">Showing @Model.Plans.Count employees</p>
         </div>
         <div class="card overflow-hidden">
             <div class="overflow-x-auto">
@@ -89,25 +89,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var (plan, index) in Model.Plans.Select((p, i) => (p, i)))
+                        @foreach (var plan in Model.Plans)
                         {
-                            var action = index == 0 ? "View" : index == 1 ? "Remind" : index == 3 ? "Review" : "View";
                             <tr>
-                                <td class="whitespace-nowrap font-medium text-ink">@plan.Employee</td>
+                                <td class="whitespace-nowrap font-medium text-ink">
+                                    <a href="@Url.Action("TrainingDetail", "Manager", new { name = plan.Employee })" class="text-brand-deep underline decoration-brand/40 underline-offset-2 hover:text-ink">@plan.Employee</a>
+                                </td>
                                 <td class="text-muted">@plan.Plan</td>
                                 <td class="text-muted">@plan.Completed</td>
                                 <td class="text-muted">@plan.Progress</td>
                                 <td class="text-muted">@plan.DueDate</td>
                                 <td class="text-muted">@plan.Status</td>
                                 <td>
-                                    @if (action == "Remind")
-                                    {
-                                        <button type="button" class="btn btn-primary btn-sm !px-2.5 !py-1 !text-[10.5px]">Remind</button>
-                                    }
-                                    else
-                                    {
-                                        <a href="/manager/training" class="text-[11.5px] font-medium text-brand-deep underline decoration-brand/40 underline-offset-2 hover:text-ink">@action</a>
-                                    }
+                                    <a href="@Url.Action("TrainingDetail", "Manager", new { name = plan.Employee })" class="whitespace-nowrap text-[11.5px] font-medium text-brand-deep underline decoration-brand/40 underline-offset-2 hover:text-ink">View details</a>
                                 </td>
                             </tr>
                         }
@@ -117,21 +111,4 @@
         </div>
     </section>
 
-    <!-- Detail -->
-    <section class="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div class="card p-5">
-            <h2 class="text-[14px] font-semibold text-ink">Alex Morgan · Java &amp; SQL development</h2>
-            <p class="mt-1.5 text-[11px] text-muted">1 of 3 courses completed · Due 30 Nov 2026</p>
-            <div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-[#f1f6f2]"><div class="h-full w-0 rounded-full bg-brand" data-progress="33"></div></div>
-            <p class="mt-3 text-[11.5px] text-ink-2">Java Foundations — <span class="text-brand-deep">Completed</span></p>
-            <p class="mt-1.5 text-[11.5px] text-muted">SQL Query Practice — Not started <span class="mx-1.5 text-line">·</span> Applied Java — Not started</p>
-        </div>
-
-        <div class="card p-5">
-            <h2 class="section-title">Manager follow-up</h2>
-            <p class="mt-2 text-[11.5px] leading-relaxed text-muted">Sam Patel has not started training. Send a reminder before the 30 Nov deadline.</p>
-            <button type="button" class="btn btn-outline btn-sm mt-3">Send reminder</button>
-            <p class="mt-3 text-[10.5px] text-muted">Next review: 20 Nov 2026</p>
-        </div>
-    </section>
 </div>

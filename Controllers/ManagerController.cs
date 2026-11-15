@@ -79,6 +79,20 @@ public class ManagerController : Controller
         return View(_data);
     }
 
+    [HttpGet("/manager/training/detail")]
+    public IActionResult TrainingDetail(string? name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            return NotFound();
+
+        var detail = _data.GetTrainingProgressDetail(name);
+        if (detail is null)
+            return NotFound();
+
+        Set("training", "Training Progress Detail", "Manager workspace / Training & Progress Monitoring");
+        return View(detail);
+    }
+
     [HttpGet("/manager/skill-gaps")]
     public IActionResult SkillGaps()
     {
@@ -95,15 +109,35 @@ public class ManagerController : Controller
         var skills = _data.SkillGapRows
             .Where(item => string.Equals(item.Employee, name, StringComparison.OrdinalIgnoreCase))
             .ToList();
-        if (skills.Count == 0)
-            return NotFound();
+        ManagerSkillGapDetail detail;
+        if (skills.Count > 0)
+        {
+            var employee = skills[0];
+            detail = new ManagerSkillGapDetail(
+                employee.Employee,
+                employee.Role,
+                employee.Department,
+                skills);
+        }
+        else
+        {
+            var plan = _data.LearningPlanDetails.FirstOrDefault(item =>
+                string.Equals(item.Employee, name, StringComparison.OrdinalIgnoreCase));
+            if (plan is null)
+                return NotFound();
 
-        var employee = skills[0];
-        var detail = new ManagerSkillGapDetail(
-            employee.Employee,
-            employee.Role,
-            employee.Department,
-            skills);
+            var planSkills = plan.Skills.Select(skill => new ManagerSkillGap(
+                plan.Employee,
+                plan.Role,
+                plan.Department,
+                skill.Name,
+                skill.CurrentLevel,
+                skill.RequiredLevel,
+                plan.Trainings.FirstOrDefault(training =>
+                    string.Equals(training.SkillCategory, skill.Name, StringComparison.OrdinalIgnoreCase))?.Name
+                    ?? "Review learning plan"));
+            detail = new ManagerSkillGapDetail(plan.Employee, plan.Role, plan.Department, planSkills.ToList());
+        }
 
         Set("gaps", "Skill Gap Detail", "Manager workspace / Skill Gap Analytics");
         return View(detail);
