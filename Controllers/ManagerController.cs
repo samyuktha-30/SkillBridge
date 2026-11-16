@@ -1,3 +1,6 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkillBridge.Models;
@@ -147,7 +150,79 @@ public class ManagerController : Controller
     public IActionResult Profile()
     {
         Set("profile", "My Profile", "Manager workspace");
-        return View(_data);
+        return View(CreateProfileViewModel());
+    }
+
+    [HttpPost("/manager/profile")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Profile(ManagerProfileViewModel profile)
+    {
+        Set("profile", "My Profile", "Manager workspace");
+        if (!ModelState.IsValid)
+        {
+            var currentProfile = CreateProfileViewModel();
+            profile.EmployeeId = currentProfile.EmployeeId;
+            profile.AccountRole = currentProfile.AccountRole;
+            profile.AccountStatus = currentProfile.AccountStatus;
+            ViewData["ProfileEditing"] = true;
+            return View(profile);
+        }
+
+        var fullName = profile.FullName?.Trim() ?? "";
+        var email = profile.Email?.Trim() ?? "";
+        var phoneNumber = profile.PhoneNumber?.Trim() ?? "";
+        var department = profile.Department?.Trim() ?? "";
+        var jobRole = profile.JobRole?.Trim() ?? "";
+
+        var claims = User.Claims.ToList();
+        ReplaceClaim(claims, ClaimTypes.Name, fullName);
+        ReplaceClaim(claims, ClaimTypes.Email, email);
+        ReplaceClaim(claims, "phone_number", phoneNumber);
+        ReplaceClaim(claims, "department", department);
+        ReplaceClaim(claims, "target_role", jobRole);
+        var initials = string.Concat(fullName
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+            .Take(2)
+            .Select(part => char.ToUpperInvariant(part[0])));
+        ReplaceClaim(claims, "initials", initials);
+
+        var identity = new ClaimsIdentity(
+            claims,
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            ClaimTypes.Name,
+            ClaimTypes.Role);
+        await HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            new ClaimsPrincipal(identity),
+            new AuthenticationProperties
+            {
+                IsPersistent = true,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7)
+            });
+
+        TempData["Toast"] = "Profile updated for this demo account only; changes are not saved to persistent storage.";
+        return RedirectToAction(nameof(Profile));
+    }
+
+    private ManagerProfileViewModel CreateProfileViewModel() => new()
+    {
+        FullName = User.FindFirstValue(ClaimTypes.Name) ?? "",
+        Email = User.FindFirstValue(ClaimTypes.Email) ?? "",
+        PhoneNumber = User.FindFirstValue("phone_number") ?? "",
+        Department = User.FindFirstValue("department") ?? "",
+        JobRole = User.FindFirstValue("target_role") ?? "",
+        EmployeeId = User.FindFirstValue("employee_id") ?? "",
+        AccountRole = User.FindFirstValue(ClaimTypes.Role) ?? "Manager",
+        AccountStatus = User.Identity?.IsAuthenticated == true ? "Active" : "Inactive"
+    };
+
+    private static void ReplaceClaim(ICollection<Claim> claims, string type, string value)
+    {
+        var existingClaims = claims.Where(claim => claim.Type == type).ToList();
+        foreach (var claim in existingClaims)
+            claims.Remove(claim);
+
+        claims.Add(new Claim(type, value));
     }
 
     [HttpGet("/manager/reports")]

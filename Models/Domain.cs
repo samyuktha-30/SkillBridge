@@ -1,4 +1,37 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace SkillBridge.Models;
+
+public sealed class ManagerProfileViewModel
+{
+    [Required(ErrorMessage = "Enter your full name.")]
+    [StringLength(100)]
+    public string FullName { get; set; } = "";
+
+    [Required(ErrorMessage = "Enter your email address.")]
+    [EmailAddress(ErrorMessage = "Enter a valid email address.")]
+    [StringLength(254)]
+    public string Email { get; set; } = "";
+
+    [Phone(ErrorMessage = "Enter a valid phone number.")]
+    [StringLength(30)]
+    public string PhoneNumber { get; set; } = "";
+
+    [Required(ErrorMessage = "Enter your department.")]
+    [StringLength(100)]
+    public string Department { get; set; } = "";
+
+    [Required(ErrorMessage = "Enter your job role.")]
+    [StringLength(100)]
+    public string JobRole { get; set; } = "";
+
+    public string EmployeeId { get; set; } = "";
+    public string AccountRole { get; set; } = "Manager";
+    public string AccountStatus { get; set; } = "Active";
+
+    public string ProfileSummary => string.Join(" · ", new[] { JobRole, Department }
+        .Where(value => !string.IsNullOrWhiteSpace(value)));
+}
 
 public record Skill(string Name, string Code, int Level, int Max, bool Met)
 {

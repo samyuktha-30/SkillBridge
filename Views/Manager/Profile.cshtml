@@ -1,103 +1,142 @@
-@model SkillBridge.Services.MockDataService
+@model ManagerProfileViewModel
 @{
     Layout = "_AppLayout";
     ViewData["Title"] = "My Profile";
+    var isEditing = ViewData["ProfileEditing"] as bool? == true;
+    var fullName = Model.FullName ?? "";
+    var initials = string.Concat(fullName
+        .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+        .Take(2)
+        .Select(part => char.ToUpperInvariant(part[0])));
+    if (string.IsNullOrWhiteSpace(initials))
+    {
+        initials = "M";
+    }
 }
 
 <div class="space-y-4">
-    <!-- Header -->
     <section class="flex flex-wrap items-start justify-between gap-4">
         <div>
             <h1 class="page-title">My Profile</h1>
-            <p class="mt-1 text-[13px] text-muted">Manage your personal information and management responsibilities.</p>
-        </div>
-        <img src="/img/people-hero.png" alt="" class="hidden h-[72px] w-auto select-none sm:block" draggable="false" />
-    </section>
-
-    <!-- Identity -->
-    <section class="card flex flex-wrap items-start justify-between gap-4 p-5">
-        <div>
-            <h2 class="text-[24px] font-bold leading-tight tracking-[-0.02em]">Priya Shah</h2>
-            <p class="mt-1 text-[12.5px] text-ink-2">Engineering Manager <span class="mx-1 text-line">·</span> Engineering</p>
-            <p class="mt-2 text-[11.5px] text-muted">Manage employee development across Engineering and Operations.</p>
-        </div>
-        <button type="button" class="btn btn-soft !px-6" data-modal-open="edit-manager">Edit profile</button>
-    </section>
-
-    <section class="grid grid-cols-1 gap-4 lg:grid-cols-[1.5fr_1fr]">
-        <!-- Personal -->
-        <div class="card p-5">
-            <h2 class="text-[15px] font-semibold text-ink">Personal information</h2>
-            <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <label class="block"><span class="label">Full name</span><input class="field field-sm" value="Priya Shah" readonly /></label>
-                <label class="block"><span class="label">Email address</span><input class="field field-sm" value="priya.shah@skillbridge.ai" readonly /></label>
-                <label class="block"><span class="label">Phone number</span><input class="field field-sm" value="+91 98765 43210" readonly /></label>
-                <label class="block"><span class="label">Location</span><input class="field field-sm" value="Bengaluru, India" readonly /></label>
-                <label class="block"><span class="label">Job title</span><input class="field field-sm" value="Engineering Manager" readonly /></label>
-                <label class="block"><span class="label">Employee ID</span><input class="field field-sm" value="MGR-1024" readonly /></label>
-            </div>
-            <p class="mt-3 text-[10.5px] text-muted">Role and department changes are managed by your administrator.</p>
-        </div>
-
-        <!-- Scope -->
-        <div class="card p-5">
-            <h2 class="text-[15px] font-semibold text-ink">Management scope</h2>
-            <div class="mt-3 space-y-3">
-                <div>
-                    <p class="text-[10.5px] text-muted">Managed employees</p>
-                    <p class="text-[16px] font-semibold text-ink">24</p>
-                </div>
-                <div>
-                    <p class="text-[10.5px] text-muted">Departments</p>
-                    <p class="text-[13px] font-semibold text-ink">Engineering, Operations</p>
-                </div>
-                <div>
-                    <p class="text-[10.5px] text-muted">Assessment coverage</p>
-                    <p class="text-[13px] font-semibold text-ink">18 of 24 employees</p>
-                </div>
-                <div>
-                    <p class="text-[10.5px] text-muted">Employees with skill gaps</p>
-                    <p class="text-[13px] font-semibold text-ink">12</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Responsibilities -->
-        <div class="card p-5">
-            <h2 class="text-[15px] font-semibold text-ink">Development responsibilities</h2>
-            <p class="mt-2 text-[11.5px] text-muted">Review assessments, assign learning plans, and monitor team progress.</p>
-            <p class="mt-2 text-[11.5px] text-muted">Review cadence: Monthly <span class="mx-1.5 text-line">·</span> Next review: 20 Nov 2026</p>
-            <a href="/manager/dashboard" class="btn btn-outline btn-sm mt-3">View team dashboard</a>
-        </div>
-
-        <!-- Access -->
-        <div class="card p-5">
-            <h2 class="text-[15px] font-semibold text-ink">Account access</h2>
-            <p class="mt-2 text-[11.5px] text-muted">Manager access <span class="mx-1 text-line">·</span> <span class="font-medium text-brand-deep">Active</span></p>
-            <p class="mt-2 text-[11.5px] text-muted">Control sign-in and notification preferences.</p>
-            <a href="/manager/settings" class="btn btn-outline btn-sm mt-3">Open settings</a>
+            <p class="mt-1 text-[13px] text-muted">View and manage your manager account information.</p>
         </div>
     </section>
-</div>
 
-<!-- Edit modal -->
-<div id="edit-manager" class="fixed inset-0 z-50 hidden items-center justify-center bg-ink/40 p-4" data-modal>
-    <div class="w-full max-w-md rounded-xl border border-line bg-white p-6 shadow-2xl">
-        <div class="flex items-start justify-between">
-            <div>
-                <h2 class="text-[18px] font-bold text-ink">Edit profile</h2>
-                <p class="mt-0.5 text-[12px] text-muted">Update your contact information.</p>
+    <section class="card flex flex-wrap items-center gap-4 p-5">
+        <span class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-lilac text-[18px] font-semibold text-ink" role="img" aria-label="Profile avatar for @Model.FullName">
+            @initials
+        </span>
+        <div class="min-w-0 flex-1">
+            <h2 class="truncate text-[22px] font-bold leading-tight tracking-[-0.02em]">@Model.FullName</h2>
+            <p class="mt-1 text-[12.5px] text-ink-2">@(!string.IsNullOrWhiteSpace(Model.JobRole) ? Model.JobRole : "Job role not provided") <span class="mx-1 text-line">·</span> @(!string.IsNullOrWhiteSpace(Model.Department) ? Model.Department : "Department not provided")</p>
+            <p class="mt-1 break-all text-[11.5px] text-muted">@Model.Email</p>
+        </div>
+        <div class="rounded-lg bg-cream px-3 py-2 text-left sm:text-right">
+            <p class="text-[10.5px] text-muted">Employee ID</p>
+            <p class="text-[12.5px] font-semibold text-ink">@(string.IsNullOrWhiteSpace(Model.EmployeeId) ? "Not provided" : Model.EmployeeId)</p>
+        </div>
+    </section>
+
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-[1.5fr_1fr]">
+        <section class="card p-5">
+            <div class="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                    <h2 class="text-[15px] font-semibold text-ink">Personal information</h2>
+                    <p class="mt-1 text-[11.5px] text-muted">Your profile details for this signed-in account.</p>
+                </div>
+                <button type="button" class="btn btn-soft btn-sm @(isEditing ? "hidden" : "")" data-profile-edit>Edit profile</button>
             </div>
-            <button type="button" class="rounded-md p-1 text-muted hover:bg-cream" data-modal-close aria-label="Close"><svg class="h-4 w-4"><use href="#i-x" /></svg></button>
-        </div>
-        <div class="mt-4 space-y-3">
-            <label class="block"><span class="label">Full name</span><input class="field" value="Priya Shah" /></label>
-            <label class="block"><span class="label">Phone number</span><input class="field" value="+91 98765 43210" /></label>
-            <label class="block"><span class="label">Location</span><input class="field" value="Bengaluru, India" /></label>
-        </div>
-        <div class="mt-5 flex justify-end gap-2">
-            <button type="button" class="btn btn-outline btn-sm" data-modal-close>Cancel</button>
-            <button type="button" class="btn btn-primary btn-sm" data-modal-close>Save changes</button>
+
+            <form asp-controller="Manager" asp-action="Profile" method="post" class="mt-4" data-profile-form>
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div asp-validation-summary="All" class="mb-3 text-[12px] text-red-700" role="alert"></div>
+                }
+                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <label class="block">
+                        <span class="label">Full name <span class="text-red-700">*</span></span>
+                        <input asp-for="FullName" class="field field-sm" readonly="@(!isEditing)" required autocomplete="name" data-profile-field />
+                        <span asp-validation-for="FullName" class="mt-1 block text-[11px] text-red-700"></span>
+                    </label>
+                    <label class="block">
+                        <span class="label">Email address <span class="text-red-700">*</span></span>
+                        <input asp-for="Email" type="email" class="field field-sm" readonly="@(!isEditing)" required autocomplete="email" data-profile-field />
+                        <span asp-validation-for="Email" class="mt-1 block text-[11px] text-red-700"></span>
+                    </label>
+                    <label class="block">
+                        <span class="label">Phone number</span>
+                        <input asp-for="PhoneNumber" type="tel" class="field field-sm" readonly="@(!isEditing)" autocomplete="tel" data-profile-field />
+                        <span asp-validation-for="PhoneNumber" class="mt-1 block text-[11px] text-red-700"></span>
+                    </label>
+                    <label class="block">
+                        <span class="label">Department <span class="text-red-700">*</span></span>
+                        <input asp-for="Department" class="field field-sm" readonly="@(!isEditing)" required data-profile-field />
+                        <span asp-validation-for="Department" class="mt-1 block text-[11px] text-red-700"></span>
+                    </label>
+                    <label class="block sm:col-span-2">
+                        <span class="label">Job role <span class="text-red-700">*</span></span>
+                        <input asp-for="JobRole" class="field field-sm" readonly="@(!isEditing)" required data-profile-field />
+                        <span asp-validation-for="JobRole" class="mt-1 block text-[11px] text-red-700"></span>
+                    </label>
+                </div>
+                <p class="mt-3 text-[10.5px] text-muted">Profile changes are demo-only and are held in this signed-in browser account. They are not written to persistent storage.</p>
+                <div class="mt-4 flex flex-wrap justify-end gap-2 @(isEditing ? "" : "hidden")" data-profile-actions>
+                    <button type="button" class="btn btn-outline btn-sm" data-profile-cancel>Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
+                </div>
+            </form>
+        </section>
+
+        <div class="space-y-4">
+            <section class="card p-5">
+                <h2 class="text-[15px] font-semibold text-ink">Account information</h2>
+                <dl class="mt-3 space-y-3">
+                    <div>
+                        <dt class="text-[10.5px] text-muted">Account role</dt>
+                        <dd class="mt-0.5 text-[13px] font-semibold text-ink">@Model.AccountRole</dd>
+                    </div>
+                    <div>
+                        <dt class="text-[10.5px] text-muted">Account status</dt>
+                        <dd class="mt-0.5"><span class="badge badge-green">@Model.AccountStatus</span></dd>
+                    </div>
+                    <div>
+                        <dt class="text-[10.5px] text-muted">Profile summary</dt>
+                        <dd class="mt-0.5 break-words text-[13px] font-medium text-ink-2">@(string.IsNullOrWhiteSpace(Model.ProfileSummary) ? "Complete your profile details." : Model.ProfileSummary)</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section class="card p-5">
+                <h2 class="text-[15px] font-semibold text-ink">Manager workspace</h2>
+                <p class="mt-2 text-[11.5px] text-muted">Review employee development and manage your account preferences.</p>
+                <div class="mt-3 flex flex-wrap gap-2">
+                    <a href="/manager/dashboard" class="btn btn-outline btn-sm">View team dashboard</a>
+                    <a href="/manager/settings" class="btn btn-outline btn-sm">Open settings</a>
+                </div>
+            </section>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        (() => {
+            const form = document.querySelector("[data-profile-form]");
+            if (!form) return;
+
+            const fields = form.querySelectorAll("[data-profile-field]");
+            const editButton = document.querySelector("[data-profile-edit]");
+            const actions = form.querySelector("[data-profile-actions]");
+            const setEditing = (editing) => {
+                fields.forEach((field) => { field.readOnly = !editing; });
+                editButton?.classList.toggle("hidden", editing);
+                actions?.classList.toggle("hidden", !editing);
+            };
+
+            editButton?.addEventListener("click", () => setEditing(true));
+            form.querySelector("[data-profile-cancel]")?.addEventListener("click", () => {
+                window.location.assign(form.action);
+            });
+        })();
+    </script>
+}

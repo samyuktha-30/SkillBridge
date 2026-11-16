@@ -3,7 +3,7 @@
     var active = ViewData["Active"] as string ?? "";
     var name = User.Identity?.Name ?? "Arjun Sharma";
     var initials = User.FindFirst("initials")?.Value ?? "AS";
-    var roleLabel = isManager ? "Engineering Manager" : "Employee";
+    var roleLabel = isManager ? User.FindFirst("target_role")?.Value ?? "Manager" : "Employee";
     var tone = User.FindFirst("tone")?.Value ?? (isManager ? "lilac" : "sky");
     var title = ViewData["Title"] as string ?? ViewData["PageTitle"] as string ?? "SkillBridge AI";
     var breadcrumb = ViewData["Breadcrumb"] as string ?? "Workspace / Overview";
