@@ -1,137 +1,179 @@
-@model SkillBridge.Services.MockDataService
+@model ManagerSettingsViewModel
 @{
     Layout = "_AppLayout";
     ViewData["Title"] = "Settings";
-    var notifications = new (string Label, bool On)[]
-    {
-        ("Assessment results", true),
-        ("Learning plan updates", true),
-        ("Training deadline alerts", true),
-        ("Monthly report delivery", true),
-        ("System announcements", false)
-    };
 }
 
-<div class="space-y-4">
-    <!-- Header -->
-    <section class="flex flex-wrap items-start justify-between gap-4">
+<div class="manager-settings">
+    <header class="settings-page-heading">
         <div>
-            <h1 class="page-title">Settings</h1>
-            <p class="mt-1 text-[13px] text-muted">Manage your account preferences, notifications, privacy, and security.</p>
+            <h1>Settings</h1>
+            <p>Manage your account preferences, notifications, privacy, and security.</p>
         </div>
-        <span class="flex h-16 w-16 items-center justify-center rounded-b-2xl rounded-t-[40px] bg-brand-soft text-brand-deep">
-            <svg class="h-8 w-8"><use href="#i-shield-check" /></svg>
+        <span class="settings-shield" aria-hidden="true">
+            <svg><use href="#i-shield-check" /></svg>
         </span>
-    </section>
+    </header>
 
-    <section class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <!-- Account -->
-        <div class="card p-5">
-            <h2 class="text-[15px] font-semibold text-ink">Account settings</h2>
-            <dl class="mt-2 divide-y divide-line-soft text-[12px]">
-                <div class="flex items-center gap-4 py-2.5"><dt class="w-24 shrink-0 text-muted">Full name</dt><dd class="font-medium text-ink-2">Priya Shah</dd></div>
-                <div class="flex items-center gap-4 py-2.5"><dt class="w-24 shrink-0 text-muted">Email address</dt><dd class="truncate font-medium text-ink-2">priya.shah@skillbridge.ai</dd></div>
-                <div class="flex items-center gap-4 py-2.5"><dt class="w-24 shrink-0 text-muted">Employee ID</dt><dd class="font-medium text-ink-2">MGR-1024</dd></div>
-                <div class="flex items-center gap-4 py-2.5"><dt class="w-24 shrink-0 text-muted">Department</dt><dd class="font-medium text-ink-2">Engineering</dd></div>
-            </dl>
-            <button type="button" class="btn btn-outline btn-sm mt-4" data-modal-open="edit-manager-settings">Edit profile</button>
-        </div>
+    @if (ViewData["SettingsNotice"] is string notice)
+    {
+        <p class="settings-notice" role="status">@notice</p>
+    }
 
-        <!-- Notifications -->
-        <div class="card p-5">
-            <h2 class="text-[15px] font-semibold text-ink">Notification preferences</h2>
-            <div class="mt-2 divide-y divide-line-soft">
-                @foreach (var (label, on) in notifications)
-                {
-                    <div class="flex items-center justify-between gap-4 py-2.5">
-                        <span class="text-[12px] text-ink-2">@label</span>
-                        <span class="inline-flex min-w-[52px] items-center justify-center rounded-md px-3 py-1 text-[11px] font-medium @(on ? "bg-sky text-[#2c5480]" : "border border-line bg-white text-muted")">@(on ? "On" : "Off")</span>
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div asp-validation-summary="All" class="settings-validation" role="alert"></div>
+    }
+
+    <form asp-controller="Manager" asp-action="Settings" method="post" class="settings-form">
+        @Html.AntiForgeryToken()
+
+        <div class="settings-grid settings-grid-primary">
+            <section class="settings-card">
+                <h2>Account settings</h2>
+                <dl class="settings-account-details">
+                    <div><dt>Full name</dt><dd>@Model.FullName</dd></div>
+                    <div><dt>Email address</dt><dd>@Model.EmailAddress</dd></div>
+                    <div><dt>Employee ID</dt><dd>@Model.EmployeeId</dd></div>
+                    <div><dt>Department</dt><dd>@Model.Department</dd></div>
+                </dl>
+                <a href="/manager/profile" class="settings-button settings-button-profile">Edit profile</a>
+            </section>
+
+            <section class="settings-card">
+                <h2>Notification preferences</h2>
+                <div class="settings-preference-list">
+                    <div class="settings-row">
+                        <span>Assessment results</span>
+                        <label class="settings-toggle">
+                            <input asp-for="AssessmentResults" class="settings-toggle-input" aria-label="Assessment results notifications" />
+                            <span class="settings-toggle-state" aria-hidden="true"></span>
+                        </label>
                     </div>
-                }
+                    <div class="settings-row">
+                        <span>Learning plan updates</span>
+                        <label class="settings-toggle">
+                            <input asp-for="LearningPlanUpdates" class="settings-toggle-input" aria-label="Learning plan update notifications" />
+                            <span class="settings-toggle-state" aria-hidden="true"></span>
+                        </label>
+                    </div>
+                    <div class="settings-row">
+                        <span>Training deadline alerts</span>
+                        <label class="settings-toggle">
+                            <input asp-for="TrainingDeadlineAlerts" class="settings-toggle-input" aria-label="Training deadline alerts" />
+                            <span class="settings-toggle-state" aria-hidden="true"></span>
+                        </label>
+                    </div>
+                    <div class="settings-row">
+                        <span>Monthly report delivery</span>
+                        <label class="settings-toggle">
+                            <input asp-for="MonthlyReportDelivery" class="settings-toggle-input" aria-label="Monthly report delivery" />
+                            <span class="settings-toggle-state" aria-hidden="true"></span>
+                        </label>
+                    </div>
+                    <div class="settings-row">
+                        <span>System announcements</span>
+                        <label class="settings-toggle">
+                            <input asp-for="SystemAnnouncements" class="settings-toggle-input" aria-label="System announcements" />
+                            <span class="settings-toggle-state" aria-hidden="true"></span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="settings-grid settings-grid-secondary">
+            <section class="settings-card">
+                <h2>Privacy &amp; security</h2>
+                <div class="settings-preference-list">
+                    <div class="settings-row">
+                        <span>Password</span>
+                        <a href="/forgot-password" class="settings-button settings-button-password">Change password</a>
+                    </div>
+                    <div class="settings-row">
+                        <span>Two-factor authentication</span>
+                        <label class="settings-toggle">
+                            <input asp-for="TwoFactorAuthentication" class="settings-toggle-input" aria-label="Two-factor authentication" />
+                            <span class="settings-toggle-state" aria-hidden="true"></span>
+                        </label>
+                    </div>
+                    <div class="settings-row">
+                        <span>Active sessions</span>
+                        <button type="button" class="settings-button settings-button-sessions" data-modal-open="manager-sessions">View sessions</button>
+                    </div>
+                </div>
+                <p class="settings-security-note">Review devices and strengthen account security.</p>
+            </section>
+
+            <section class="settings-card">
+                <h2>Workspace preferences</h2>
+                <div class="settings-preference-list">
+                    <label class="settings-row" for="Theme">
+                        <span>Theme</span>
+                        <select asp-for="Theme" class="settings-select">
+                            <option>Light</option>
+                            <option>Dark</option>
+                        </select>
+                    </label>
+                    <label class="settings-row" for="Language">
+                        <span>Language</span>
+                        <select asp-for="Language" class="settings-select">
+                            <option>English</option>
+                            <option>Hindi</option>
+                        </select>
+                    </label>
+                    <label class="settings-row" for="TimeZone">
+                        <span>Time zone</span>
+                        <select asp-for="TimeZone" class="settings-select">
+                            <option>IST (UTC +5:30)</option>
+                            <option>UTC</option>
+                        </select>
+                    </label>
+                    <label class="settings-row" for="DefaultTeamView">
+                        <span>Default team view</span>
+                        <select asp-for="DefaultTeamView" class="settings-select">
+                            <option>All departments</option>
+                            <option>Engineering</option>
+                            <option>Operations</option>
+                            <option>Data &amp; Insights</option>
+                        </select>
+                    </label>
+                </div>
+            </section>
+        </div>
+
+        <section class="settings-card settings-account-data">
+            <div>
+                <h2>Account data</h2>
+                <p>Download a copy of your personal information and account preferences.</p>
+                <p class="settings-account-data-note">Team data exports are available on the Reports page.</p>
             </div>
-        </div>
+            <a href="/manager/settings/export" class="settings-button settings-button-download">Download my data</a>
+        </section>
 
-        <!-- Privacy -->
-        <div class="card p-5">
-            <h2 class="text-[15px] font-semibold text-ink">Privacy &amp; security</h2>
-            <div class="mt-2 divide-y divide-line-soft">
-                <div class="flex items-center justify-between gap-4 py-2.5">
-                    <span class="text-[12px] text-ink-2">Password</span>
-                    <button type="button" class="btn btn-outline btn-sm !px-3 !py-1 !text-[10.5px]">Change password</button>
-                </div>
-                <div class="flex items-center justify-between gap-4 py-2.5">
-                    <span class="text-[12px] text-ink-2">Two-factor authentication</span>
-                    <button type="button" class="btn btn-outline btn-sm !px-4 !py-1 !text-[10.5px]">Off</button>
-                </div>
-                <div class="flex items-center justify-between gap-4 py-2.5">
-                    <span class="text-[12px] text-ink-2">Active sessions</span>
-                    <button type="button" class="btn btn-outline btn-sm !px-3 !py-1 !text-[10.5px]">View sessions</button>
-                </div>
+        <footer class="settings-actions">
+            <p>Preferences apply to your manager account only. Changes are demo-only and are not persisted.</p>
+            <div>
+                <a href="/manager/settings" class="settings-button settings-button-cancel">Cancel</a>
+                <button type="submit" class="settings-button settings-button-save">Save changes</button>
             </div>
-            <p class="mt-3 text-[10.5px] text-muted">Review devices and strengthen account security.</p>
-        </div>
-
-        <!-- Workspace -->
-        <div class="card p-5">
-            <h2 class="text-[15px] font-semibold text-ink">Workspace preferences</h2>
-            <div class="mt-2 divide-y divide-line-soft">
-                <div class="flex items-center justify-between gap-4 py-2.5">
-                    <span class="text-[12px] text-ink-2">Theme</span>
-                    <span class="w-48 rounded-md border border-line bg-white px-3 py-1.5 text-center text-[11px] text-ink-2">Light</span>
-                </div>
-                <div class="flex items-center justify-between gap-4 py-2.5">
-                    <span class="text-[12px] text-ink-2">Language</span>
-                    <span class="w-48 rounded-md border border-line bg-white px-3 py-1.5 text-center text-[11px] text-ink-2">English</span>
-                </div>
-                <div class="flex items-center justify-between gap-4 py-2.5">
-                    <span class="text-[12px] text-ink-2">Time zone</span>
-                    <span class="w-48 rounded-md border border-line bg-white px-3 py-1.5 text-center text-[11px] text-ink-2">IST (UTC +5:30)</span>
-                </div>
-                <div class="flex items-center justify-between gap-4 py-2.5">
-                    <span class="text-[12px] text-ink-2">Default team view</span>
-                    <span class="w-48 rounded-md border border-line bg-white px-3 py-1.5 text-center text-[11px] text-ink-2">All departments</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Account data -->
-    <section class="card flex flex-wrap items-center justify-between gap-4 p-5">
-        <div>
-            <h2 class="text-[15px] font-semibold text-ink">Account data</h2>
-            <p class="mt-1 text-[11.5px] text-muted">Download a copy of your personal information and account preferences.</p>
-            <p class="mt-0.5 text-[10.5px] text-muted">Team data exports are available on the Reports page.</p>
-        </div>
-        <button type="button" class="btn btn-outline btn-sm">Download my data</button>
-    </section>
-
-    <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
-        <p class="text-[10.5px] text-muted">Preferences apply to your manager account only.</p>
-        <div class="flex gap-2">
-            <button type="button" class="btn btn-outline btn-sm !px-5">Cancel</button>
-            <button type="button" class="btn btn-soft btn-sm !px-5">Save changes</button>
-        </div>
-    </div>
+        </footer>
+    </form>
 </div>
 
-<!-- Edit modal -->
-<div id="edit-manager-settings" class="fixed inset-0 z-50 hidden items-center justify-center bg-ink/40 p-4" data-modal>
-    <div class="w-full max-w-md rounded-xl border border-line bg-white p-6 shadow-2xl">
-        <div class="flex items-start justify-between">
+<div id="manager-sessions" class="fixed inset-0 z-50 hidden items-center justify-center bg-ink/40 p-4" data-modal>
+    <section class="w-full max-w-md rounded-xl border border-line bg-white p-6 shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="manager-sessions-title">
+        <div class="flex items-start justify-between gap-4">
             <div>
-                <h2 class="text-[18px] font-bold text-ink">Edit profile</h2>
-                <p class="mt-0.5 text-[12px] text-muted">Update your account information.</p>
+                <h2 id="manager-sessions-title" class="text-[18px] font-bold text-ink">Active sessions</h2>
+                <p class="mt-2 text-[13px] text-ink-2">This demo does not keep a session inventory. Only your current signed-in session is available.</p>
             </div>
-            <button type="button" class="rounded-md p-1 text-muted hover:bg-cream" data-modal-close aria-label="Close"><svg class="h-4 w-4"><use href="#i-x" /></svg></button>
+            <button type="button" class="rounded-md p-1 text-muted hover:bg-cream" data-modal-close aria-label="Close">
+                <svg class="h-4 w-4"><use href="#i-x" /></svg>
+            </button>
         </div>
-        <div class="mt-4 space-y-3">
-            <label class="block"><span class="label">Full name</span><input class="field" value="Priya Shah" /></label>
-            <label class="block"><span class="label">Email address</span><input class="field" value="priya.shah@skillbridge.ai" /></label>
-            <label class="block"><span class="label">Department</span><input class="field" value="Engineering" /></label>
+        <div class="mt-5 flex justify-end">
+            <button type="button" class="settings-button settings-button-cancel" data-modal-close>Close</button>
         </div>
-        <div class="mt-5 flex justify-end gap-2">
-            <button type="button" class="btn btn-outline btn-sm" data-modal-close>Cancel</button>
-            <button type="button" class="btn btn-primary btn-sm" data-modal-close>Save changes</button>
-        </div>
-    </div>
+    </section>
 </div>

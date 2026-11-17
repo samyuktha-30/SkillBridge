@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkillBridge.Models;
 using SkillBridge.Services;
+using System.Text.Json;
 
 namespace SkillBridge.Controllers;
 
@@ -250,6 +251,72 @@ public class ManagerController : Controller
     public IActionResult Settings()
     {
         Set("settings", "Settings", "Manager workspace");
-        return View(_data);
+        return View(CreateSettingsViewModel());
+    }
+
+    [HttpPost("/manager/settings")]
+    [ValidateAntiForgeryToken]
+    public IActionResult Settings(ManagerSettingsViewModel settings)
+    {
+        Set("settings", "Settings", "Manager workspace");
+        PopulateSettingsAccount(settings);
+
+        if (!ModelState.IsValid)
+            return View(settings);
+
+        ViewData["SettingsNotice"] =
+            "Demo only: these preferences are shown for this page view and are not saved to persistent storage.";
+        return View(settings);
+    }
+
+    [HttpGet("/manager/settings/export")]
+    public IActionResult DownloadSettingsData()
+    {
+        var settings = CreateSettingsViewModel();
+        var export = new
+        {
+            exportedAt = DateTimeOffset.UtcNow,
+            note = "Settings are not persisted in this demo; preference values below are the page defaults.",
+            account = new
+            {
+                settings.FullName,
+                email = settings.EmailAddress,
+                settings.EmployeeId,
+                settings.Department
+            },
+            preferences = new
+            {
+                settings.AssessmentResults,
+                settings.LearningPlanUpdates,
+                settings.TrainingDeadlineAlerts,
+                settings.MonthlyReportDelivery,
+                settings.SystemAnnouncements,
+                settings.TwoFactorAuthentication,
+                settings.Theme,
+                settings.Language,
+                settings.TimeZone,
+                settings.DefaultTeamView
+            }
+        };
+
+        return File(
+            JsonSerializer.SerializeToUtf8Bytes(export, new JsonSerializerOptions { WriteIndented = true }),
+            "application/json",
+            "skillbridge-manager-data.json");
+    }
+
+    private ManagerSettingsViewModel CreateSettingsViewModel()
+    {
+        var settings = new ManagerSettingsViewModel();
+        PopulateSettingsAccount(settings);
+        return settings;
+    }
+
+    private void PopulateSettingsAccount(ManagerSettingsViewModel settings)
+    {
+        settings.FullName = User.FindFirstValue(ClaimTypes.Name) ?? _data.Manager.Name;
+        settings.EmailAddress = User.FindFirstValue(ClaimTypes.Email) ?? _data.Manager.Email;
+        settings.EmployeeId = User.FindFirstValue("employee_id") ?? _data.Manager.EmployeeId;
+        settings.Department = User.FindFirstValue("department") ?? _data.Manager.Department;
     }
 }
