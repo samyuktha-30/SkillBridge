@@ -165,6 +165,10 @@ public class ManagerController : Controller
             profile.EmployeeId = currentProfile.EmployeeId;
             profile.AccountRole = currentProfile.AccountRole;
             profile.AccountStatus = currentProfile.AccountStatus;
+            profile.ManagedEmployeeCount = currentProfile.ManagedEmployeeCount;
+            profile.AssessedEmployeeCount = currentProfile.AssessedEmployeeCount;
+            profile.EmployeesWithSkillGaps = currentProfile.EmployeesWithSkillGaps;
+            profile.ManagedDepartments = currentProfile.ManagedDepartments;
             ViewData["ProfileEditing"] = true;
             return View(profile);
         }
@@ -201,21 +205,46 @@ public class ManagerController : Controller
                 ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7)
             });
 
-        TempData["Toast"] = "Profile updated for this demo account only; changes are not saved to persistent storage.";
+        TempData["Toast"] = "Profile updated for this demo account; changes are stored in the sign-in cookie, not a profile database.";
         return RedirectToAction(nameof(Profile));
     }
 
-    private ManagerProfileViewModel CreateProfileViewModel() => new()
+    private ManagerProfileViewModel CreateProfileViewModel()
     {
-        FullName = User.FindFirstValue(ClaimTypes.Name) ?? "",
-        Email = User.FindFirstValue(ClaimTypes.Email) ?? "",
-        PhoneNumber = User.FindFirstValue("phone_number") ?? "",
-        Department = User.FindFirstValue("department") ?? "",
-        JobRole = User.FindFirstValue("target_role") ?? "",
-        EmployeeId = User.FindFirstValue("employee_id") ?? "",
-        AccountRole = User.FindFirstValue(ClaimTypes.Role) ?? "Manager",
-        AccountStatus = User.Identity?.IsAuthenticated == true ? "Active" : "Inactive"
-    };
+        var managedEmployees = _data.Plans
+            .Select(plan => plan.Employee)
+            .Where(name => !string.IsNullOrWhiteSpace(name))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+        var managedDepartments = _data.Plans
+            .Select(plan => plan.Department)
+            .Where(department => !string.IsNullOrWhiteSpace(department))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToArray();
+        var assessedEmployees = managedEmployees.Count(name =>
+            _data.TrainingAssessments.TryGetValue(name, out var assessments) &&
+            assessments.Any(assessment => !string.IsNullOrWhiteSpace(assessment.Score)));
+
+        return new ManagerProfileViewModel
+        {
+            FullName = User.FindFirstValue(ClaimTypes.Name) ?? "",
+            Email = User.FindFirstValue(ClaimTypes.Email) ?? "",
+            PhoneNumber = User.FindFirstValue("phone_number") ?? "",
+            Department = User.FindFirstValue("department") ?? "",
+            JobRole = User.FindFirstValue("target_role") ?? "",
+            EmployeeId = User.FindFirstValue("employee_id") ?? "",
+            AccountRole = User.FindFirstValue(ClaimTypes.Role) ?? "Manager",
+            AccountStatus = User.Identity?.IsAuthenticated == true ? "Active" : "Inactive",
+            ManagedEmployeeCount = managedEmployees.Length,
+            AssessedEmployeeCount = assessedEmployees,
+            EmployeesWithSkillGaps = _data.SkillGapRows
+                .Where(skill => skill.Gap.GetValueOrDefault() > 0)
+                .Select(skill => skill.Employee)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .Count(),
+            ManagedDepartments = string.Join(", ", managedDepartments)
+        };
+    }
 
     private static void ReplaceClaim(ICollection<Claim> claims, string type, string value)
     {

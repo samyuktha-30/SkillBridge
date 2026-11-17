@@ -3,116 +3,120 @@
     Layout = "_AppLayout";
     ViewData["Title"] = "My Profile";
     var isEditing = ViewData["ProfileEditing"] as bool? == true;
-    var fullName = Model.FullName ?? "";
-    var initials = string.Concat(fullName
-        .Split(' ', StringSplitOptions.RemoveEmptyEntries)
-        .Take(2)
-        .Select(part => char.ToUpperInvariant(part[0])));
-    if (string.IsNullOrWhiteSpace(initials))
-    {
-        initials = "M";
-    }
+    var departments = string.IsNullOrWhiteSpace(Model.ManagedDepartments)
+        ? "your assigned departments"
+        : Model.ManagedDepartments;
 }
 
-<div class="space-y-4">
-    <section class="flex flex-wrap items-start justify-between gap-4">
-        <div>
-            <h1 class="page-title">My Profile</h1>
-            <p class="mt-1 text-[13px] text-muted">View and manage your manager account information.</p>
-        </div>
-    </section>
+<div class="manager-profile">
+    <img class="profile-illustration" src="/img/hero.png" alt="" draggable="false" />
 
-    <section class="card flex flex-wrap items-center gap-4 p-5">
-        <span class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-lilac text-[18px] font-semibold text-ink" role="img" aria-label="Profile avatar for @Model.FullName">
-            @initials
-        </span>
-        <div class="min-w-0 flex-1">
-            <h2 class="truncate text-[22px] font-bold leading-tight tracking-[-0.02em]">@Model.FullName</h2>
-            <p class="mt-1 text-[12.5px] text-ink-2">@(!string.IsNullOrWhiteSpace(Model.JobRole) ? Model.JobRole : "Job role not provided") <span class="mx-1 text-line">·</span> @(!string.IsNullOrWhiteSpace(Model.Department) ? Model.Department : "Department not provided")</p>
-            <p class="mt-1 break-all text-[11.5px] text-muted">@Model.Email</p>
-        </div>
-        <div class="rounded-lg bg-cream px-3 py-2 text-left sm:text-right">
-            <p class="text-[10.5px] text-muted">Employee ID</p>
-            <p class="text-[12.5px] font-semibold text-ink">@(string.IsNullOrWhiteSpace(Model.EmployeeId) ? "Not provided" : Model.EmployeeId)</p>
-        </div>
-    </section>
-
-    <div class="grid grid-cols-1 gap-4 lg:grid-cols-[1.5fr_1fr]">
-        <section class="card p-5">
-            <div class="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                    <h2 class="text-[15px] font-semibold text-ink">Personal information</h2>
-                    <p class="mt-1 text-[11.5px] text-muted">Your profile details for this signed-in account.</p>
-                </div>
-                <button type="button" class="btn btn-soft btn-sm @(isEditing ? "hidden" : "")" data-profile-edit>Edit profile</button>
+    <div class="manager-profile-content">
+        <header class="profile-page-heading">
+            <div>
+                <h1>My Profile</h1>
+                <p>Manage your personal information and management responsibilities.</p>
             </div>
+        </header>
 
-            <form asp-controller="Manager" asp-action="Profile" method="post" class="mt-4" data-profile-form>
-                @if (!ViewData.ModelState.IsValid)
-                {
-                    <div asp-validation-summary="All" class="mb-3 text-[12px] text-red-700" role="alert"></div>
-                }
-                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    <label class="block">
-                        <span class="label">Full name <span class="text-red-700">*</span></span>
-                        <input asp-for="FullName" class="field field-sm" readonly="@(!isEditing)" required autocomplete="name" data-profile-field />
-                        <span asp-validation-for="FullName" class="mt-1 block text-[11px] text-red-700"></span>
-                    </label>
-                    <label class="block">
-                        <span class="label">Email address <span class="text-red-700">*</span></span>
-                        <input asp-for="Email" type="email" class="field field-sm" readonly="@(!isEditing)" required autocomplete="email" data-profile-field />
-                        <span asp-validation-for="Email" class="mt-1 block text-[11px] text-red-700"></span>
-                    </label>
-                    <label class="block">
-                        <span class="label">Phone number</span>
-                        <input asp-for="PhoneNumber" type="tel" class="field field-sm" readonly="@(!isEditing)" autocomplete="tel" data-profile-field />
-                        <span asp-validation-for="PhoneNumber" class="mt-1 block text-[11px] text-red-700"></span>
-                    </label>
-                    <label class="block">
-                        <span class="label">Department <span class="text-red-700">*</span></span>
-                        <input asp-for="Department" class="field field-sm" readonly="@(!isEditing)" required data-profile-field />
-                        <span asp-validation-for="Department" class="mt-1 block text-[11px] text-red-700"></span>
-                    </label>
-                    <label class="block sm:col-span-2">
-                        <span class="label">Job role <span class="text-red-700">*</span></span>
-                        <input asp-for="JobRole" class="field field-sm" readonly="@(!isEditing)" required data-profile-field />
-                        <span asp-validation-for="JobRole" class="mt-1 block text-[11px] text-red-700"></span>
-                    </label>
-                </div>
-                <p class="mt-3 text-[10.5px] text-muted">Profile changes are demo-only and are held in this signed-in browser account. They are not written to persistent storage.</p>
-                <div class="mt-4 flex flex-wrap justify-end gap-2 @(isEditing ? "" : "hidden")" data-profile-actions>
-                    <button type="button" class="btn btn-outline btn-sm" data-profile-cancel>Cancel</button>
-                    <button type="submit" class="btn btn-primary btn-sm">Save changes</button>
-                </div>
-            </form>
+        <section class="profile-identity">
+            <div class="profile-identity-copy">
+                <h2>@Model.FullName</h2>
+                <p class="profile-identity-role">
+                    @Model.JobRole <span aria-hidden="true">·</span> @Model.Department
+                </p>
+                <p class="profile-identity-description">Manage employee development across @departments.</p>
+            </div>
+            <button type="button" class="profile-button profile-button-edit @(isEditing ? "hidden" : "")" data-profile-edit>
+                Edit profile
+            </button>
         </section>
 
-        <div class="space-y-4">
-            <section class="card p-5">
-                <h2 class="text-[15px] font-semibold text-ink">Account information</h2>
-                <dl class="mt-3 space-y-3">
+        <div class="profile-layout">
+            <section class="profile-card profile-personal-information">
+                <h2>Personal information</h2>
+                <form asp-controller="Manager" asp-action="Profile" method="post" class="profile-form" data-profile-form>
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div asp-validation-summary="All" class="profile-validation" role="alert"></div>
+                    }
+
+                    <div class="profile-fields">
+                        <label class="profile-field">
+                            <span>Full name</span>
+                            <input asp-for="FullName" class="profile-input" readonly="@(!isEditing)" required autocomplete="name" data-profile-field />
+                            <span asp-validation-for="FullName" class="profile-field-error"></span>
+                        </label>
+                        <label class="profile-field">
+                            <span>Email address</span>
+                            <input asp-for="Email" type="email" class="profile-input" readonly="@(!isEditing)" required autocomplete="email" data-profile-field />
+                            <span asp-validation-for="Email" class="profile-field-error"></span>
+                        </label>
+                        <label class="profile-field">
+                            <span>Phone number</span>
+                            <input asp-for="PhoneNumber" type="tel" class="profile-input" readonly="@(!isEditing)" autocomplete="tel" data-profile-field />
+                            <span asp-validation-for="PhoneNumber" class="profile-field-error"></span>
+                        </label>
+                        <label class="profile-field">
+                            <span>Department</span>
+                            <input asp-for="Department" class="profile-input" readonly="@(!isEditing)" required data-profile-field />
+                            <span asp-validation-for="Department" class="profile-field-error"></span>
+                        </label>
+                        <label class="profile-field">
+                            <span>Job title</span>
+                            <input asp-for="JobRole" class="profile-input" readonly="@(!isEditing)" required data-profile-field />
+                            <span asp-validation-for="JobRole" class="profile-field-error"></span>
+                        </label>
+                        <label class="profile-field">
+                            <span>Employee ID</span>
+                            <input asp-for="EmployeeId" class="profile-input" readonly />
+                        </label>
+                    </div>
+
+                    <p class="profile-demo-note">Profile changes are demo-only for this signed-in account. They update the sign-in cookie, not a profile database.</p>
+                    <div class="profile-form-actions @(isEditing ? "" : "hidden")" data-profile-actions>
+                        <button type="button" class="profile-button" data-profile-cancel>Cancel</button>
+                        <button type="submit" class="profile-button profile-button-save">Save changes</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="profile-card profile-management-scope">
+                <h2>Management scope</h2>
+                <dl>
                     <div>
-                        <dt class="text-[10.5px] text-muted">Account role</dt>
-                        <dd class="mt-0.5 text-[13px] font-semibold text-ink">@Model.AccountRole</dd>
+                        <dt>Managed employees</dt>
+                        <dd>@Model.ManagedEmployeeCount</dd>
                     </div>
                     <div>
-                        <dt class="text-[10.5px] text-muted">Account status</dt>
-                        <dd class="mt-0.5"><span class="badge badge-green">@Model.AccountStatus</span></dd>
+                        <dt>Departments</dt>
+                        <dd>@(string.IsNullOrWhiteSpace(Model.ManagedDepartments) ? "None assigned" : Model.ManagedDepartments)</dd>
                     </div>
                     <div>
-                        <dt class="text-[10.5px] text-muted">Profile summary</dt>
-                        <dd class="mt-0.5 break-words text-[13px] font-medium text-ink-2">@(string.IsNullOrWhiteSpace(Model.ProfileSummary) ? "Complete your profile details." : Model.ProfileSummary)</dd>
+                        <dt>Assessment coverage</dt>
+                        <dd>@Model.AssessedEmployeeCount of @Model.ManagedEmployeeCount employees</dd>
+                    </div>
+                    <div>
+                        <dt>Employees with skill gaps</dt>
+                        <dd>@Model.EmployeesWithSkillGaps</dd>
                     </div>
                 </dl>
             </section>
+        </div>
 
-            <section class="card p-5">
-                <h2 class="text-[15px] font-semibold text-ink">Manager workspace</h2>
-                <p class="mt-2 text-[11.5px] text-muted">Review employee development and manage your account preferences.</p>
-                <div class="mt-3 flex flex-wrap gap-2">
-                    <a href="/manager/dashboard" class="btn btn-outline btn-sm">View team dashboard</a>
-                    <a href="/manager/settings" class="btn btn-outline btn-sm">Open settings</a>
-                </div>
+        <div class="profile-layout profile-layout-footer">
+            <section class="profile-card profile-responsibilities">
+                <h2>Development responsibilities</h2>
+                <p>Review assessments, assign learning plans, and monitor team progress.</p>
+                <p class="profile-review-note">Review cadence: Not configured <span aria-hidden="true">·</span> Next review: Not scheduled</p>
+                <a href="/manager/dashboard" class="profile-button profile-dashboard-link">View team dashboard</a>
+            </section>
+
+            <section class="profile-card profile-account-access">
+                <h2>Account access</h2>
+                <p>@Model.AccountRole access <span aria-hidden="true">·</span> @Model.AccountStatus</p>
+                <p>Control sign-in and notification preferences.</p>
+                <a href="/manager/settings" class="profile-button profile-settings-link">Open settings</a>
             </section>
         </div>
     </div>

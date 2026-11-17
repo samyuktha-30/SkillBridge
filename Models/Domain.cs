@@ -15,7 +15,7 @@ public sealed class ManagerProfileViewModel
 
     [Phone(ErrorMessage = "Enter a valid phone number.")]
     [StringLength(30)]
-    public string PhoneNumber { get; set; } = "";
+    public string? PhoneNumber { get; set; }
 
     [Required(ErrorMessage = "Enter your department.")]
     [StringLength(100)]
@@ -28,6 +28,10 @@ public sealed class ManagerProfileViewModel
     public string EmployeeId { get; set; } = "";
     public string AccountRole { get; set; } = "Manager";
     public string AccountStatus { get; set; } = "Active";
+    public int ManagedEmployeeCount { get; set; }
+    public int AssessedEmployeeCount { get; set; }
+    public int EmployeesWithSkillGaps { get; set; }
+    public string ManagedDepartments { get; set; } = "";
 
     public string ProfileSummary => string.Join(" · ", new[] { JobRole, Department }
         .Where(value => !string.IsNullOrWhiteSpace(value)));
