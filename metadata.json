@@ -1,0 +1,6 @@
+{
+  "name": "SkillBridge AI",
+  "description": "Smart Skill-Gap and Training Planner connecting employee assessments, explainable skill-gap analysis, and AI-personalized learning roadmaps.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

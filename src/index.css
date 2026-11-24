@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+:root {
+  --sb-canvas: #FCF8EE;
+  --sb-surface: #FFFFFF;
+  --sb-border: #E2E8F0;
+  --sb-navy: #0F2744;
+  --sb-slate: #475569;
+  --sb-emerald: #32936F;
+  --sb-emerald-hover: #277A5C;
+  --sb-mint: #E3F3EA;
+  --sb-ice: #DDEAF8;
+  --sb-lavender: #ECE9F8;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--sb-canvas);
+  color: var(--sb-navy);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}

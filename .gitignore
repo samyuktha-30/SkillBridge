@@ -1,4 +1,45 @@
 node_modules/
-bin/
-obj/
-.vs/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# .NET / Visual Studio
+backend/**/bin/
+backend/**/obj/
+*.user
+*.suo
+backend/src/SkillBridge.API/appsettings.Development.json
+backend/GeneratedReports/
+
+# Python / FastAPI
+ai-service/.venv/
+ai-service/venv/
+ai-service/__pycache__/
+**/__pycache__/
+*.pyc
+.pytest_cache/
+
+# Google AI Studio temporary files
+.aistudio/
+
+# Python environment
+ai-service/.venv/
+
+# Local configuration and secrets
+**/appsettings.Development.json
+**/appsettings.*.json
+
+# Environment variables and secrets
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+
+# Root-level build artifacts
+/bin/
+/obj/

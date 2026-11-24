@@ -1,0 +1,27 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=SkillBridgeDb;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true"
+  },
+  "Jwt": {
+    "Issuer": "SkillBridge.API",
+    "Audience": "SkillBridge.Frontend",
+    "SecretKey": "SET_A_STRONG_64_CHAR_LOCAL_JWT_SIGNING_KEY_HERE",
+    "AccessTokenMinutes": 30,
+    "RefreshTokenDays": 14
+  },
+  "AiService": {
+    "BaseUrl": "http://localhost:8000",
+    "InternalKey": "SET_SAME_INTERNAL_SERVICE_KEY_AS_AI_SERVICE_ENV"
+  },
+  "Features": {
+    "IncludeResetTokenPreview": true
+  },
+  "Seed": {
+  "AdminEmail": "admin@example.com",
+  "AdminPassword": "SET_BOOTSTRAP_ADMIN_PASSWORD_LOCALLY",
+  "ManagerEmail": "manager@example.com",
+  "ManagerPassword": "SET_MANAGER_PASSWORD_LOCALLY",
+  "EmployeeEmail": "employee@example.com",
+  "EmployeePassword": "SET_EMPLOYEE_PASSWORD_LOCALLY"
+}
+}
